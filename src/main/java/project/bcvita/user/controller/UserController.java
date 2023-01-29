@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.response.UserListResponse;
+import project.bcvita.user.entity.User;
+import project.bcvita.user.service.LoginService;
 import project.bcvita.user.service.UserService;
 
 import javax.validation.Valid;
@@ -52,7 +54,22 @@ public class UserController {
         return userService.passwordCheck(userPasswordCheck);
     }
 
+    @GetMapping("/login")
+    public String login(){
+        return "login";
     }
+
+    @PostMapping("/login")
+    public String loginId(@ModelAttribute User user){
+        if(LoginService.login(user)){
+            return "redirect:/";
+        }
+        return "login";
+    }
+
+
+
+}
 
 
 
