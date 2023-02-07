@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.bcvita.user.dto.request.BoardCreateRequestDto;
 import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.entity.User;
+import project.bcvita.user.service.BoardService;
 import project.bcvita.user.service.LoginService;
 import project.bcvita.user.service.UserService;
 
@@ -22,12 +24,9 @@ import java.util.List;
 @Valid
 public class UserController {
 
-    private  final UserService userService;
+    private final UserService userService;
+    private final BoardService boardService;
 
-    @GetMapping("/join")
-    public String join(){
-        return "join";
-    }
 
     @PostMapping("/join")
     public ResponseEntity join(@Valid @RequestBody UserRequest request) {
@@ -67,6 +66,10 @@ public class UserController {
         return "login";
     }
 
+    @PostMapping("/board/{user-id}")
+    public String create(@PathVariable("user-id")Long id,@RequestBody BoardCreateRequestDto requestDto) {
+        return boardService.create(id,requestDto);
+    }
 
 
 }
