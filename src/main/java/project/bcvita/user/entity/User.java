@@ -40,12 +40,12 @@ public class User {
     private String sex;
 
    // @Column(nullable = false, length = 50, unique = true)
-    private Boolean isRH;
+    private boolean isRH;
 
    // @Column(nullable = false, length = 50, unique = true)
-    private Integer bloodHistory;
+    private int bloodHistory;
 
-    private Integer userPoint;
+    private int userPoint;
 
     private String confirmPassword;
 
