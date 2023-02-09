@@ -26,7 +26,7 @@ public class DesignatedBloodWriteUser {
 
     private String bloodPersonNumber;
 
-    private int bloodNumber;
+    private Integer bloodNumber;
 
     private String patientName;
 
