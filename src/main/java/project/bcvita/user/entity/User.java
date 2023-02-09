@@ -43,9 +43,9 @@ public class User {
     private boolean isRH;
 
    // @Column(nullable = false, length = 50, unique = true)
-    private int bloodHistory;
+    private Integer bloodHistory;
 
-    private int userPoint;
+    private Integer userPoint;
 
     private String confirmPassword;
 
