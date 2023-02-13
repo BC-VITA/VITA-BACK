@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
 import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
+import project.bcvita.user.dto.request.testDto;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.service.BoardService;
 import project.bcvita.user.service.LoginService;
+import project.bcvita.user.service.TestService;
 import project.bcvita.user.service.UserService;
 
 import javax.validation.Valid;
@@ -26,6 +28,7 @@ public class UserController {
 
     private final UserService userService;
     private final BoardService boardService;
+    private final TestService testService;
 
 
     @PostMapping("/join")
@@ -66,11 +69,15 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/board/{user-id}")
-    public String create(@PathVariable("user-id")Long id,@RequestBody BoardCreateRequestDto requestDto) {
-        return boardService.create(id,requestDto);
-    }
+//    @PostMapping("/board/{user-id}")
+//    public String create(@PathVariable("user-id")Long id,@RequestBody BoardCreateRequestDto requestDto) {
+//        return boardService.create(id,requestDto);
+//    }
 
+    @PostMapping("/board/{user-id}")
+    public String createTest(@PathVariable("user-id")Long id,@RequestBody testDto requestDto) {
+        return testService.createTest(id,requestDto);
+    }
 
 }
 
