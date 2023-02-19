@@ -1,13 +1,11 @@
 package project.bcvita.user.entity;
 
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 
 @Entity
 @Getter
@@ -16,13 +14,13 @@ import java.util.ArrayList;
 public class DesignatedBloodWriteUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long DesignatedBloodWriteUserNumber;
+    private Long id;
 
     @ManyToOne
     private User userNumber;
 
     @OneToOne
-    private DesignatedBloodWrite DesignatedBloodWriteNumber;
+    private DesignatedBloodWrite designatedBloodWrite;
 
     private String bloodPersonNumber;
 
@@ -40,10 +38,10 @@ public class DesignatedBloodWriteUser {
     private boolean isReport;
 
 
-    public DesignatedBloodWriteUser(Long designatedBloodWriteUserNumber, User userNumber, DesignatedBloodWrite designatedBloodWriteNumber, String bloodPersonNumber, int bloodNumber, String patientName, String patientAge, String hospitalRoomNumber, boolean bloodMatchType, boolean isReview) {
-        DesignatedBloodWriteUserNumber = designatedBloodWriteUserNumber;
+    public DesignatedBloodWriteUser(Long id, User userNumber, DesignatedBloodWrite designatedBloodWrite, String bloodPersonNumber, int bloodNumber, String patientName, String patientAge, String hospitalRoomNumber, boolean bloodMatchType, boolean isReview) {
+        this.id = id;
         this.userNumber = userNumber;
-        DesignatedBloodWriteNumber = designatedBloodWriteNumber;
+        this.designatedBloodWrite = designatedBloodWrite;
         this.bloodPersonNumber = bloodPersonNumber;
         this.bloodNumber = bloodNumber;
         this.patientName = patientName;

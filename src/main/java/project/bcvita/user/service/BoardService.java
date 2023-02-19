@@ -4,12 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
+import project.bcvita.user.dto.response.BoardListResponse;
 import project.bcvita.user.entity.DesignatedBloodWrite;
 import project.bcvita.user.entity.DesignatedBloodWriteUser;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.repository.DesignatedBloodWriteUserRepository;
 import project.bcvita.user.repository.UserRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -44,10 +48,32 @@ public class BoardService {
         designatedBloodWriteUser.setHospitalRoomNumber(requestDto.getHospitalRoomNumber());
         designatedBloodWriteUser.setBloodMatchType(requestDto.isBloodMatchType());
         designatedBloodWriteUser.setReview(requestDto.isReview());
-        designatedBloodWriteUser.setDesignatedBloodWriteNumber(bloodWrite);
+        designatedBloodWriteUser.setDesignatedBloodWrite(bloodWrite);
         designatedBloodWriteUser.setUserNumber(user);
         designatedBloodWriteUserRepository.save(designatedBloodWriteUser);
         return "게시글 작성완료";
     }
+
+
+    @Transactional(readOnly = true)
+    public List<BoardListResponse> boardListResponseList() {
+        List<DesignatedBloodWrite> boardWriteList = designatedBloodWriteRepository.findAll();
+//        List<DesignatedBloodWriteUser> boardWriteUserList = designatedBloodWriteUserRepository.findAll(); 이거랑
+
+
+        List<BoardListResponse> boardListResponse = new ArrayList<>();
+        for (DesignatedBloodWrite designatedBloodWrite : boardWriteList) {
+            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(designatedBloodWrite.getId()).orElse(null);
+            if(designatedBloodWriteUser == null) {
+                throw new IllegalArgumentException("DesignatedBloodWriteUser 값이 null");
+            }
+            boardListResponse.add(new BoardListResponse(designatedBloodWrite.getHospitalName(), designatedBloodWrite.getTitle(),
+                    designatedBloodWrite.getContent(), designatedBloodWrite.getPatientBlood(), designatedBloodWrite.getBloodType(), designatedBloodWrite.getStartDate(),
+                    designatedBloodWrite.getId(),designatedBloodWriteUser.getBloodNumber()));
+        }
+        return boardListResponse;
+    }
+
+
 
 }
