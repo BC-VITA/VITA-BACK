@@ -1,5 +1,6 @@
 package project.bcvita.user.controller;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,9 @@ import project.bcvita.user.dto.request.BoardCreateRequestDto;
 import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.request.testDto;
+import project.bcvita.user.dto.response.BoardListResponse;
 import project.bcvita.user.dto.response.BoardTestListResponse;
+import project.bcvita.user.dto.response.BoardUserListResponse;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.entity.Test;
 import project.bcvita.user.entity.User;
@@ -71,24 +74,26 @@ public class UserController {
         return "login";
     }
 
+    @PostMapping("/board/{user-id}")
+    public String create(@PathVariable("user-id")Long id,@RequestBody BoardCreateRequestDto requestDto) {
+        return boardService.create(id,requestDto);
+    }
+
 //    @PostMapping("/board/{user-id}")
-//    public String create(@PathVariable("user-id")Long id,@RequestBody BoardCreateRequestDto requestDto) {
-//        return boardService.create(id,requestDto);
+//    public String createTest(@PathVariable("user-id")Long id,@RequestBody testDto requestDto) {
+//        return testService.createTest(id,requestDto);
 //    }
 
-    @PostMapping("/board/{user-id}")
-    public String createTest(@PathVariable("user-id")Long id,@RequestBody testDto requestDto) {
-        return testService.createTest(id,requestDto);
-    }
 
-    @GetMapping("/board/{user-id}")
-    public String frontTest(){
-        return "frontTest";
-    }
+//    @GetMapping("/board/list")
+//    public List<BoardTestListResponse> boardTest() {
+//        return testService.boardTestListResponseList();
+//    }
+
 
     @GetMapping("/board/list")
-    public List<BoardTestListResponse> boardTest() {
-        return testService.boardTestListResponseList();
+    public List<BoardListResponse> boardList() {
+        return boardService.boardListResponseList();
     }
 
 }

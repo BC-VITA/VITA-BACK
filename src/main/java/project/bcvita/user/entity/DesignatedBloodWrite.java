@@ -15,7 +15,7 @@ import javax.persistence.Id;
 public class DesignatedBloodWrite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long DesignatedBloodWriteNumber;
+    private Long id;
 
     private String hospitalName;
 
@@ -39,8 +39,8 @@ public class DesignatedBloodWrite {
     private String content;
 
 
-    public DesignatedBloodWrite(Long DesignatedBloodWriteNumber, String hospitalName, String requestHospitalAddress, String hospitalPhoneNumber, String patientBlood, String bloodType, String needBloodSystem, String startDate, String endDate, String title, String content, String patientIsRH) {
-        this.DesignatedBloodWriteNumber = DesignatedBloodWriteNumber;
+    public DesignatedBloodWrite(Long id, String hospitalName, String requestHospitalAddress, String hospitalPhoneNumber, String patientBlood, String bloodType, String needBloodSystem, String startDate, String endDate, String title, String content, String patientIsRH) {
+        this.id = id;
         this.hospitalName = hospitalName;
         this.requestHospitalAddress = requestHospitalAddress;
         this.hospitalPhoneNumber = hospitalPhoneNumber;
