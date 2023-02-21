@@ -1,6 +1,5 @@
 package project.bcvita.user.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -9,12 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
 import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
-import project.bcvita.user.dto.request.testDto;
 import project.bcvita.user.dto.response.BoardListResponse;
-import project.bcvita.user.dto.response.BoardTestListResponse;
-import project.bcvita.user.dto.response.BoardUserListResponse;
 import project.bcvita.user.dto.response.UserListResponse;
-import project.bcvita.user.entity.Test;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.service.BoardService;
 import project.bcvita.user.service.LoginService;
