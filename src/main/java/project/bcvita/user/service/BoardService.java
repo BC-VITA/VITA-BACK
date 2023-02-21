@@ -60,13 +60,13 @@ public class BoardService {
         List<DesignatedBloodWrite> boardWriteList = designatedBloodWriteRepository.findAll();
         List<BoardListResponse> boardListResponse = new ArrayList<>();
         for (DesignatedBloodWrite designatedBloodWrite : boardWriteList) {
-            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(designatedBloodWrite.getId()).orElse(null);
-            if(designatedBloodWriteUser == null) {
-                throw new IllegalArgumentException("DesignatedBloodWriteUser 값이 null");
-            }
-            boardListResponse.add(new BoardListResponse(designatedBloodWrite.getHospitalName(), designatedBloodWrite.getTitle(),
-                    designatedBloodWrite.getContent(), designatedBloodWrite.getPatientBlood(), designatedBloodWrite.getBloodType(), designatedBloodWrite.getStartDate(),
-                    designatedBloodWrite.getId(),designatedBloodWriteUser.getBloodNumber()));
+//            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(designatedBloodWrite.getId()).orElse(null);
+//            if(designatedBloodWriteUser == null) {
+//                throw new IllegalArgumentException("DesignatedBloodWriteUser 값이 null");
+//            }
+//            boardListResponse.save(new BoardListResponse(designatedBloodWrite.getHospitalName(), designatedBloodWrite.getTitle(),
+//                    designatedBloodWrite.getContent(), designatedBloodWrite.getPatientBlood(), designatedBloodWrite.getBloodType(), designatedBloodWrite.getStartDate(),
+//                    designatedBloodWrite.getId(),designatedBloodWriteUser.getBloodNumber()));
         }
         return boardListResponse;
     }
