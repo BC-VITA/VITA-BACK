@@ -58,9 +58,6 @@ public class BoardService {
     @Transactional(readOnly = true)
     public List<BoardListResponse> boardListResponseList() {
         List<DesignatedBloodWrite> boardWriteList = designatedBloodWriteRepository.findAll();
-//        List<DesignatedBloodWriteUser> boardWriteUserList = designatedBloodWriteUserRepository.findAll(); 이거랑
-
-
         List<BoardListResponse> boardListResponse = new ArrayList<>();
         for (DesignatedBloodWrite designatedBloodWrite : boardWriteList) {
             DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(designatedBloodWrite.getId()).orElse(null);
