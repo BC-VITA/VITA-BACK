@@ -64,7 +64,7 @@ public class BoardService {
             if(designatedBloodWriteUser == null) {
                 throw new IllegalArgumentException("DesignatedBloodWriteUser 값이 null");
             }
-            //아 잠만 save가 아닌 잠시만 코드가 중간에 수정이 되어서 헷갈리네 잠깐만 미안 이 코드가 게시물 list를 보여줄수있게 해주는 코드인데 그 게시물을 프론트에 선택적으로 보이게
+            
             boardListResponse.add(new BoardListResponse(designatedBloodWrite.getHospitalName(), designatedBloodWrite.getTitle(),
                     designatedBloodWrite.getContent(), designatedBloodWrite.getPatientBlood(), designatedBloodWrite.getBloodType(), designatedBloodWrite.getStartDate(),
                     designatedBloodWrite.getId(),designatedBloodWriteUser.getBloodNumber()));
