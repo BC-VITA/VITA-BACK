@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 
+@AllArgsConstructor
+@Getter
 public class BoardListResponse {
 
     private String hospitalName;
