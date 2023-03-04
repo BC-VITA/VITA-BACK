@@ -64,7 +64,7 @@ public class BoardService {
             if(designatedBloodWriteUser == null) {
                 throw new IllegalArgumentException("DesignatedBloodWriteUser 값이 null");
             }
-            
+
             boardListResponse.add(new BoardListResponse(designatedBloodWrite.getHospitalName(), designatedBloodWrite.getTitle(),
                     designatedBloodWrite.getContent(), designatedBloodWrite.getPatientBlood(), designatedBloodWrite.getBloodType(), designatedBloodWrite.getStartDate(),
                     designatedBloodWrite.getId(),designatedBloodWriteUser.getBloodNumber()));
