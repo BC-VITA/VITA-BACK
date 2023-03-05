@@ -1,4 +1,4 @@
-package project.bcvita;
+package project.bcvita.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
