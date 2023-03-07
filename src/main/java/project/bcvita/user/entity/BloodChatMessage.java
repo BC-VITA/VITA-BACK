@@ -1,4 +1,4 @@
-package project.bcvita.user.entity;
+/*package project.bcvita.user.entity;
 
 import lombok.*;
 
@@ -28,4 +28,4 @@ public class BloodChatMessage {
         this.chatMessage = chatMessage;
         this.chatTime = chatTime;
     }
-}
+}*/
