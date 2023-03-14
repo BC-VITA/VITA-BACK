@@ -3,27 +3,31 @@ package project.bcvita.user.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import project.bcvita.user.dto.ChatMessage;
-import project.bcvita.user.dto.ChatRoom;
+//import project.bcvita.user.dto.ChatRoom;
+import project.bcvita.user.dto.ChatRoomRespDTO;
+import project.bcvita.user.dto.request.ChatMessageRequestDto;
 import project.bcvita.user.dto.request.ChatRoomRequestDto;
 import project.bcvita.user.dto.response.ChatRoomResponse;
 import project.bcvita.user.entity.*;
 import project.bcvita.user.repository.*;
 
 import javax.annotation.PostConstruct;
+import java.awt.print.Pageable;
 import java.io.IOException;
+import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Slf4j
-@RequiredArgsConstructor
-@Service
-public class ChatService {
-    private final ObjectMapper objectMapper;
-    private Map<String, ChatRoom> chatRooms;
+public interface ChatService {
+    String getChatRoomUUID(String req, String reps);
+    ChatRoomRespDTO getChatRoomMessage(String req, String reps, Pageadle pageadle);
+
 
     @PostConstruct
     private void init() {
@@ -55,5 +59,8 @@ public class ChatService {
             log.error(e.getMessage(), e);
         }
     }
+
+
+
 
 }

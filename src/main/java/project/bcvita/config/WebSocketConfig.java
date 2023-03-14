@@ -8,11 +8,11 @@ import org.springframework.web.socket.config.WebSocketNamespaceHandler;
 import org.springframework.web.socket.config.annotation.*;
 import project.bcvita.HttpHandshakeInterceptor;
 
-@RequiredArgsConstructor
+
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    private final WebSocketHandler webSocketHandler;
+
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
@@ -26,6 +26,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setAllowedOriginPatterns("http://localhost:8004", "*")
                 .withSockJS();
         registry.addEndpoint("/vita").setAllowedOrigins("*");
-
     }
 }

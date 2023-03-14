@@ -20,18 +20,47 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.projectlombok:lombok'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'mysql:mysql-connector-java'
-    implementation "org.springframework.boot:spring-boot-devtools"
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-   // implementation 'org.springframework.boot:spring-boot-starter-security'
+// implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.webjars:sockjs-client:1.1.2'
     implementation 'org.webjars:stomp-websocket:2.3.3-1'
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok'
+
+    //mysql
+    implementation 'mysql:mysql-connector-java'
+
+    //jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.springframework.boot:spring-boot-devtools"
+
+    //JWT
+    implementation group: 'com.auth0', name: 'java-jwt', version: '3.18.3'
+
+    //파일입출력
+    implementation 'commons-io:commons-io:2.6'
+
+    // https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib (파일리사이징 썸네일 ) Scalr
+    implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+
+    // https://mvnrepository.com/artifact/org.qlrm/qlrm
+    implementation group: 'org.qlrm', name: 'qlrm', version: '3.0.4'
+    // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+
+    // OAuth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // Sprint Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
