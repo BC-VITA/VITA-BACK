@@ -3,6 +3,7 @@ package project.bcvita.user.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,9 +19,7 @@ public class BloodChatMessage {
 
     @ManyToOne
     private BloodChatRoom bloodChatRoom;
-
     private String chatMessage;
-
     private LocalDateTime chatTime;
 
     public BloodChatMessage(BloodChatRoom bloodChatRoom, String chatMessage, LocalDateTime chatTime) {

@@ -8,6 +8,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import project.bcvita.user.dto.ChatMessage;
+import project.bcvita.user.entity.BloodChatMessage;
+import project.bcvita.user.entity.BloodChatRoom;
+import project.bcvita.user.repository.BloodChatMessageRepository;
 import project.bcvita.user.service.ChatService;
 
 @Slf4j
@@ -17,12 +20,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
     private final ChatService chatService;
 
+    private final BloodChatMessageRepository bloodChatMessageRepository;
+
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
         log.info("{}", payload);
-        ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
+        BloodChatMessage bloodChatMessage = objectMapper.readValue(payload, BloodChatMessage.class);
 
-        ChatRoom chatRoom = chatService.findRoomById(chatMessage.getRoomId());
-        chatRoom.handlerActions(session, chatMessage, chatService);
+//        BloodChatRoom bloodChatRoom = chatService.findByRoomID(bloodChatMessage.getBloodChatRoom());
     }
 }

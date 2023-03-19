@@ -16,19 +16,19 @@ import java.util.UUID;
 public class BloodChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
+    private Long id; //RoomID
 
     @ManyToOne
-    private DesignatedBloodWriteUser designatedBloodWriteUser;
+    private DesignatedBloodWriteUser designatedBloodWriteUser; //게시물 제목
 
     @ManyToOne
-    private User createWriteUser;
+    private User createWriteUser; //지정헌혈 게시물 작성자
 
     @ManyToOne
-    private User viewWriteUser;
+    private User viewWriteUser; //채팅 들어온 사람
 
 
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; //시간
 
-    private String chatIsFinish;
+    private String chatIsFinish; //완료여부
 }
