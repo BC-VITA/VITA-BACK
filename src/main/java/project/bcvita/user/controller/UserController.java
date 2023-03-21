@@ -90,14 +90,14 @@ public class UserController {
 //    }
 
 
-    @GetMapping("/board/list")
+  /*  @GetMapping("/board/list")
     public List<BoardListResponse> boardList() {
         return boardService.boardListResponseList();
     }
-
+*/
     @GetMapping("/board/filter")
-    public List<BoardListResponse> boardFilter(@RequestParam String patientIsRH, @RequestParam String requestHospitalAddress) {
-        return boardService.filter(patientIsRH,requestHospitalAddress);
+    public List<BoardListResponse> boardFilter(@RequestParam(required = false) String patientIsRH, @RequestParam(required = false) String requestHospitalAddress, @RequestParam(required = false) String title) {
+        return boardService.filter(patientIsRH,requestHospitalAddress,title);
     }
 
 
