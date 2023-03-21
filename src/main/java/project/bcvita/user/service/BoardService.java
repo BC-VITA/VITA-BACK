@@ -22,6 +22,7 @@ public class BoardService {
     private final UserRepository userRepository;
     private final DesignatedBloodWriteUserRepository designatedBloodWriteUserRepository;
 
+
     @Transactional
     public String create(Long id,BoardCreateRequestDto requestDto) {
         User user = userRepository.findById(id).orElse(null);
@@ -55,6 +56,31 @@ public class BoardService {
     }
 
 
+    public List<BoardListResponse>filter(String patientIsRH, String requestHospitalAddress) {
+        List<DesignatedBloodWrite> postList = null;
+        if(patientIsRH != null) {
+            postList = designatedBloodWriteRepository.filterIsRH(patientIsRH);
+        }else if(patientIsRH != null && requestHospitalAddress != null) {
+            postList = designatedBloodWriteRepository.IsRHAndArea(patientIsRH, requestHospitalAddress);
+        }else if (requestHospitalAddress != null) {
+            postList = designatedBloodWriteRepository.filterArea(requestHospitalAddress);
+        }
+
+        List<BoardListResponse> resultList = new ArrayList<>();
+        for (DesignatedBloodWrite post : postList) {
+            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWrite(post).orElse(null);
+            if(designatedBloodWriteUser == null) {
+                continue;
+            }
+            BoardListResponse boardListResponse = new BoardListResponse(post.getHospitalName(), post.getTitle(), post.getContent(),
+                    post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(),designatedBloodWriteUser.getBloodNumber() );
+            resultList.add(boardListResponse);
+        }
+
+        return resultList;
+    }
+
+
     @Transactional(readOnly = true)
     public List<BoardListResponse> boardListResponseList() {
         List<DesignatedBloodWrite> boardWriteList = designatedBloodWriteRepository.findAll();
@@ -71,6 +97,7 @@ public class BoardService {
         }
         return boardListResponse;
     }
+
 
 
 

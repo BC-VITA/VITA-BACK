@@ -12,27 +12,27 @@ import project.bcvita.user.service.ChatService;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-@RestController
-@RequestMapping("/chat")
-public class ChatController {
+//@RequiredArgsConstructor
+//@RestController
+//@RequestMapping("/chat")
+//public class ChatController {
 
-    private final SimpMessageSendingOperations simpMessageSendingOperations;
-    private final ChatService chatService;
-
-    @PostMapping
-    public ChatRoomResponse createRoom(@RequestBody ChatRoomRequestDto chatRoomRequestDto) {
-        return chatService.createRoom(chatRoomRequestDto);
-    }
-
-    @MessageMapping("/enter")
-    public void enter(ChatMessageRequestDto messageRequestDto) {
-        messageRequestDto.setMessage(messageRequestDto.getWriter() + "님이 채팅방에 참여하였습니다.");
-        simpMessageSendingOperations.convertAndSend("/topic/chat/room/"+messageRequestDto.getRoomId(),messageRequestDto);
-    }
-
-    @MessageMapping(value = "/message")
-    public void message(ChatMessageRequestDto messageRequestDto) {
-        chatService.sendMessage(messageRequestDto);
-    }
-}
+    //private final SimpMessageSendingOperations simpMessageSendingOperations;
+//    private final ChatService chatService;
+//
+//    @PostMapping
+//    public ChatRoomResponse createRoom(@RequestBody ChatRoomRequestDto chatRoomRequestDto) {
+//        return chatService.createRoom(chatRoomRequestDto);
+//    }
+//
+//    @MessageMapping("/enter")
+//    public void enter(ChatMessageRequestDto messageRequestDto) {
+//        messageRequestDto.setMessage(messageRequestDto.getWriter() + "님이 채팅방에 참여하였습니다.");
+//        //simpMessageSendingOperations.convertAndSend("/topic/chat/room/"+messageRequestDto.getRoomId(),messageRequestDto);
+//    }
+//
+//    @MessageMapping(value = "/message")
+//    public void message(ChatMessageRequestDto messageRequestDto) {
+//        chatService.sendMessage(messageRequestDto);
+//    }
+//}

@@ -9,5 +9,5 @@ import project.bcvita.user.entity.BloodHouse;
 
 public interface BloodChatMessageRepository extends JpaRepository<BloodChatMessage, Long> {
 //    BloodChatRoom findByRoomID(String id);
-    Page<BloodChatMessage> findByBloodChatRoomAndId(String id, Pageable pageable);
+ //   Page<BloodChatMessage> findByBloodChatRoomAndId(String id, Pageable pageable);
 }

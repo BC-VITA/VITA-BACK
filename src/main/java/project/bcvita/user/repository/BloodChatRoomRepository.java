@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface BloodChatRoomRepository extends JpaRepository<BloodChatRoom, UUID> {
-    Optional<BloodChatRoom> findByReqUserAndRepsUser(Member req, Member reps);
-    BloodChatRoom findByRoomID(String id);
+  //  Optional<BloodChatRoom> findByReqUserAndRepsUser(Member req, Member reps);
+   // BloodChatRoom findByRoomID(String id);
 }
