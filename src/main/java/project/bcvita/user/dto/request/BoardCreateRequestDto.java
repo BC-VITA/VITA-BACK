@@ -35,6 +35,12 @@ public class BoardCreateRequestDto {
     private String content;
 
 
+//    public BoardCreateRequestDto(String patientIsRH, String requestHospitalAddress) {
+//        this.patientIsRH = patientIsRH;
+//        this.requestHospitalAddress = requestHospitalAddress;
+//    }
+
+
 }
 
 

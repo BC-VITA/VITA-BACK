@@ -1,4 +1,4 @@
-package project.bcvita;
+package project.bcvita.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -20,21 +20,6 @@ import java.util.List;
 public class BloodHouseService {
     private final BloodHouseRepository bloodHouseRepository;
 
-
-//    @Transactional(readOnly = true)
-//    public List<BloodHouseResponse> bloodHouseResponseList() {
-//        List<BloodHouse> bloodHouses = bloodHouseRepository.findAll();
-//        List<BloodHouseResponse> bloodHouseResponse = new ArrayList<>();
-//        for (BloodHouse bloodHouse : bloodHouses) {
-////            BloodHouse bloodHouse1 = bloodHouseRepository.findBloodHouseById(bloodHouse.getId()).orElse(null);
-////            if(bloodHouse1 == null) {
-////                throw new IllegalArgumentException("bloodHouse1 값이 null");
-////            }
-//            bloodHouseResponse.add(new BloodHouseResponse(bloodHouse.getId(), bloodHouse.getArea(), bloodHouse.getCenterName(), bloodHouse.getBloodHouseAddress(), bloodHouse.getBloodHousePhoneNumber(), bloodHouse.getLatitude(), bloodHouse.getLongitude(), bloodHouse.getWeekdayTime(), bloodHouse.getSaturdayTime(),bloodHouse.getSundayRestTime(),bloodHouse.getRestTime()));
-//        }
-//        return bloodHouseResponse;
-//    }
-
     public List<BloodHouseResponse> bloodHouseResponseList() {
         List<BloodHouse> bloodHouses = bloodHouseRepository.findAll();
         List<BloodHouseResponse>  bloodHouseResponse= new ArrayList<>();

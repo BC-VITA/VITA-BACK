@@ -10,7 +10,9 @@ import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.response.BoardListResponse;
 import project.bcvita.user.dto.response.UserListResponse;
+import project.bcvita.user.entity.DesignatedBloodWrite;
 import project.bcvita.user.entity.User;
+import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.service.BoardService;
 import project.bcvita.user.service.LoginService;
 import project.bcvita.user.service.TestService;
@@ -29,6 +31,8 @@ public class UserController {
     private final UserService userService;
     private final BoardService boardService;
     private final TestService testService;
+
+    private final DesignatedBloodWriteRepository designatedBloodWriteRepository;
 
 
     @PostMapping("/join")
@@ -86,10 +90,16 @@ public class UserController {
 //    }
 
 
-    @GetMapping("/board/list")
+  /*  @GetMapping("/board/list")
     public List<BoardListResponse> boardList() {
         return boardService.boardListResponseList();
     }
+*/
+    @GetMapping("/board/filter")
+    public List<BoardListResponse> boardFilter(@RequestParam(required = false) String patientIsRH, @RequestParam(required = false) String requestHospitalAddress, @RequestParam(required = false) String title) {
+        return boardService.filter(patientIsRH,requestHospitalAddress,title);
+    }
+
 
 }
 
