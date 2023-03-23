@@ -1,15 +1,21 @@
 package project.bcvita.user.service;
 
+import com.mysql.cj.xdevapi.Session;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.bcvita.user.dto.request.UserLoginRequestDto;
 import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.response.UserListResponse;
+import project.bcvita.user.dto.response.UserLoginResponse;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.repository.UserRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +25,8 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-
     @Transactional
-    public String join(UserRequest request){
+    public String join(UserRequest request) {
         userRepository.save(User.builder()
                 .userID(request.getUserID())
                 .userPW(request.getPassword())
@@ -49,11 +54,32 @@ public class UserService {
         return userListResponse;
     }
 
-   public String passwordCheck(UserPasswordCheck userPasswordCheck) {
-        if(!userPasswordCheck.getPassword().equals(userPasswordCheck.getConfirmPassword())) {
+    public String passwordCheck(UserPasswordCheck userPasswordCheck) {
+        if (!userPasswordCheck.getPassword().equals(userPasswordCheck.getConfirmPassword())) {
             return "비밀번호가 일치하지 않습니다";
         }
         return "비밀번호가 일치합니다.";
-   }
+    }
+
+
+    public String login(UserLoginRequestDto userLoginRequestDto, HttpServletRequest request) {
+        User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
+        if (user == null) {
+            throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
+        } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+        }
+        System.out.println("user = " + user);
+        return "로그인 성공";
+    }
+
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "로그아웃 성공";
+    }
 
 }

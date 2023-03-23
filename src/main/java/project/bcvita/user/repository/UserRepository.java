@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
     User findByUserID(String userID);
 
+    User findByUserIDAndUserPW(String userID, String userPW);
     List<User> findByUserName(String userName);
     List<User> findAllBy();
 

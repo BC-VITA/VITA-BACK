@@ -52,6 +52,7 @@ public class BoardService {
         designatedBloodWriteUser.setDesignatedBloodWrite(bloodWrite);
         designatedBloodWriteUser.setUserNumber(user);
         designatedBloodWriteUserRepository.save(designatedBloodWriteUser);
+        System.out.println("user.getUserName() = " + user.getUserName());
         return "게시글 작성완료";
     }
 
