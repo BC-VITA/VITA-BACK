@@ -40,7 +40,7 @@ public class User {
     private String sex;
 
    // @Column(nullable = false, length = 50, unique = true)
-    private boolean isRH;
+    private String isRH;
 
    // @Column(nullable = false, length = 50, unique = true)
     private Integer bloodHistory;
@@ -49,9 +49,11 @@ public class User {
 
     private String confirmPassword;
 
+    
+
 
     public User(String userID, String userPW, String userName, String userBirth, String userPhoneNumber,
-                String userBlood, String sex, Boolean isRH, Integer bloodHistory, Integer userPoint, String userEmail
+                String userBlood, String sex, String isRH, Integer bloodHistory, Integer userPoint, String userEmail
                 ,String confirmPassword) {
         this.userID = userID;
         this.userPW = userPW;

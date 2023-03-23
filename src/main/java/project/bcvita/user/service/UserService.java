@@ -31,7 +31,7 @@ public class UserService {
                 .userBlood(request.getUserBlood())
                 //.userPoint(request.getUserPoint())
                 .sex(request.getSex())
-                .isRH(request.getIsRH())
+                .isRH(String.valueOf(request.getIsRH()))
                 .bloodHistory(Integer.valueOf(request.getBloodHistory()))
                 .userPhoneNumber(request.getUserPhoneNumber())
                 .build());

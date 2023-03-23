@@ -90,11 +90,11 @@ public class UserController {
 //    }
 
 
-  /*  @GetMapping("/board/list")
-    public List<BoardListResponse> boardList() {
-        return boardService.boardListResponseList();
-    }
-*/
+//    @GetMapping("/board/list") // -> 이제 board.filter부분으로 확인하면 된다. 프론트쪽 api 수정하기
+//    public List<BoardListResponse> boardList() {
+//        return boardService.boardListResponseList();
+//    }
+
     @GetMapping("/board/filter")
     public List<BoardListResponse> boardFilter(@RequestParam(required = false) String patientIsRH, @RequestParam(required = false) String requestHospitalAddress, @RequestParam(required = false) String title, @RequestParam(required = false) String content, @RequestParam(required = false)String patientBlood, @RequestParam(required = false)String hospitalName, @RequestParam(required = false)String bloodType) {
         return boardService.filter(patientIsRH,requestHospitalAddress,title,content,patientBlood,hospitalName,bloodType);
