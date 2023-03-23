@@ -2,10 +2,12 @@ package project.bcvita.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
+import project.bcvita.user.dto.request.UserLoginRequestDto;
 import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.response.BoardListResponse;
@@ -18,6 +20,7 @@ import project.bcvita.user.service.LoginService;
 import project.bcvita.user.service.TestService;
 import project.bcvita.user.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -60,19 +63,6 @@ public class UserController {
         return userService.passwordCheck(userPasswordCheck);
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
-
-    @PostMapping("/login")
-    public String loginId(@ModelAttribute User user){
-        if(LoginService.login(user)){
-            return "redirect:/";
-        }
-        return "login";
-    }
-
     @PostMapping("/board/{user-id}")
     public String create(@PathVariable("user-id")Long id,@RequestBody BoardCreateRequestDto requestDto) {
         return boardService.create(id,requestDto);
@@ -100,6 +90,15 @@ public class UserController {
         return boardService.filter(patientIsRH,requestHospitalAddress,title,content,patientBlood,hospitalName,bloodType);
     }
 
+    @PostMapping("/login")
+    public String loginPost(@RequestBody UserLoginRequestDto userLoginRequestDto, HttpServletRequest request) {
+        return userService.login(userLoginRequestDto,request);
+    }
+
+    @GetMapping("/logout")
+    public String logoutGet(HttpServletRequest request) {
+        return userService.logout(request);
+    }
 
 }
 
