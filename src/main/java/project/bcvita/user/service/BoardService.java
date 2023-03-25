@@ -1,9 +1,11 @@
 package project.bcvita.user.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
+import project.bcvita.user.dto.request.UserLoginRequestDto;
 import project.bcvita.user.dto.response.BoardListResponse;
 import project.bcvita.user.entity.DesignatedBloodWrite;
 import project.bcvita.user.entity.DesignatedBloodWriteUser;
@@ -12,20 +14,25 @@ import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.repository.DesignatedBloodWriteUserRepository;
 import project.bcvita.user.repository.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class BoardService {
     private final DesignatedBloodWriteRepository designatedBloodWriteRepository;
     private final UserRepository userRepository;
     private final DesignatedBloodWriteUserRepository designatedBloodWriteUserRepository;
 
 
+
     @Transactional
-    public String create(Long id,BoardCreateRequestDto requestDto) {
-        User user = userRepository.findById(id).orElse(null);
+    public String create(HttpSession session, BoardCreateRequestDto requestDto) {
+        //User user = userRepository.findById(id).orElse(null);
+        User user =(User)session.getAttribute("user");
 
         DesignatedBloodWrite designatedBloodWrite = new DesignatedBloodWrite();
         designatedBloodWrite.setHospitalName(requestDto.getHospitalName());
@@ -52,6 +59,7 @@ public class BoardService {
         designatedBloodWriteUser.setDesignatedBloodWrite(bloodWrite);
         designatedBloodWriteUser.setUserNumber(user);
         designatedBloodWriteUserRepository.save(designatedBloodWriteUser);
+        log.info("user.getUserNAme() = {}", user.getUserName());
         System.out.println("user.getUserName() = " + user.getUserName());
         return "게시글 작성완료";
     }

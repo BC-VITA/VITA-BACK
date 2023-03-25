@@ -62,20 +62,18 @@ public class UserService {
     }
 
 
-    public String login(UserLoginRequestDto userLoginRequestDto, HttpServletRequest request) {
+    public String login(UserLoginRequestDto userLoginRequestDto, HttpSession session) {
         User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
         if (user == null) {
             throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
         } else {
-            HttpSession session = request.getSession();
             session.setAttribute("user", user);
         }
-        System.out.println("user = " + user);
+        System.out.println("user = " + user.getUserID());
         return "로그인 성공";
     }
 
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
+    public String logout(HttpSession session) {
         if (session != null) {
             session.invalidate();
         }

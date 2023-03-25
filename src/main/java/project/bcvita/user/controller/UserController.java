@@ -21,6 +21,7 @@ import project.bcvita.user.service.TestService;
 import project.bcvita.user.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -63,9 +64,14 @@ public class UserController {
         return userService.passwordCheck(userPasswordCheck);
     }
 
-    @PostMapping("/board/{user-id}")
-    public String create(@PathVariable("user-id")Long id,@RequestBody BoardCreateRequestDto requestDto) {
-        return boardService.create(id,requestDto);
+//    @PostMapping("/board/{user-id}")
+//    public String create(@PathVariable("user-id")Long id,@RequestBody BoardCreateRequestDto requestDto) {
+//        return boardService.create(id,requestDto);
+//    }
+
+    @PostMapping("/board")
+    public String create(HttpSession session, @RequestBody BoardCreateRequestDto requestDto) {
+        return boardService.create(session,requestDto);
     }
 
 //    @PostMapping("/board/{user-id}")
@@ -91,13 +97,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginPost(@RequestBody UserLoginRequestDto userLoginRequestDto, HttpServletRequest request) {
-        return userService.login(userLoginRequestDto,request);
+    public String loginPost(@RequestBody UserLoginRequestDto userLoginRequestDto, HttpSession session) {
+        return userService.login(userLoginRequestDto,session);
     }
 
     @GetMapping("/logout")
-    public String logoutGet(HttpServletRequest request) {
-        return userService.logout(request);
+    public String logoutGet(HttpSession session) {
+        return userService.logout(session);
     }
 
 }
