@@ -37,4 +37,6 @@ public class BloodHouse {
     private String sundayRestTime;
 
     private String restTime;
+
+    private String date;
 }
