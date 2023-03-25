@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface BloodHouseRepository extends JpaRepository<BloodHouse, Long> {
     Optional<BloodHouse> findBloodHouseById(Long id);
+
+    Optional<BloodHouse> findByCenterName(String houseName);
 }

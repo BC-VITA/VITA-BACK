@@ -67,7 +67,7 @@ public class UserService {
         if (user == null) {
             throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
         } else {
-            session.setAttribute("user", user);
+            session.setAttribute("user", user.getUserID());
         }
         System.out.println("user = " + user.getUserID());
         return "로그인 성공";
