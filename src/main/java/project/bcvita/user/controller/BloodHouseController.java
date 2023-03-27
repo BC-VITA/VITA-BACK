@@ -25,10 +25,10 @@ public class BloodHouseController {
     private final BloodHouseService bloodHouseService;
 
 
-    @GetMapping("board/list")
-    public List<BloodHouseResponse> bloodHouseResponseList() {
-        return bloodHouseService.bloodHouseResponseList();
-    }
+//    @GetMapping("board/list")
+//    public List<BloodHouseResponse> bloodHouseResponseList() {
+//        return bloodHouseService.bloodHouseResponseList();
+//    }
 
 
     @PostMapping("/reservation")
@@ -41,6 +41,10 @@ public class BloodHouseController {
         return bloodHouseService.reservationResponses();
     }
 
+    @GetMapping("/house/filter")
+    public List<BloodHouseResponse> reservationFilter(@RequestParam(required = false) String area, @RequestParam(required = false) String centerName, @RequestParam(required = false) String bloodHouseAddress, @RequestParam(required = false) String bloodHousePhoneNumber, @RequestParam(required = false) String wholeBlood, @RequestParam(required = false) String plasma, @RequestParam(required = false) String platelet) {
+        return bloodHouseService.reservationFilter(area,centerName, bloodHouseAddress, bloodHousePhoneNumber, wholeBlood, plasma, platelet);
+    }
 
 
 
