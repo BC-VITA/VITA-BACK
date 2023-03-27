@@ -39,4 +39,14 @@ public class BloodHouse {
     private String restTime;
 
     private String date;
+
+
+    //전혈
+    private String wholeBlood;
+
+    //혈장
+    private String plasma;
+
+    //혈소판
+    private String platelet;
 }
