@@ -3,8 +3,11 @@ package project.bcvita.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.bcvita.user.dto.request.BloodHouseRegisterRequestDto;
 import project.bcvita.user.dto.request.BloodHouseRequestDto;
 import project.bcvita.user.dto.request.BloodHouseReservationRequestDto;
+import project.bcvita.user.dto.request.BoardCreateRequestDto;
+import project.bcvita.user.dto.response.BloodHouseRegisterResponse;
 import project.bcvita.user.dto.response.BloodHouseReservationResponse;
 import project.bcvita.user.dto.response.BloodHouseResponse;
 import project.bcvita.user.dto.response.BoardListResponse;
@@ -141,4 +144,39 @@ public class BloodHouseService {
         return bloodResultList;
     }
 
+
+    //헌혈의 집 등록 api
+    public String bloodHouseRegister(HttpSession session, BloodHouseRegisterRequestDto bloodHouseRegisterRequestDto) {
+
+        //헌혈의집 관리자 로그인이 구현 되지 않아 임시 user 로그인으로 대체
+        User user = (User)session.getAttribute("user");
+        BloodHouse bloodHouse = new BloodHouse();
+        bloodHouse.setArea(bloodHouseRegisterRequestDto.getArea());
+        bloodHouse.setCenterName(bloodHouseRegisterRequestDto.getCenterName());
+        bloodHouse.setBloodHouseAddress(bloodHouseRegisterRequestDto.getBloodHouseAddress());
+        bloodHouse.setBloodHousePhoneNumber(bloodHouseRegisterRequestDto.getBloodHousePhoneNumber());
+        bloodHouse.setLatitude(bloodHouseRegisterRequestDto.getLatitude());
+        bloodHouse.setLongitude(bloodHouseRegisterRequestDto.getLongitude());
+        bloodHouse.setWeekdayTime(bloodHouseRegisterRequestDto.getWeekdayTime());
+        bloodHouse.setSaturdayTime(bloodHouseRegisterRequestDto.getSaturdayTime());
+        bloodHouse.setRestTime(bloodHouseRegisterRequestDto.getRestTime());
+        bloodHouse.setDate(bloodHouseRegisterRequestDto.getDate());
+        bloodHouse.setWholeBlood(bloodHouseRegisterRequestDto.getWholeBlood());
+        bloodHouse.setPlasma(bloodHouseRegisterRequestDto.getPlasma());
+        bloodHouse.setPlatelet(bloodHouseRegisterRequestDto.getPlatelet());
+        BloodHouse bloodHouse1 = bloodHouseRepository.save(bloodHouse);
+        return "헌혈의 집 등록 완료";
+    }
+
+
+    //헌혈의 집 등록 list 출력 api
+    @Transactional(readOnly = true)
+    public List<BloodHouseRegisterResponse> registerResponseList() {
+        List<BloodHouse> bloodHousesList = bloodHouseRepository.findAll();
+        List<BloodHouseRegisterResponse> bloodHouseRegisterResponses = new ArrayList<>();
+        for(BloodHouse bloodHouse : bloodHousesList) {
+            bloodHouseRegisterResponses.add(new BloodHouseRegisterResponse(bloodHouse.getId(), bloodHouse.getArea(), bloodHouse.getCenterName(), bloodHouse.getBloodHouseAddress(), bloodHouse.getBloodHousePhoneNumber(), bloodHouse.getLatitude(),bloodHouse.getLongitude(),  bloodHouse.getWeekdayTime(), bloodHouse.getSaturdayTime(), bloodHouse.getSundayRestTime(), bloodHouse.getRestTime(), bloodHouse.getWholeBlood(), bloodHouse.getPlasma(), bloodHouse.getPlatelet()));
+            }
+        return bloodHouseRegisterResponses;
+        }
 }
