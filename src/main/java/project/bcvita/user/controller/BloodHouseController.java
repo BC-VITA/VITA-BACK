@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import project.bcvita.user.dto.request.BloodHouseRegisterRequestDto;
 import project.bcvita.user.dto.request.BloodHouseRequestDto;
 import project.bcvita.user.dto.request.BloodHouseReservationRequestDto;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
+import project.bcvita.user.dto.response.BloodHouseRegisterResponse;
 import project.bcvita.user.dto.response.BloodHouseReservationResponse;
 import project.bcvita.user.dto.response.BloodHouseResponse;
 import project.bcvita.user.dto.response.BoardListResponse;
@@ -47,8 +49,16 @@ public class BloodHouseController {
     }
 
 
+    //헌혈의 집 등록 api
+    @PostMapping("/house/register")
+    public String bloodHouseRegister(HttpSession session, @RequestBody BloodHouseRegisterRequestDto bloodHouseRegisterRequestDto) {
+        return bloodHouseService.bloodHouseRegister(session, bloodHouseRegisterRequestDto);
+    }
 
-
+    @GetMapping("/house/register/list")
+    public List<BloodHouseRegisterResponse> bloodHouseRegisterResponseList() {
+        return bloodHouseService.registerResponseList();
+    }
 
 
 }
