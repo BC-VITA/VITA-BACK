@@ -3,15 +3,10 @@ package project.bcvita.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.bcvita.user.dto.request.BloodHouseRegisterRequestDto;
-import project.bcvita.user.dto.request.BloodHouseRequestDto;
-import project.bcvita.user.dto.request.BloodHouseReservationRequestDto;
-import project.bcvita.user.dto.request.BoardCreateRequestDto;
-import project.bcvita.user.dto.response.BloodHouseRegisterResponse;
-import project.bcvita.user.dto.response.BloodHouseReservationResponse;
-import project.bcvita.user.dto.response.BloodHouseResponse;
-import project.bcvita.user.dto.response.BoardListResponse;
+import project.bcvita.user.dto.request.*;
+import project.bcvita.user.dto.response.*;
 import project.bcvita.user.entity.*;
+import project.bcvita.user.repository.BloodHouseBusRepository;
 import project.bcvita.user.repository.BloodHouseRepository;
 import project.bcvita.user.repository.BloodHouseReservationRepository;
 import project.bcvita.user.repository.UserRepository;
@@ -23,10 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class BloodHouseService {
+    //헌혈의집 등록하는 로그인은 -> 관리자가 다 담당!
     private final BloodHouseRepository bloodHouseRepository;
     private final UserRepository userRepository;
 
     private final BloodHouseReservationRepository bloodHouseReservationRepository;
+
+    private final BloodHouseBusRepository bloodHouseBusRepository;
 
     public List<BloodHouseResponse> bloodHouseResponseList() {
         List<BloodHouse> bloodHouses = bloodHouseRepository.findAll();
@@ -179,4 +177,16 @@ public class BloodHouseService {
             }
         return bloodHouseRegisterResponses;
         }
+
+
+    //헌혈 버스 찾기 게시물 list 출력 api
+    @Transactional(readOnly = true)
+    public List<BloodHouseBusResponse> busSearchResponseList() {
+        List<BloodHouseBus> bloodHouseBusList = bloodHouseBusRepository.findAll();
+        List<BloodHouseBusResponse> bloodHouseBusResponses = new ArrayList<>();
+        for(BloodHouseBus bloodHouseBus : bloodHouseBusList) {
+            bloodHouseBusResponses.add(new BloodHouseBusResponse(bloodHouseBus.getId(),bloodHouseBus.getDate(), bloodHouseBus.getLatitude(), bloodHouseBus.getLongitude(), bloodHouseBus.getBusAddress(), bloodHouseBus.getPlace(), bloodHouseBus.getBusTime(), bloodHouseBus.getBusPhoneNumber(), bloodHouseBus.getBusPersonNumber()));
+        }
+        return bloodHouseBusResponses;
+    }
 }
