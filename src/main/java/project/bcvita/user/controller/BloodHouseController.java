@@ -8,10 +8,7 @@ import project.bcvita.user.dto.request.BloodHouseRegisterRequestDto;
 import project.bcvita.user.dto.request.BloodHouseRequestDto;
 import project.bcvita.user.dto.request.BloodHouseReservationRequestDto;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
-import project.bcvita.user.dto.response.BloodHouseRegisterResponse;
-import project.bcvita.user.dto.response.BloodHouseReservationResponse;
-import project.bcvita.user.dto.response.BloodHouseResponse;
-import project.bcvita.user.dto.response.BoardListResponse;
+import project.bcvita.user.dto.response.*;
 import project.bcvita.user.service.BloodHouseService;
 
 import javax.servlet.http.HttpSession;
@@ -55,10 +52,16 @@ public class BloodHouseController {
         return bloodHouseService.bloodHouseRegister(session, bloodHouseRegisterRequestDto);
     }
 
+    //헌혈의 집 등록 list api
     @GetMapping("/house/register/list")
     public List<BloodHouseRegisterResponse> bloodHouseRegisterResponseList() {
         return bloodHouseService.registerResponseList();
     }
 
+    //헌혈 버스 찾기 list 출력 api
+    @GetMapping("/bus/list")
+    public List<BloodHouseBusResponse> bloodHouseBusResponseList() {
+        return bloodHouseService.busSearchResponseList();
+    }
 
 }
