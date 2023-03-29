@@ -6,15 +6,13 @@ import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.bcvita.user.dto.request.HospitalPasswordCheck;
-import project.bcvita.user.dto.request.HospitalRequestDto;
-import project.bcvita.user.dto.request.UserPasswordCheck;
-import project.bcvita.user.dto.request.UserRequest;
+import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.HospitalResponse;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.entity.Hospital;
 import project.bcvita.user.service.HospitalService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -44,6 +42,16 @@ public class HospitalController {
     @PostMapping("/password-check")
     public String passwordCheck(@Valid @RequestBody HospitalPasswordCheck hospitalPasswordCheck){
         return hospitalService.hospitalPasswordCheck(hospitalPasswordCheck);
+    }
+
+    @PostMapping("/login")
+    public String loginPost(@RequestBody HospitalLoginRequestDto hospitalLoginRequestDto, HttpSession session) {
+        return hospitalService.hospitalLogin(hospitalLoginRequestDto,session);
+    }
+
+    @GetMapping("/logout")
+    public String logoutGet(HttpSession session) {
+        return hospitalService.hospitalLogout(session);
     }
 }
 
