@@ -2,10 +2,7 @@ package project.bcvita.user.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -40,13 +37,22 @@ public class BloodHouse {
 
     private String date;
 
+//
+//    @ManyToOne
+//    //전혈
+//    private BloodHouseReservation wholeBlood;
+//
+//    @ManyToOne
+//    //혈장
+//    private BloodHouseReservation plasma;
+//
+//    @ManyToOne
+//    //혈소판
+//    private BloodHouseReservation platelet;
 
-    //전혈
+
+    //회의 때문에 임시로 만듦 -> 하고나서 외래키로 수정
     private String wholeBlood;
-
-    //혈장
     private String plasma;
-
-    //혈소판
     private String platelet;
 }
