@@ -6,8 +6,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
 import project.bcvita.user.entity.DesignatedBloodWrite;
+import project.bcvita.user.entity.DesignatedBloodWriteUser;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DesignatedBloodWriteRepository extends JpaRepository<DesignatedBloodWrite, Long> {

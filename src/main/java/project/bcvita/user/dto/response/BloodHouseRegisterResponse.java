@@ -6,29 +6,13 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class BloodHouseRegisterResponse {
-    private Long id;
+    //날짜
+    private String date;
 
-    private String area;
+    //시간
+    private String time;
 
-    private String centerName;
-
-    private String bloodHouseAddress;
-
-    private String bloodHousePhoneNumber;
-
-    private double latitude;
-
-    private double longitude;
-
-    private String weekdayTime;
-
-    private String saturdayTime;
-
-    private String sundayRestTime;
-
-    private String restTime;
-
-
+    //헌혈종류
     //전혈
     private String wholeBlood;
 
