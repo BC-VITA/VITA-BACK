@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface DesignatedBloodWriteUserRepository extends JpaRepository<DesignatedBloodWriteUser, Long> {
     Optional<DesignatedBloodWriteUser> findByDesignatedBloodWriteId(Long id);
 
+
 //    DesignatedBloodWriteUser findByBloodNumber(Integer BloodNumber);
 
     Optional<DesignatedBloodWriteUser> findByDesignatedBloodWrite(DesignatedBloodWrite designatedBloodWrite);

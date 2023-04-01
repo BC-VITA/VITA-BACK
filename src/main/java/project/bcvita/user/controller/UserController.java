@@ -6,10 +6,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.bcvita.user.dto.request.BoardCreateRequestDto;
-import project.bcvita.user.dto.request.UserLoginRequestDto;
-import project.bcvita.user.dto.request.UserPasswordCheck;
-import project.bcvita.user.dto.request.UserRequest;
+import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.BoardListResponse;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.entity.DesignatedBloodWrite;
@@ -106,6 +103,11 @@ public class UserController {
         return userService.logout(session);
     }
 
+
+    @PostMapping("/wishList")
+    public String wishList(@RequestBody WishListRequestDto wishListRequestDto) {
+        return boardService.wishListInsert(wishListRequestDto);
+    }
 }
 
 

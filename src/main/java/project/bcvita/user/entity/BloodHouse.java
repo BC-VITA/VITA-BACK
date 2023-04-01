@@ -37,19 +37,6 @@ public class BloodHouse {
 
     private String date;
 
-//
-//    @ManyToOne
-//    //전혈
-//    private BloodHouseReservation wholeBlood;
-//
-//    @ManyToOne
-//    //혈장
-//    private BloodHouseReservation plasma;
-//
-//    @ManyToOne
-//    //혈소판
-//    private BloodHouseReservation platelet;
-
 
     //회의 때문에 임시로 만듦 -> 하고나서 외래키로 수정
     private String wholeBlood;

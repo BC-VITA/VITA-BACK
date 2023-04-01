@@ -47,16 +47,16 @@ public class BloodHouseController {
 
 
     //헌혈의 집 등록 api
-    @PostMapping("/house/register")
-    public String bloodHouseRegister(HttpSession session, @RequestBody BloodHouseRegisterRequestDto bloodHouseRegisterRequestDto) {
-        return bloodHouseService.bloodHouseRegister(session, bloodHouseRegisterRequestDto);
-    }
+//    @PostMapping("/house/register")
+//    public String bloodHouseRegister(HttpSession session, @RequestBody BloodHouseRegisterRequestDto bloodHouseRegisterRequestDto) {
+//        return bloodHouseService.bloodHouseRegister(session, bloodHouseRegisterRequestDto);
+//    }
 
     //헌혈의 집 등록 list api
-    @GetMapping("/house/register/list")
-    public List<BloodHouseRegisterResponse> bloodHouseRegisterResponseList() {
-        return bloodHouseService.registerResponseList();
-    }
+//    @GetMapping("/house/register/list")
+//    public List<BloodHouseRegisterResponse> bloodHouseRegisterResponseList() {
+//        return bloodHouseService.registerResponseList();
+//    }
 
     //헌혈 버스 찾기 list 출력 api
     @GetMapping("/bus/list")
