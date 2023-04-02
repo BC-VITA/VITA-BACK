@@ -24,14 +24,14 @@ public class BloodHouseReservation {
     @ManyToOne
     private User user;
 
-    //전혈
-    private String wholeBlood;
-
-    //혈장
-    private String plasma;
-
-    //혈소판
-    private String platelet;
+//    //전혈
+//    private String wholeBlood;
+//
+//    //혈장
+//    private String plasma;
+//
+//    //혈소판
+//    private String platelet;
 
     //시간대
     private String time;

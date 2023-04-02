@@ -19,12 +19,12 @@ public class BloodHouseReservationResponse {
     //헌혈 종류
 //    private String bloodType;
 
-    //전혈
-    private String wholeBlood;
-
-    //혈장
-    private String plasma;
-
-    //혈소판
-    private String platelet;
+//    //전혈
+//    private String wholeBlood;
+//
+//    //혈장
+//    private String plasma;
+//
+//    //혈소판
+//    private String platelet;
 }
