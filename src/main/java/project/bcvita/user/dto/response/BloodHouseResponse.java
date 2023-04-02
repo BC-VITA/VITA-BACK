@@ -29,13 +29,13 @@ public class BloodHouseResponse {
     private String restTime;
 
 
-    //전혈
-    private String wholeBlood;
-
-    //혈장
-    private String plasma;
-
-    //혈소판
-    private String platelet;
+//    //전혈
+//    private String wholeBlood;
+//
+//    //혈장
+//    private String plasma;
+//
+//    //혈소판
+//    private String platelet;
 
 }

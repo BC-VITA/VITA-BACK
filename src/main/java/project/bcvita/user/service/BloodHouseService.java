@@ -25,6 +25,7 @@ public class BloodHouseService {
 
     private final BloodHouseRegisterRepository bloodHouseRegisterRepository;
 
+    //헌혈의집 list 출력
 //    public List<BloodHouseResponse> bloodHouseResponseList() {
 //        List<BloodHouse> bloodHouses = bloodHouseRepository.findAll();
 //        List<BloodHouseResponse>  bloodHouseResponse= new ArrayList<>();
@@ -36,25 +37,8 @@ public class BloodHouseService {
 //    }
 
 
-    //헌혈의 집 예약 부분 구현
-//    @Transactional
-//    public String bloodHouseReservation(HttpSession session, BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
-//        String userLoginId = (String) session.getAttribute("user");
-//        User byUserID = userRepository.findByUserID(userLoginId);
-//        BloodHouseReservation bloodHouseReservation = new BloodHouseReservation();
-//        BloodHouse bloodHouse = bloodHouseRepository.findByCenterName(bloodHouseReservationRequestDto.getBloodHouseName()).get();
-//        bloodHouseReservation.setBloodHouse(bloodHouse);
-//        bloodHouseReservation.setReservationDate(bloodHouseReservationRequestDto.getDate());
-//        bloodHouseReservation.setTime(bloodHouseReservationRequestDto.getTime());
-//        bloodHouseReservation.setWholeBlood(bloodHouseReservationRequestDto.getWholeBlood());
-//        bloodHouseReservation.setPlasma(bloodHouseReservationRequestDto.getPlasma());
-//        bloodHouseReservation.setPlatelet(bloodHouseReservationRequestDto.getPlatelet());
-//        bloodHouseReservation.setUser(byUserID);
-//        BloodHouseReservation reservation = bloodHouseReservationRepository.save(bloodHouseReservation);
-//        return "예약완료";
-//    }
-//
-//
+
+    //헌혈의집 예약 list 출력
 //    public List<BloodHouseReservationResponse> reservationResponses() {
 //        List<BloodHouseReservation> bloodHouseReservations = bloodHouseReservationRepository.findAll();
 //        List<BloodHouseReservationResponse> bloodHouseReservationResponses = new ArrayList<>();
@@ -172,7 +156,7 @@ public class BloodHouseService {
         return "헌혈의 집 등록 완료";
     }
 
-    //헌혈의 집 등록 list 출력 api
+    //헌혈의 집 등록 list 출력 api -> 그냥 등록되는 list 보기 위한 것
     @Transactional(readOnly = true)
     public List<BloodHouseRegisterResponse> registerResponseList() {
         List<BloodHouseRegister> bloodHouseRegisterList = bloodHouseRegisterRepository.findAll();
@@ -182,4 +166,47 @@ public class BloodHouseService {
         }
         return bloodHouseRegisterResponses;
     }
+
+    //헌혈의 집 예약 api 구현
+    @Transactional
+    public String bloodHouseReservation(HttpSession session, BloodHouseReservationRequestDto bloodHouseReservationRequestDto){
+        String userLoginId = (String) session.getAttribute("user");
+        User byUserID = userRepository.findByUserID(userLoginId);
+        BloodHouseReservation bloodHouseReservation = new BloodHouseReservation();
+        BloodHouse bloodHouse = bloodHouseRepository.findByCenterName(bloodHouseReservationRequestDto.getBloodHouseName());
+        bloodHouseReservation.setBloodHouse(bloodHouse);
+        bloodHouseReservation.setWholeBlood(bloodHouseReservation.getWholeBlood());
+        bloodHouseReservation.setPlasma(bloodHouseReservation.getPlasma());
+        bloodHouseReservation.setPlatelet(bloodHouseReservation.getPlatelet());
+        bloodHouseReservation.setTime(bloodHouseReservation.getTime());
+        bloodHouseReservation.setLocalDateTime(bloodHouseReservation.getLocalDateTime());
+        bloodHouseReservation.setUser(byUserID);
+        BloodHouseReservation reservation = bloodHouseReservationRepository.save(bloodHouseReservation);
+        return "예약완료";
+    }
+
+    //헌혈의집 등록 list(헌혈 종류 포함 -> 사용자에게 보여지는 예약 ui) 출력
+//    public List<BloodHouseReservationResponse> registerReservationResponse() {
+//        List<BloodHouseRegister> bloodHouseRegisterList = bloodHouseRegisterRepository.findAll();
+//        List<BloodHouseReservationResponse> bloodHouseReservationResponses = new ArrayList<>();
+//        for (B)
+//    }
+
+
+
+    //헌혈의집 예약 list 출력
+//    public List<BloodHouseReservationResponse> reservationResponses() {
+//        List<BloodHouseReservation> bloodHouseReservations = bloodHouseReservationRepository.findAll();
+//        List<BloodHouseReservationResponse> bloodHouseReservationResponses = new ArrayList<>();
+//        for (BloodHouseReservation bloodHouseReservation : bloodHouseReservations) {
+//            BloodHouse bloodHouse = bloodHouseRepository.findByCenterName(bloodHouseReservation.getBloodHouse().getCenterName()).get();
+//            if(bloodHouse == null) {
+//                throw new IllegalArgumentException("BloodHouse 값이 null");
+//            }
+//            bloodHouseReservationResponses.add(new BloodHouseReservationResponse(bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getBloodHouse().getDate(), bloodHouseReservation.getTime(), bloodHouseReservation.getWholeBlood(), bloodHouseReservation.getPlasma(), bloodHouseReservation.getPlatelet()));
+//
+//        }
+//        return bloodHouseReservationResponses;
+//    }
+
 }

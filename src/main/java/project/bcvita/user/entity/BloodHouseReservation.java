@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,20 +25,23 @@ public class BloodHouseReservation {
     @ManyToOne
     private User user;
 
-//    //전혈
-//    private String wholeBlood;
-//
-//    //혈장
-//    private String plasma;
-//
-//    //혈소판
-//    private String platelet;
+
+    //전혈
+    private String wholeBlood;
+
+    //혈장
+    private String plasma;
+
+    //혈소판
+    private String platelet;
 
     //시간대
     private String time;
 
-    //예약날짜
-    private String reservationDate;
 
+    //예약날짜->현재 실시간 날짜
+    private LocalDateTime localDateTime;
 
+    //날짜
+    private String date;
 }
