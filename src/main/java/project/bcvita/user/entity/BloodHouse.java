@@ -37,9 +37,9 @@ public class BloodHouse {
 
     private String date;
 
-
-    //회의 때문에 임시로 만듦 -> 하고나서 외래키로 수정
-    private String wholeBlood;
-    private String plasma;
-    private String platelet;
+//
+//    //회의 때문에 임시로 만듦 -> 하고나서 외래키로 수정
+//    private String wholeBlood;
+//    private String plasma;
+//    private String platelet;
 }

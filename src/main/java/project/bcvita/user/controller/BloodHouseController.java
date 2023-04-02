@@ -30,38 +30,39 @@ public class BloodHouseController {
 //    }
 
 
-    @PostMapping("/reservation")
-    public String reservation(HttpSession session, @RequestBody BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
-        return bloodHouseService.bloodHouseReservation(session,bloodHouseReservationRequestDto);
-    }
-
-    @GetMapping("/reservation/list")
-    public List<BloodHouseReservationResponse> bloodHouseReservationResponseList() {
-        return bloodHouseService.reservationResponses();
-    }
-
-    @GetMapping("/house/filter")
-    public List<BloodHouseResponse> reservationFilter(@RequestParam(required = false) String area, @RequestParam(required = false) String centerName, @RequestParam(required = false) String bloodHouseAddress, @RequestParam(required = false) String bloodHousePhoneNumber, @RequestParam(required = false) String wholeBlood, @RequestParam(required = false) String plasma, @RequestParam(required = false) String platelet) {
-        return bloodHouseService.reservationFilter(area,centerName, bloodHouseAddress, bloodHousePhoneNumber, wholeBlood, plasma, platelet);
-    }
-
-
-    //헌혈의 집 등록 api
-//    @PostMapping("/house/register")
-//    public String bloodHouseRegister(HttpSession session, @RequestBody BloodHouseRegisterRequestDto bloodHouseRegisterRequestDto) {
-//        return bloodHouseService.bloodHouseRegister(session, bloodHouseRegisterRequestDto);
+//    @PostMapping("/reservation")
+//    public String reservation(HttpSession session, @RequestBody BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
+//        return bloodHouseService.bloodHouseReservation(session,bloodHouseReservationRequestDto);
+//    }
+//
+//    @GetMapping("/reservation/list")
+//    public List<BloodHouseReservationResponse> bloodHouseReservationResponseList() {
+//        return bloodHouseService.reservationResponses();
 //    }
 
-    //헌혈의 집 등록 list api
-//    @GetMapping("/house/register/list")
-//    public List<BloodHouseRegisterResponse> bloodHouseRegisterResponseList() {
-//        return bloodHouseService.registerResponseList();
+//    @GetMapping("/house/filter")
+//    public List<BloodHouseResponse> reservationFilter(@RequestParam(required = false) String area, @RequestParam(required = false) String centerName, @RequestParam(required = false) String bloodHouseAddress, @RequestParam(required = false) String bloodHousePhoneNumber, @RequestParam(required = false) String wholeBlood, @RequestParam(required = false) String plasma, @RequestParam(required = false) String platelet) {
+//        return bloodHouseService.reservationFilter(area,centerName, bloodHouseAddress, bloodHousePhoneNumber, wholeBlood, plasma, platelet);
 //    }
+
 
     //헌혈 버스 찾기 list 출력 api
     @GetMapping("/bus/list")
     public List<BloodHouseBusResponse> bloodHouseBusResponseList() {
         return bloodHouseService.busSearchResponseList();
+    }
+
+
+    //헌혈의 집 등록 구현
+    @PostMapping("house/register")
+    public String bloodHouseRegister(HttpSession session, @RequestBody BloodHouseRegisterRequestDto bloodHouseRegisterRequestDto) {
+        return bloodHouseService.bloodHouseRegister(session, bloodHouseRegisterRequestDto);
+    }
+
+    //헌혈의 집 등록 list api 구현
+    @GetMapping("/house/register/list")
+    public List<BloodHouseRegisterResponse> bloodHouseRegisterResponses() {
+        return bloodHouseService.registerResponseList();
     }
 
 }
