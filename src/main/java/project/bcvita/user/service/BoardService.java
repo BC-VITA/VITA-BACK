@@ -154,13 +154,30 @@ public class BoardService {
     public String wishListInsert(WishListRequestDto wishListRequestDto) {
         User user = userRepository.findByUserID(wishListRequestDto.getLoginId());
 
-        if (wishListRequestDto.getBoardType().equals("user")) {
+        if (wishListRequestDto.getBoardType().equals("user")) { //user 타입
             DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(wishListRequestDto.getBoardId()).get();
             DesignatedBloodWishList designatedBloodWishList = new DesignatedBloodWishList();
             designatedBloodWishList.setUser(user);
             designatedBloodWishList.setDesignatedBloodWriteUser(designatedBloodWriteUser);
             designateBloodWishListRepository.save(designatedBloodWishList);
             return "찜하기 성공";
+        }
+        //병원에 대한 로직 작성
+        return "실패";
+    }
+
+
+    @Transactional
+    public String wishListDelete(WishListRequestDto wishListRequestDto) {
+        User user  = userRepository.findByUserID(wishListRequestDto.getLoginId());
+
+        if (wishListRequestDto.getBoardType().equals("user")){
+            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(wishListRequestDto.getBoardId()).get();
+            DesignatedBloodWishList designatedBloodWishList = new DesignatedBloodWishList();
+            designatedBloodWishList.setUser(user);
+            designatedBloodWishList.setDesignatedBloodWriteUser(designatedBloodWriteUser);
+            designateBloodWishListRepository.delete(designatedBloodWishList);
+            return "찜하기 취소";
         }
         //병원에 대한 로직 작성
         return "실패";

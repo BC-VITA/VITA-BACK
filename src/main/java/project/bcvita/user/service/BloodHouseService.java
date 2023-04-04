@@ -185,7 +185,7 @@ public class BloodHouseService {
         return "예약완료";
     }
 
-    //헌혈의집 등록 list(헌혈 종류 포함 -> 사용자에게 보여지는 예약 ui) 출력
+    //헌혈의집 등록 list(헌혈 종류 리스트 형식 -> 사용자에게 보여지는 예약 ui) 출력
 //    public List<BloodHouseReservationResponse> registerReservationResponse() {
 //        List<BloodHouseRegister> bloodHouseRegisterList = bloodHouseRegisterRepository.findAll();
 //        List<BloodHouseReservationResponse> bloodHouseReservationResponses = new ArrayList<>();
