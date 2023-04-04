@@ -8,7 +8,7 @@ import lombok.Getter;
 public class BloodHouseReservationResponse {
 
     //센터명
-    private String bloodHouseName;
+    private String centerName;
 
     //날짜
     private String date;
@@ -24,4 +24,5 @@ public class BloodHouseReservationResponse {
 
     //혈소판
     private String platelet;
+
 }

@@ -20,7 +20,11 @@ public class BloodHouseRegisterRequestDto {
     //혈장
     private String plasma;
 
+
     //혈소판
     private String platelet;
+
+    //센터명
+    private String centerName;
 
 }
