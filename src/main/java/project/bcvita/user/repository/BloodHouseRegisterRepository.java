@@ -13,4 +13,6 @@ import java.util.Optional;
 @Repository
 public interface BloodHouseRegisterRepository extends JpaRepository<BloodHouseRegister,Long> {
     List<BloodHouseRegister> findAllByBloodHouse(BloodHouse bloodHouse); //리스트로 찾아와짐
+
+
 }

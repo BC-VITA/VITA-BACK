@@ -1,13 +1,9 @@
 package project.bcvita.user.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import project.bcvita.user.dto.request.BloodHouseRegisterRequestDto;
-import project.bcvita.user.dto.request.BloodHouseRequestDto;
-import project.bcvita.user.dto.request.BloodHouseReservationRequestDto;
-import project.bcvita.user.dto.request.BoardCreateRequestDto;
+import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.*;
 import project.bcvita.user.service.BloodHouseService;
 
@@ -65,4 +61,10 @@ public class BloodHouseController {
         return bloodHouseService.registerResponseList();
     }
 
+
+    //헌혈의집 사용자에게 보여지는 헌혈 예약 페이지 ui 리스트
+    @GetMapping("/house/registerReservation/list")
+        public List<BloodHouseReservationResponse> bloodHouseReservationResponses(@RequestBody RequestCenterNameDto centerName) {
+            return bloodHouseService.registerReservationResponse(centerName);
+    }
 }
