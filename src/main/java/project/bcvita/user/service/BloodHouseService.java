@@ -26,15 +26,15 @@ public class BloodHouseService {
     private final BloodHouseRegisterRepository bloodHouseRegisterRepository;
 
     //헌혈의집 list 출력
-//    public List<BloodHouseResponse> bloodHouseResponseList() {
-//        List<BloodHouse> bloodHouses = bloodHouseRepository.findAll();
-//        List<BloodHouseResponse>  bloodHouseResponse= new ArrayList<>();
-//        for (BloodHouse bloodHouse : bloodHouses) {
-//            bloodHouseResponse.add(new BloodHouseResponse(bloodHouse.getId(), bloodHouse.getArea(), bloodHouse.getCenterName(), bloodHouse.getBloodHouseAddress(), bloodHouse.getBloodHousePhoneNumber(), bloodHouse.getLatitude(), bloodHouse.getLongitude(), bloodHouse.getWeekdayTime(), bloodHouse.getSaturdayTime(),bloodHouse.getSundayRestTime(),bloodHouse.getRestTime(), bloodHouse.getWholeBlood(), bloodHouse.getPlasma(), bloodHouse.getPlatelet()));
-//
-//        }
-//        return bloodHouseResponse;
-//    }
+    public List<BloodHouseResponse> bloodHouseResponseList() {
+        List<BloodHouse> bloodHouses = bloodHouseRepository.findAll();
+        List<BloodHouseResponse>  bloodHouseResponse= new ArrayList<>();
+        for (BloodHouse bloodHouse : bloodHouses) {
+            bloodHouseResponse.add(new BloodHouseResponse(bloodHouse.getId(), bloodHouse.getArea(), bloodHouse.getCenterName(), bloodHouse.getBloodHouseAddress(), bloodHouse.getBloodHousePhoneNumber(), bloodHouse.getLatitude(), bloodHouse.getLongitude(), bloodHouse.getWeekdayTime(), bloodHouse.getSaturdayTime(),bloodHouse.getSundayRestTime(),bloodHouse.getRestTime()));
+
+        }
+        return bloodHouseResponse;
+    }
 
 
 
