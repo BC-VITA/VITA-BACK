@@ -203,30 +203,4 @@ public class BloodHouseService {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-    //헌혈의집 예약 list 출력
-//    public List<BloodHouseReservationResponse> reservationResponses() {
-//        List<BloodHouseReservation> bloodHouseReservations = bloodHouseReservationRepository.findAll();
-//        List<BloodHouseReservationResponse> bloodHouseReservationResponses = new ArrayList<>();
-//        for (BloodHouseReservation bloodHouseReservation : bloodHouseReservations) {
-//            BloodHouse bloodHouse = bloodHouseRepository.findByCenterName(bloodHouseReservation.getBloodHouse().getCenterName()).get();
-//            if(bloodHouse == null) {
-//                throw new IllegalArgumentException("BloodHouse 값이 null");
-//            }
-//            bloodHouseReservationResponses.add(new BloodHouseReservationResponse(bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getBloodHouse().getDate(), bloodHouseReservation.getTime(), bloodHouseReservation.getWholeBlood(), bloodHouseReservation.getPlasma(), bloodHouseReservation.getPlatelet()));
-//
-//        }
-//        return bloodHouseReservationResponses;
-//    }
-
 }

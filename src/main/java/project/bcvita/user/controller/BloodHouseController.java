@@ -26,10 +26,10 @@ public class BloodHouseController {
     }
 
 
-//    @PostMapping("/reservation")
-//    public String reservation(HttpSession session, @RequestBody BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
-//        return bloodHouseService.bloodHouseReservation(session,bloodHouseReservationRequestDto);
-//    }
+    @PostMapping("/reservation")
+    public String reservation(HttpSession session, @RequestBody BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
+        return bloodHouseService.bloodHouseReservation(session,bloodHouseReservationRequestDto);
+    }
 //
 //    @GetMapping("/reservation/list")
 //    public List<BloodHouseReservationResponse> bloodHouseReservationResponseList() {

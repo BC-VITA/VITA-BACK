@@ -104,9 +104,9 @@ public class UserController {
     }
 
 
-    @PostMapping("/wishList")
-    public String wishList(@RequestBody WishListRequestDto wishListRequestDto) {
-        return boardService.wishListInsert(wishListRequestDto);
+    @PostMapping("/wishList/wishListUpdate")
+    public String wishListUpdate(@RequestBody WishListRequestDto wishListRequestDto) {
+        return boardService.wishListUpdate(wishListRequestDto);
     }
 
     @PostMapping("/wishList/delete")

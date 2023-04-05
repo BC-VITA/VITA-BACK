@@ -37,6 +37,8 @@ public class DesignatedBloodWriteUser {
 
     private boolean isReport;
 
+    private Integer wishListCount;
+
 
     public DesignatedBloodWriteUser(Long id, User userNumber, DesignatedBloodWrite designatedBloodWrite, String bloodPersonNumber, int bloodNumber, String patientName, String patientAge, String hospitalRoomNumber, boolean bloodMatchType, boolean isReview) {
         this.id = id;
