@@ -20,10 +20,10 @@ public class BloodHouseController {
     private final BloodHouseService bloodHouseService;
 
 
-//    @GetMapping("board/list")
-//    public List<BloodHouseResponse> bloodHouseResponseList() {
-//        return bloodHouseService.bloodHouseResponseList();
-//    }
+    @GetMapping("board/list")
+    public List<BloodHouseResponse> bloodHouseResponseList() {
+        return bloodHouseService.bloodHouseResponseList();
+    }
 
 
 //    @PostMapping("/reservation")
