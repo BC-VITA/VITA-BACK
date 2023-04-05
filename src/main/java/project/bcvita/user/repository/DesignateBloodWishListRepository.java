@@ -9,4 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface DesignateBloodWishListRepository extends JpaRepository<DesignatedBloodWishList, Long> {
+
 }

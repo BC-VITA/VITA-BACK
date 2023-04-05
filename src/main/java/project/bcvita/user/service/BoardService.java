@@ -150,21 +150,39 @@ public class BoardService {
     }
 
 
-    @Transactional
-    public String wishListInsert(WishListRequestDto wishListRequestDto) {
-        User user = userRepository.findByUserID(wishListRequestDto.getLoginId());
+//    @Transactional
+//    public String wishListInsert(WishListRequestDto wishListRequestDto) {
+//        User user = userRepository.findByUserID(wishListRequestDto.getLoginId());
+//
+//        if (wishListRequestDto.getBoardType().equals("user")) { //user 타입
+//            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(wishListRequestDto.getBoardId()).get();
+//            DesignatedBloodWishList designatedBloodWishList = new DesignatedBloodWishList();
+//            designatedBloodWishList.setUser(user);
+//            designatedBloodWishList.setDesignatedBloodWriteUser(designatedBloodWriteUser);
+//            designateBloodWishListRepository.save(designatedBloodWishList);
+//            return "찜하기 성공";
+//        }
+//        //병원에 대한 로직 작성
+//        return "실패";
+//    }
 
-        if (wishListRequestDto.getBoardType().equals("user")) { //user 타입
+
+    //좋아요 여부
+    @Transactional
+    public String wishListUpdate(WishListRequestDto wishListRequestDto) {
+        //User user = userRepository.findByUserID(wishListRequestDto.getLoginId());
+        User user = userRepository.findAllByUserID(wishListRequestDto.getLoginId());
+        if (wishListRequestDto.getBoardType().equals("user")) {
             DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(wishListRequestDto.getBoardId()).get();
-            DesignatedBloodWishList designatedBloodWishList = new DesignatedBloodWishList();
-            designatedBloodWishList.setUser(user);
-            designatedBloodWishList.setDesignatedBloodWriteUser(designatedBloodWriteUser);
-            designateBloodWishListRepository.save(designatedBloodWishList);
+            designatedBloodWriteUser.setUserNumber(user);
+            designatedBloodWriteUser.setWishListCount(wishListRequestDto.getWishListCount() + 1);
+            designatedBloodWriteUserRepository.save(designatedBloodWriteUser);
             return "찜하기 성공";
         }
         //병원에 대한 로직 작성
         return "실패";
     }
+
 
 
     @Transactional
