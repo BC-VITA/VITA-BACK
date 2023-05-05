@@ -2,10 +2,12 @@ package project.bcvita.user.service;
 
 import com.mysql.cj.xdevapi.Session;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
 import project.bcvita.user.dto.request.UserLoginRequestDto;
 import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
+import project.bcvita.user.dto.response.UserInfo;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.dto.response.UserLoginResponse;
 import project.bcvita.user.entity.User;
@@ -37,7 +39,7 @@ public class UserService {
                 //.userPoint(request.getUserPoint())
                 .sex(request.getSex())
                 .isRH(String.valueOf(request.getIsRH()))
-                .bloodHistory(Integer.valueOf(request.getBloodHistory()))
+                .bloodHistory(String.valueOf(request.getBloodHistory()))
                 .userPhoneNumber(request.getUserPhoneNumber())
                 .build());
         return "Success";
@@ -80,4 +82,15 @@ public class UserService {
         return "로그아웃 성공";
     }
 
+
+
+    public UserInfo userInfo(HttpSession session)  {
+        String userId = (String)session.getAttribute(("user"));
+        if(userId == null) {
+            throw new IllegalArgumentException("로그인한 사용자가 없음");
+        }
+        User user = userRepository.findByUserID(userId);
+        return new UserInfo(user.getUserID(),user.getUserName());
+
+    }
 }

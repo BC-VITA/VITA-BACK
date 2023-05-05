@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.BoardListResponse;
+import project.bcvita.user.dto.response.UserInfo;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.entity.DesignatedBloodWrite;
 import project.bcvita.user.entity.User;
@@ -112,6 +113,11 @@ public class UserController {
     @PostMapping("/wishList/delete")
     public String wishListDelete(@RequestBody WishListRequestDto wishListRequestDto) {
         return boardService.wishListDelete(wishListRequestDto);
+    }
+
+    @GetMapping("/check")
+    public UserInfo check(HttpSession httpSession) {
+        return userService.userInfo(httpSession);
     }
 }
 
