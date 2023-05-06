@@ -7,13 +7,13 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
+import project.bcvita.user.dto.request.RequestCenterNameDto;
 import project.bcvita.user.dto.request.UserLoginRequestDto;
 import project.bcvita.user.dto.request.WishListRequestDto;
+import project.bcvita.user.dto.response.BloodHouseReservationResponse;
 import project.bcvita.user.dto.response.BoardListResponse;
-import project.bcvita.user.entity.DesignatedBloodWishList;
-import project.bcvita.user.entity.DesignatedBloodWrite;
-import project.bcvita.user.entity.DesignatedBloodWriteUser;
-import project.bcvita.user.entity.User;
+import project.bcvita.user.dto.response.WishListResponse;
+import project.bcvita.user.entity.*;
 import project.bcvita.user.repository.DesignateBloodWishListRepository;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.repository.DesignatedBloodWriteUserRepository;
@@ -184,6 +184,24 @@ public class BoardService {
     }
 
 
+//    @Transactional
+//    public List<WishListResponse> wishListResponseList() {
+//
+//    }
+
+//    public List<BloodHouseReservationResponse> registerReservationResponse(RequestCenterNameDto centerName) {
+//        BloodHouse blood = bloodHouseRepository.findByCenterName(centerName.getCenterName());
+//        System.out.println("centerName = " + centerName.getCenterName());
+//        if (blood == null) {
+//            throw new IllegalArgumentException("BloodHouse 값이 null");
+//        }
+//        List<BloodHouseRegister> bloodHouseRegisterList = bloodHouseRegisterRepository.findAllByBloodHouse(blood);
+//        List<BloodHouseReservationResponse> bloodHouseReservationResponses = new ArrayList<>();
+//        for (BloodHouseRegister bloodHouseRegister : bloodHouseRegisterList) {
+//            bloodHouseReservationResponses.add(new BloodHouseReservationResponse((bloodHouseRegister.getBloodHouse().getCenterName()), bloodHouseRegister.getDate(),bloodHouseRegister.getTime(),bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(), bloodHouseRegister.getPlatelet()));
+//        }
+//        return bloodHouseReservationResponses;
+//    }
 
     @Transactional
     public String wishListDelete(WishListRequestDto wishListRequestDto) {

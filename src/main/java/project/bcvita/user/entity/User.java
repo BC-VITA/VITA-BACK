@@ -43,7 +43,7 @@ public class User {
     private String isRH;
 
    // @Column(nullable = false, length = 50, unique = true)
-    private Integer bloodHistory;
+    private String bloodHistory;
 
     private Integer userPoint;
 
@@ -53,7 +53,7 @@ public class User {
 
 
     public User(String userID, String userPW, String userName, String userBirth, String userPhoneNumber,
-                String userBlood, String sex, String isRH, Integer bloodHistory, Integer userPoint, String userEmail
+                String userBlood, String sex, String isRH, String bloodHistory, Integer userPoint, String userEmail
                 ,String confirmPassword) {
         this.userID = userID;
         this.userPW = userPW;
