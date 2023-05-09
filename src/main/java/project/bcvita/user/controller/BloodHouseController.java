@@ -64,7 +64,7 @@ public class BloodHouseController {
 
     //헌혈의집 사용자에게 보여지는 헌혈 예약 페이지 ui 리스트
     @GetMapping("/house/registerReservation/list")
-        public List<BloodHouseReservationResponse> bloodHouseReservationResponses(@RequestBody RequestCenterNameDto centerName) {
-            return bloodHouseService.registerReservationResponse(centerName);
+        public List<BloodHouseReservationResponse> bloodHouseReservationResponses(BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
+            return bloodHouseService.registerReservationResponse(bloodHouseReservationRequestDto);
     }
 }

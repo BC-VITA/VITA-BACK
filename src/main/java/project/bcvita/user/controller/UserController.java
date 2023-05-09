@@ -19,6 +19,7 @@ import project.bcvita.user.service.TestService;
 import project.bcvita.user.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -115,10 +116,14 @@ public class UserController {
         return boardService.wishListDelete(wishListRequestDto);
     }
 
-    @GetMapping("/check")
-    public UserInfo check(HttpSession httpSession) {
-        return userService.userInfo(httpSession);
-    }
+    /*@GetMapping("/check")
+    public UserInfo check(HttpSession session) {
+        if(session == null ){
+            throw new IllegalArgumentException("세션이 존재하지 않습니다.");
+        }
+        System.out.println(session.getId());
+        return userService.userInfo(session);
+    }*/
 }
 
 

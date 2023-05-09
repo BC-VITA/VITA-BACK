@@ -16,6 +16,7 @@ import project.bcvita.user.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
@@ -69,9 +70,10 @@ public class UserService {
         if (user == null) {
             throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
         } else {
-            session.setAttribute("user", user.getUserID());
+            session.setAttribute("loginId", user.getUserID());
+            System.out.println("ooo");
         }
-        System.out.println("user = " + user.getUserID());
+            System.out.println("user = " + user.getUserID());
         return "로그인 성공";
     }
 
@@ -84,13 +86,17 @@ public class UserService {
 
 
 
-    public UserInfo userInfo(HttpSession session)  {
-        String userId = (String)session.getAttribute(("user"));
-        if(userId == null) {
-            throw new IllegalArgumentException("로그인한 사용자가 없음");
-        }
+    /*public UserInfo userInfo(HttpSession session)  {
+        System.out.println("httpSession.getId() = " + session.getId());
+        String userId = (String)session.getAttribute("loginId");
+        System.out.println("userId = " + userId);
+            if (userId == null) {
+                throw new IllegalArgumentException("로그인한 사용자가 없음");
+            }
         User user = userRepository.findByUserID(userId);
         return new UserInfo(user.getUserID(),user.getUserName());
 
-    }
+    }*/
+
+
 }

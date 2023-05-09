@@ -65,8 +65,8 @@ public class BoardService {
         designatedBloodWriteUser.setDesignatedBloodWrite(bloodWrite);
         designatedBloodWriteUser.setUserNumber(user);
         designatedBloodWriteUserRepository.save(designatedBloodWriteUser);
-        log.info("user.getUserNAme() = {}", user.getUserName());
-        System.out.println("user.getUserName() = " + user.getUserName());
+        //log.info("user.getUserNAme() = {}", user.getUserName());
+        //System.out.println("user.getUserName() = " + user.getUserName());
         return "게시글 작성완료";
     }
 
@@ -218,4 +218,6 @@ public class BoardService {
         //병원에 대한 로직 작성
         return "실패";
     }
+
+
 }

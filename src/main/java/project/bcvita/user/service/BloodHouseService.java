@@ -28,14 +28,13 @@ public class BloodHouseService {
     //헌혈의집 list 출력
     public List<BloodHouseResponse> bloodHouseResponseList() {
         List<BloodHouse> bloodHouses = bloodHouseRepository.findAll();
-        List<BloodHouseResponse>  bloodHouseResponse= new ArrayList<>();
+        List<BloodHouseResponse> bloodHouseResponse = new ArrayList<>();
         for (BloodHouse bloodHouse : bloodHouses) {
-            bloodHouseResponse.add(new BloodHouseResponse(bloodHouse.getId(), bloodHouse.getArea(), bloodHouse.getCenterName(), bloodHouse.getBloodHouseAddress(), bloodHouse.getBloodHousePhoneNumber(), bloodHouse.getLatitude(), bloodHouse.getLongitude(), bloodHouse.getWeekdayTime(), bloodHouse.getSaturdayTime(),bloodHouse.getSundayRestTime(),bloodHouse.getRestTime()));
+            bloodHouseResponse.add(new BloodHouseResponse(bloodHouse.getId(), bloodHouse.getArea(), bloodHouse.getCenterName(), bloodHouse.getBloodHouseAddress(), bloodHouse.getBloodHousePhoneNumber(), bloodHouse.getLatitude(), bloodHouse.getLongitude(), bloodHouse.getWeekdayTime(), bloodHouse.getSaturdayTime(), bloodHouse.getSundayRestTime(), bloodHouse.getRestTime()));
 
         }
         return bloodHouseResponse;
     }
-
 
 
     //헌혈의집 예약 list 출력
@@ -131,8 +130,8 @@ public class BloodHouseService {
     public List<BloodHouseBusResponse> busSearchResponseList() {
         List<BloodHouseBus> bloodHouseBusList = bloodHouseBusRepository.findAll();
         List<BloodHouseBusResponse> bloodHouseBusResponses = new ArrayList<>();
-        for(BloodHouseBus bloodHouseBus : bloodHouseBusList) {
-            bloodHouseBusResponses.add(new BloodHouseBusResponse(bloodHouseBus.getId(),bloodHouseBus.getDate(), bloodHouseBus.getLatitude(), bloodHouseBus.getLongitude(), bloodHouseBus.getBusAddress(), bloodHouseBus.getPlace(), bloodHouseBus.getBusTime(), bloodHouseBus.getBusPhoneNumber(), bloodHouseBus.getBusPersonNumber()));
+        for (BloodHouseBus bloodHouseBus : bloodHouseBusList) {
+            bloodHouseBusResponses.add(new BloodHouseBusResponse(bloodHouseBus.getId(), bloodHouseBus.getDate(), bloodHouseBus.getLatitude(), bloodHouseBus.getLongitude(), bloodHouseBus.getBusAddress(), bloodHouseBus.getPlace(), bloodHouseBus.getBusTime(), bloodHouseBus.getBusPhoneNumber(), bloodHouseBus.getBusPersonNumber()));
         }
         return bloodHouseBusResponses;
     }
@@ -163,15 +162,15 @@ public class BloodHouseService {
     public List<BloodHouseRegisterResponse> registerResponseList() {
         List<BloodHouseRegister> bloodHouseRegisterList = bloodHouseRegisterRepository.findAll();
         List<BloodHouseRegisterResponse> bloodHouseRegisterResponses = new ArrayList<>();
-        for(BloodHouseRegister bloodHouseRegister : bloodHouseRegisterList) {
-            bloodHouseRegisterResponses.add(new BloodHouseRegisterResponse(bloodHouseRegister.getDate(), bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(),bloodHouseRegister.getPlatelet(),bloodHouseRegister.getTime()));
+        for (BloodHouseRegister bloodHouseRegister : bloodHouseRegisterList) {
+            bloodHouseRegisterResponses.add(new BloodHouseRegisterResponse(bloodHouseRegister.getDate(), bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(), bloodHouseRegister.getPlatelet(), bloodHouseRegister.getTime()));
         }
         return bloodHouseRegisterResponses;
     }
 
     //헌혈의 집 예약 api 구현
     @Transactional
-    public String bloodHouseReservation(HttpSession session, BloodHouseReservationRequestDto bloodHouseReservationRequestDto){
+    public String bloodHouseReservation(HttpSession session, BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
         String userLoginId = (String) session.getAttribute("user");
         User byUserID = userRepository.findByUserID(userLoginId);
         BloodHouseReservation bloodHouseReservation = new BloodHouseReservation();
@@ -188,7 +187,7 @@ public class BloodHouseService {
     }
 
     //헌혈의집 등록 list(헌혈 종류 리스트 형식 -> 사용자에게 보여지는 예약 ui) 출력
-    public List<BloodHouseReservationResponse> registerReservationResponse(RequestCenterNameDto centerName) {
+    /*public List<BloodHouseReservationResponse> registerReservationResponse(RequestCenterNameDto centerName) {
         BloodHouse blood = bloodHouseRepository.findByCenterName(centerName.getCenterName());
         System.out.println("centerName = " + centerName.getCenterName());
         if (blood == null) {
@@ -200,7 +199,23 @@ public class BloodHouseService {
             bloodHouseReservationResponses.add(new BloodHouseReservationResponse((bloodHouseRegister.getBloodHouse().getCenterName()), bloodHouseRegister.getDate(),bloodHouseRegister.getTime(),bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(), bloodHouseRegister.getPlatelet()));
         }
         return bloodHouseReservationResponses;
+    }*/
+
+
+    public List<BloodHouseReservationResponse> registerReservationResponse(BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
+        List<BloodHouseRegister> bloodHouseRegisterList = bloodHouseRegisterRepository.findAll();
+        List<BloodHouseReservationResponse> bloodHouseReservationResponses = new ArrayList<>();
+        for (BloodHouseRegister bloodHouseRegister : bloodHouseRegisterList) {
+            if (bloodHouseRegister.getBloodHouse() == null) {
+                continue;
+            }
+                bloodHouseReservationResponses.add(new BloodHouseReservationResponse((bloodHouseRegister.getBloodHouse().getCenterName()),
+                        bloodHouseRegister.getDate(), bloodHouseRegister.getTime(), bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(),
+                        bloodHouseRegister.getPlatelet(), bloodHouseReservationRequestDto.getLocalDateTime()));
+            }
+            return bloodHouseReservationResponses;
+        }
     }
+//헌혈 후기 게시물 작성 api
 
 
-}
