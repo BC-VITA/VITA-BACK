@@ -49,6 +49,9 @@ public class User {
 
     private String confirmPassword;
 
+    //사용자 관리자 권한 여부
+    private boolean isAdmin;
+
     
 
 
