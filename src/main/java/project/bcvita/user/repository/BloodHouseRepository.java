@@ -15,8 +15,12 @@ public interface BloodHouseRepository extends JpaRepository<BloodHouse, Long> {
     Optional<BloodHouse> findBloodHouseById(Long id);
 
     BloodHouse findByCenterName(String centerName);
+
+
+    BloodHouse findByRestTime(String time);
     Optional<BloodHouse> findByArea(String area);
     Optional<BloodHouse> findByBloodHouseAddress(String bloodHouseAddress);
+
 //
 //    //1가지 경우의 수
 //    //헌혈의집 지역

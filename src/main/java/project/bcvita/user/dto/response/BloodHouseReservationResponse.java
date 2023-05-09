@@ -3,6 +3,8 @@ package project.bcvita.user.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Getter
 public class BloodHouseReservationResponse {
@@ -24,5 +26,7 @@ public class BloodHouseReservationResponse {
 
     //혈소판
     private String platelet;
+
+    private LocalDateTime localDateTime;
 
 }
