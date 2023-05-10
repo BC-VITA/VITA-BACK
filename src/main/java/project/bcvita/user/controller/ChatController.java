@@ -1,4 +1,4 @@
-package project.bcvita.user.controller;
+/*package project.bcvita.user.controller;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,14 +10,14 @@ import project.bcvita.user.dto.request.ChatRoomRequestDto;
 import project.bcvita.user.dto.response.ChatRoomResponse;
 import project.bcvita.user.service.ChatService;
 
-import java.util.List;
+import java.util.List;*/
 
 //@RequiredArgsConstructor
 //@RestController
 //@RequestMapping("/chat")
 //public class ChatController {
 
-    //private final SimpMessageSendingOperations simpMessageSendingOperations;
+//private final SimpMessageSendingOperations simpMessageSendingOperations;
 //    private final ChatService chatService;
 //
 //    @PostMapping

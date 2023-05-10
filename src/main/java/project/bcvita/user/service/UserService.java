@@ -95,7 +95,6 @@ public class UserService {
             }
         User user = userRepository.findByUserID(userId);
         return new UserInfo(user.getUserID(),user.getUserName());
-
     }*/
 
 

@@ -3,8 +3,12 @@ package project.bcvita.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.bcvita.user.dto.request.*;
-import project.bcvita.user.dto.response.*;
+import project.bcvita.user.dto.request.BloodHouseRegisterRequestDto;
+import project.bcvita.user.dto.request.BloodHouseReservationRequestDto;
+import project.bcvita.user.dto.response.BloodHouseBusResponse;
+import project.bcvita.user.dto.response.BloodHouseRegisterResponse;
+import project.bcvita.user.dto.response.BloodHouseReservationResponse;
+import project.bcvita.user.dto.response.BloodHouseResponse;
 import project.bcvita.user.entity.*;
 import project.bcvita.user.repository.*;
 
@@ -174,14 +178,26 @@ public class BloodHouseService {
         String userLoginId = (String) session.getAttribute("user");
         User byUserID = userRepository.findByUserID(userLoginId);
         BloodHouseReservation bloodHouseReservation = new BloodHouseReservation();
+        //BloodHouseReservationRequestDto bloodHouseReservation = new BloodHouseReservationRequestDto();
         BloodHouse bloodHouse = bloodHouseRepository.findByCenterName(bloodHouseReservationRequestDto.getBloodHouseName());
+
         bloodHouseReservation.setBloodHouse(bloodHouse);
-        bloodHouseReservation.setWholeBlood(bloodHouseReservation.getWholeBlood());
-        bloodHouseReservation.setPlasma(bloodHouseReservation.getPlasma());
-        bloodHouseReservation.setPlatelet(bloodHouseReservation.getPlatelet());
-        bloodHouseReservation.setTime(bloodHouseReservation.getTime());
-        bloodHouseReservation.setLocalDateTime(bloodHouseReservation.getLocalDateTime());
+        bloodHouseReservation.setWholeBlood(bloodHouseReservationRequestDto.getWholeBlood());
+        bloodHouseReservation.setPlasma(bloodHouseReservationRequestDto.getPlasma());
+        bloodHouseReservation.setPlatelet(bloodHouseReservationRequestDto.getPlatelet());
+        bloodHouseReservation.setTime(bloodHouseReservationRequestDto.getTime());
+        bloodHouseReservation.setLocalDateTime(bloodHouseReservationRequestDto.getLocalDateTime());
+        bloodHouseReservation.setDate(bloodHouseReservationRequestDto.getDate());
         bloodHouseReservation.setUser(byUserID);
+
+        System.out.println(bloodHouseReservation.getWholeBlood());
+        System.out.println(bloodHouseReservation.getPlasma());
+        System.out.println(bloodHouseReservation.getPlatelet());
+        System.out.println(bloodHouseReservation.getDate());
+        System.out.println(bloodHouseReservation.getTime());
+        System.out.println(bloodHouseReservation.getBloodHouse());
+        System.out.println(bloodHouseReservation.getUser());
+        System.out.println(bloodHouseReservation.getLocalDateTime());
         bloodHouseReservationRepository.save(bloodHouseReservation);
         return "예약완료";
     }
@@ -209,13 +225,13 @@ public class BloodHouseService {
             if (bloodHouseRegister.getBloodHouse() == null) {
                 continue;
             }
-                bloodHouseReservationResponses.add(new BloodHouseReservationResponse((bloodHouseRegister.getBloodHouse().getCenterName()),
-                        bloodHouseRegister.getDate(), bloodHouseRegister.getTime(), bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(),
-                        bloodHouseRegister.getPlatelet(), bloodHouseReservationRequestDto.getLocalDateTime()));
-            }
-            return bloodHouseReservationResponses;
+            bloodHouseReservationResponses.add(new BloodHouseReservationResponse((bloodHouseRegister.getBloodHouse().getCenterName()),
+                    bloodHouseRegister.getDate(), bloodHouseRegister.getTime(), bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(),
+                    bloodHouseRegister.getPlatelet(), bloodHouseReservationRequestDto.getLocalDateTime()));
         }
+        return bloodHouseReservationResponses;
     }
+}
 //헌혈 후기 게시물 작성 api
 
 

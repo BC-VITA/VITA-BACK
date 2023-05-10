@@ -27,4 +27,6 @@ public class Hospital {
     private String hospitalPhoneNumber;
 
     private String hospitalAddress;
+
+    private boolean isAdmin;
 }

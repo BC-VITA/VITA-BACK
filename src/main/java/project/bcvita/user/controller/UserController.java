@@ -2,24 +2,17 @@ package project.bcvita.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.BoardListResponse;
-import project.bcvita.user.dto.response.UserInfo;
 import project.bcvita.user.dto.response.UserListResponse;
-import project.bcvita.user.entity.DesignatedBloodWrite;
-import project.bcvita.user.entity.User;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.service.BoardService;
-import project.bcvita.user.service.LoginService;
 import project.bcvita.user.service.TestService;
 import project.bcvita.user.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -41,7 +34,7 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity join(@Valid @RequestBody UserRequest request) {
 
-        if(userService.join(request).equals("Success")){
+        if (userService.join(request).equals("Success")) {
             return new ResponseEntity(HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -59,7 +52,7 @@ public class UserController {
     }*/
 
     @PostMapping("/password-check")
-    public String passwordCheck(@Valid @RequestBody UserPasswordCheck userPasswordCheck){
+    public String passwordCheck(@Valid @RequestBody UserPasswordCheck userPasswordCheck) {
         return userService.passwordCheck(userPasswordCheck);
     }
 
@@ -70,7 +63,7 @@ public class UserController {
 
     @PostMapping("/board")
     public String create(HttpSession session, @RequestBody BoardCreateRequestDto requestDto) {
-        return boardService.create(session,requestDto);
+        return boardService.create(session, requestDto);
     }
 
 //    @PostMapping("/board/{user-id}")
@@ -91,13 +84,13 @@ public class UserController {
 //    }
 
     @GetMapping("/board/filter")
-    public List<BoardListResponse> boardFilter(@RequestParam(required = false) String patientIsRH, @RequestParam(required = false) String requestHospitalAddress, @RequestParam(required = false) String title, @RequestParam(required = false) String content, @RequestParam(required = false)String patientBlood, @RequestParam(required = false)String hospitalName, @RequestParam(required = false)String bloodType) {
-        return boardService.filter(patientIsRH,requestHospitalAddress,title,content,patientBlood,hospitalName,bloodType);
+    public List<BoardListResponse> boardFilter(@RequestParam(required = false) String patientIsRH, @RequestParam(required = false) String requestHospitalAddress, @RequestParam(required = false) String title, @RequestParam(required = false) String content, @RequestParam(required = false) String patientBlood, @RequestParam(required = false) String hospitalName, @RequestParam(required = false) String bloodType) {
+        return boardService.filter(patientIsRH, requestHospitalAddress, title, content, patientBlood, hospitalName, bloodType);
     }
 
     @PostMapping("/login")
     public String loginPost(@RequestBody UserLoginRequestDto userLoginRequestDto, HttpSession session) {
-        return userService.login(userLoginRequestDto,session);
+        return userService.login(userLoginRequestDto, session);
     }
 
     @GetMapping("/logout")
