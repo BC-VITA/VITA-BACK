@@ -1,6 +1,5 @@
 package project.bcvita.user.entity;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,7 +36,6 @@ public class BloodHouseReservation {
 
     //시간대
     private String time;
-
 
     //예약날짜->현재 실시간 날짜
     private LocalDateTime localDateTime;

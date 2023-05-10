@@ -3,19 +3,21 @@ package project.bcvita.user.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import project.bcvita.user.dto.request.*;
-import project.bcvita.user.dto.response.*;
+import project.bcvita.user.dto.request.BloodHouseRegisterRequestDto;
+import project.bcvita.user.dto.request.BloodHouseReservationRequestDto;
+import project.bcvita.user.dto.response.BloodHouseBusResponse;
+import project.bcvita.user.dto.response.BloodHouseRegisterResponse;
+import project.bcvita.user.dto.response.BloodHouseReservationResponse;
+import project.bcvita.user.dto.response.BloodHouseResponse;
 import project.bcvita.user.service.BloodHouseService;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @Slf4j
 @RequestMapping("blood")
 @RequiredArgsConstructor
-@Valid
 public class BloodHouseController {
     private final BloodHouseService bloodHouseService;
 
@@ -28,7 +30,7 @@ public class BloodHouseController {
 
     @PostMapping("/reservation")
     public String reservation(HttpSession session, @RequestBody BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
-        return bloodHouseService.bloodHouseReservation(session,bloodHouseReservationRequestDto);
+        return bloodHouseService.bloodHouseReservation(session, bloodHouseReservationRequestDto);
     }
 //
 //    @GetMapping("/reservation/list")
@@ -64,7 +66,7 @@ public class BloodHouseController {
 
     //헌혈의집 사용자에게 보여지는 헌혈 예약 페이지 ui 리스트
     @GetMapping("/house/registerReservation/list")
-        public List<BloodHouseReservationResponse> bloodHouseReservationResponses(BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
-            return bloodHouseService.registerReservationResponse(bloodHouseReservationRequestDto);
+    public List<BloodHouseReservationResponse> bloodHouseReservationResponses(BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
+        return bloodHouseService.registerReservationResponse(bloodHouseReservationRequestDto);
     }
 }
