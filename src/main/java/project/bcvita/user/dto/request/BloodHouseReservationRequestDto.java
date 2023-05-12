@@ -12,12 +12,16 @@ import java.time.LocalDateTime;
 public class BloodHouseReservationRequestDto {
     //예약 날짜
     private LocalDateTime localDateTime;
-    //전혈
+
+    /*//전혈
     private String wholeBlood;
     //혈장
     private String plasma;
     //혈소판
-    private String platelet;
+    private String platelet;*/
+
+    private String isBloodType;
+
     //센터명
     private String bloodHouseName;
     //날짜
@@ -25,10 +29,8 @@ public class BloodHouseReservationRequestDto {
     //시간
     private String time;
 
-    public BloodHouseReservationRequestDto(String wholeBlood, String plasma, String platelet, String bloodHouseName, String date, String time) {
-        this.wholeBlood = wholeBlood;
-        this.plasma = plasma;
-        this.platelet = platelet;
+    public BloodHouseReservationRequestDto(String bloodHouseName, String date, String time, String isBloodType) {
+        this.isBloodType = isBloodType;
         this.bloodHouseName = bloodHouseName;
         this.date = date;
         this.time = time;

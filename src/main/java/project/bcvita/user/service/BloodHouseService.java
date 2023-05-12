@@ -13,6 +13,7 @@ import project.bcvita.user.entity.*;
 import project.bcvita.user.repository.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -182,17 +183,21 @@ public class BloodHouseService {
         BloodHouse bloodHouse = bloodHouseRepository.findByCenterName(bloodHouseReservationRequestDto.getBloodHouseName());
 
         bloodHouseReservation.setBloodHouse(bloodHouse);
-        bloodHouseReservation.setWholeBlood(bloodHouseReservationRequestDto.getWholeBlood());
-        bloodHouseReservation.setPlasma(bloodHouseReservationRequestDto.getPlasma());
-        bloodHouseReservation.setPlatelet(bloodHouseReservationRequestDto.getPlatelet());
+        //bloodHouseReservation.setWholeBlood(bloodHouseReservationRequestDto.getWholeBlood());
+        //bloodHouseReservation.setPlasma(bloodHouseReservationRequestDto.getPlasma());
+        //bloodHouseReservation.setPlatelet(bloodHouseReservationRequestDto.getPlatelet());
+        bloodHouseReservation.setIsBloodType(bloodHouseReservationRequestDto.getIsBloodType());
         bloodHouseReservation.setTime(bloodHouseReservationRequestDto.getTime());
         bloodHouseReservation.setLocalDateTime(bloodHouseReservationRequestDto.getLocalDateTime());
+        bloodHouseReservation.setLocalDateTime(LocalDateTime.now());
         bloodHouseReservation.setDate(bloodHouseReservationRequestDto.getDate());
         bloodHouseReservation.setUser(byUserID);
 
-        System.out.println(bloodHouseReservation.getWholeBlood());
-        System.out.println(bloodHouseReservation.getPlasma());
-        System.out.println(bloodHouseReservation.getPlatelet());
+        //System.out.println(bloodHouseReservation.getWholeBlood());
+        //System.out.println(bloodHouseReservation.getPlasma());
+        //System.out.println(bloodHouseReservation.getPlatelet());
+
+        System.out.println(bloodHouseReservation.getIsBloodType());
         System.out.println(bloodHouseReservation.getDate());
         System.out.println(bloodHouseReservation.getTime());
         System.out.println(bloodHouseReservation.getBloodHouse());
@@ -226,8 +231,7 @@ public class BloodHouseService {
                 continue;
             }
             bloodHouseReservationResponses.add(new BloodHouseReservationResponse((bloodHouseRegister.getBloodHouse().getCenterName()),
-                    bloodHouseRegister.getDate(), bloodHouseRegister.getTime(), bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(),
-                    bloodHouseRegister.getPlatelet(), bloodHouseReservationRequestDto.getLocalDateTime()));
+                    bloodHouseRegister.getDate(), bloodHouseRegister.getTime(), bloodHouseReservationRequestDto.getIsBloodType(), bloodHouseReservationRequestDto.getLocalDateTime()));
         }
         return bloodHouseReservationResponses;
     }
