@@ -4,9 +4,12 @@ import com.mysql.cj.xdevapi.Session;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import project.bcvita.user.dto.request.MyPageRequest;
 import project.bcvita.user.dto.request.UserLoginRequestDto;
 import project.bcvita.user.dto.request.UserPasswordCheck;
 import project.bcvita.user.dto.request.UserRequest;
+import project.bcvita.user.dto.response.MyPageResponse;
 import project.bcvita.user.dto.response.UserInfo;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.dto.response.UserLoginResponse;
@@ -57,6 +60,7 @@ public class UserService {
         return userListResponse;
     }
 
+
     public String passwordCheck(UserPasswordCheck userPasswordCheck) {
         if (!userPasswordCheck.getPassword().equals(userPasswordCheck.getConfirmPassword())) {
             return "비밀번호가 일치하지 않습니다";
@@ -96,6 +100,50 @@ public class UserService {
         User user = userRepository.findByUserID(userId);
         return new UserInfo(user.getUserID(),user.getUserName());
     }*/
+
+    public MyPageResponse myPage(HttpSession session) {
+        String loginId = (String) session.getAttribute("loginId");
+        if(loginId == null) {
+            return null;
+        }
+        User user = userRepository.findByUserID(loginId);
+        return new MyPageResponse(user.getUserID(),user.getUserName(),user.getUserPhoneNumber(),user.getUserEmail(),
+                user.getUserBirth(), user.getUserBlood(), user.getSex(),user.getIsRH(),user.getBloodHistory(),user.getUserPoint());
+    }
+    @Transactional
+    public MyPageResponse updateMyPage(HttpSession session, MyPageRequest request) {
+        String loginId = (String) session.getAttribute("loginId");
+
+        if(loginId == null) {
+            return null;
+        }
+        User user = userRepository.findByUserID(loginId);
+        String password = user.getUserPW();
+        if((request.getPassword() != null && request.getConfirmPassword() == null) || (request.getPassword() == null && request.getConfirmPassword() != null)) {
+            throw new RuntimeException("비밀번호와 비밀번호 재확인이 일치하지 않습니다.");
+        }
+        if(request.getPassword() != null && request.getConfirmPassword() != null){
+            if (!request.getPassword().equals(request.getConfirmPassword())) {
+                throw new RuntimeException("비밀번호와 비밀번호 재확인이 일치하지 않습니다.");
+            }else {
+                password = request.getPassword();
+            }
+        }
+
+        user.setUserID(request.getUserId());
+                user.setUserName(request.getUserName());
+                user.setUserBirth(request.getUserBirth());
+                user.setUserPW(password);
+                user.setUserEmail(request.getUserEmail());
+                user.setUserBlood(request.getUserBlood());
+                user.setSex(request.getSex());
+                user.setIsRH(request.getIsRH());
+                user.setBloodHistory(request.getBloodHistory());
+                user.setUserPhoneNumber(request.getUserPhoneNumber());
+        return new MyPageResponse(user.getUserID(),user.getUserName(),user.getUserPhoneNumber(),user.getUserEmail(),
+                user.getUserBirth(), user.getUserBlood(), user.getSex(),user.getIsRH(),user.getBloodHistory(),user.getUserPoint());
+
+    }
 
 
 }
