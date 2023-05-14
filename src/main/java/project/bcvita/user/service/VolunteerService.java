@@ -39,6 +39,21 @@ public class VolunteerService {
     @Transactional
     public String volunteerCreate(HttpSession session, VolunteerRequestDto requestDto){
         Volunteer volunteer = (Volunteer) session.getAttribute("volunteer");
+
+        if(requestDto.getVolunteerType().equals("time")){
+
+        }
+
+            /*
+            if (wishListRequestDto.getBoardType().equals("user")) {
+            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(wishListRequestDto.getBoardId()).get();
+            designatedBloodWriteUser.setUserNumber(user);
+            designatedBloodWriteUser.setWishListCount(wishListRequestDto.getWishListCount() + 1);
+            designatedBloodWriteUserRepository.save(designatedBloodWriteUser);
+            return "찜하기 성공";
+        }
+             */
+
         VolunteerRegister volunteerRegister = new VolunteerRegister();
         volunteerRegister.setVolunteerStartDate(requestDto.getVolunteerStartDate());
         volunteerRegister.setVolunteerEndDate(requestDto.getVolunteerEndDate());
