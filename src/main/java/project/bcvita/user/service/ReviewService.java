@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.user.dto.request.ReviewRegisterRequestDto;
+import project.bcvita.user.dto.response.ReviewRegisterResponse;
 import project.bcvita.user.entity.ReviewRegister;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.entity.VolunteerRegister;
@@ -11,6 +12,8 @@ import project.bcvita.user.repository.ReviewRegisterRepository;
 import project.bcvita.user.repository.UserRepository;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -43,4 +46,16 @@ public class ReviewService {
         }
         return "게시글 작성완료";
     }
+
+    @Transactional
+    public List<ReviewRegisterResponse> boardListResponseList(String reviewType) {
+        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByReviewType(reviewType);
+        List<ReviewRegisterResponse> reviewRegisterResponses = new ArrayList<>();
+        for(ReviewRegister reviewRegister : reviewRegisters) {
+            reviewRegisterResponses.add(new ReviewRegisterResponse(reviewRegister.getReviewType(), reviewRegister.getImg(), reviewRegister.getContent(), reviewRegister.getTitle()));
+        }
+        return reviewRegisterResponses;
+    }
+
+
 }
