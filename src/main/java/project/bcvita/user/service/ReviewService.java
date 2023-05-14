@@ -3,11 +3,14 @@ package project.bcvita.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.bcvita.user.dto.request.ReviewCommentsRequestDto;
 import project.bcvita.user.dto.request.ReviewRegisterRequestDto;
 import project.bcvita.user.dto.response.ReviewRegisterResponse;
+import project.bcvita.user.entity.ReviewComments;
 import project.bcvita.user.entity.ReviewRegister;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.entity.VolunteerRegister;
+import project.bcvita.user.repository.ReviewCommentsRepository;
 import project.bcvita.user.repository.ReviewRegisterRepository;
 import project.bcvita.user.repository.UserRepository;
 
@@ -22,6 +25,8 @@ public class ReviewService {
 
     private final ReviewRegisterRepository reviewRegisterRepository;
     private final UserRepository userRepository;
+
+    private final ReviewCommentsRepository reviewCommentsRepository;
 
     @Transactional
     public String reviewRegister(HttpSession session, ReviewRegisterRequestDto requestDto) {
@@ -57,5 +62,14 @@ public class ReviewService {
         return reviewRegisterResponses;
     }
 
+
+    /*@Transactional
+    public String reviewComments(HttpSession session, ReviewCommentsRequestDto requestDto) {
+        String loginId = (String) session.getAttribute("loginId");
+        User byUserID = userRepository.findByUserID(loginId);
+        ReviewComments reviewComments = reviewCommentsRepository.getById(loginId).orElseThrow(() ->
+                new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다." + loginId));
+
+    }*/
 
 }
