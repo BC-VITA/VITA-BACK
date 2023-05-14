@@ -1,18 +1,5 @@
 package project.bcvita.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
-import project.bcvita.user.dto.ChatMessage;
-import project.bcvita.user.entity.BloodChatMessage;
-import project.bcvita.user.entity.BloodChatRoom;
-import project.bcvita.user.repository.BloodChatMessageRepository;
-import project.bcvita.user.service.ChatService;
-
 //@Slf4j
 //@RequiredArgsConstructor
 //@Component

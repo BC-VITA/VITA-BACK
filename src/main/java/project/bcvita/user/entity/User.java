@@ -16,33 +16,24 @@ public class User {
     @Id
     private Long userNumber;
 
-    //@Column(nullable = false, length = 30, unique = true)
     private String userID;
 
-    //@Column(length = 100)
     private String userPW;
 
-   // @Column(nullable = false, length = 50, unique = true)
     private String userName;
 
-   // @Column(nullable = false, length = 20, unique = true)
     private String userPhoneNumber;
 
-   // @Column(nullable = false, length = 50, unique = true)
     private String userEmail;
 
-    //@Column(nullable = false, length = 8, unique = true)
     private String userBirth;
 
-   // @Column(nullable = false, length = 50, unique = true)
     private String userBlood;
 
     private String sex;
 
-   // @Column(nullable = false, length = 50, unique = true)
     private String isRH;
 
-   // @Column(nullable = false, length = 50, unique = true)
     private String bloodHistory;
 
     private Integer userPoint;

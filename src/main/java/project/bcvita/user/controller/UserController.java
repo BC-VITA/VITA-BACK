@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.BoardListResponse;
+import project.bcvita.user.dto.response.MyPageResponse;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.service.BoardService;
@@ -44,6 +45,7 @@ public class UserController {
     public List<UserListResponse> test() {
         return userService.userList();
     }
+
 
     /*@PostMapping("/confirmPassword")
     @ResponseBody
@@ -93,6 +95,7 @@ public class UserController {
         return userService.login(userLoginRequestDto, session);
     }
 
+
     @GetMapping("/logout")
     public String logoutGet(HttpSession session) {
         return userService.logout(session);
@@ -117,6 +120,15 @@ public class UserController {
         System.out.println(session.getId());
         return userService.userInfo(session);
     }*/
+
+    @GetMapping("/mypage")
+    public MyPageResponse myPage(HttpSession session) {
+        return userService.myPage(session);
+    }
+    @PutMapping("/mypage")
+    public MyPageResponse updateMyPage(HttpSession session, @RequestBody MyPageRequest request) {
+        return userService.updateMyPage(session,request);
+    }
 }
 
 
