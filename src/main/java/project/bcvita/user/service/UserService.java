@@ -115,12 +115,12 @@ public class UserService {
 
     @Transactional
     public MyPageResponse updateMyPage(HttpSession session, MyPageRequest request) {
-        String loginId = (String) session.getAttribute("loginId");
+        /*String loginId = (String) session.getAttribute("loginId");
 
         if(loginId == null) {
             return null;
-        }
-        User user = userRepository.findByUserID(loginId);
+        }*/
+        User user = userRepository.findByUserID(request.getUserId());
         String password = user.getUserPW();
         if((request.getPassword() != null && request.getConfirmPassword() == null) || (request.getPassword() == null && request.getConfirmPassword() != null)) {
             throw new RuntimeException("비밀번호와 비밀번호 재확인이 일치하지 않습니다.");
