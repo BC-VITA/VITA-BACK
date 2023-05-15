@@ -5,14 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import project.bcvita.user.dto.request.MyPageRequest;
-import project.bcvita.user.dto.request.UserLoginRequestDto;
-import project.bcvita.user.dto.request.UserPasswordCheck;
-import project.bcvita.user.dto.request.UserRequest;
+import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.MyPageResponse;
 import project.bcvita.user.dto.response.UserInfo;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.dto.response.UserLoginResponse;
+import project.bcvita.user.entity.Hospital;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.repository.UserRepository;
 
@@ -101,15 +99,20 @@ public class UserService {
         return new UserInfo(user.getUserID(),user.getUserName());
     }*/
 
-    public MyPageResponse myPage(HttpSession session) {
-        String loginId = (String) session.getAttribute("loginId");
-        if(loginId == null) {
+    public MyPageResponse myPage(HttpSession session, MyPageRequest request) {
+        /*String loginId = (String) session.getAttribute("loginId");
+        if (loginId == null) {
             return null;
-        }
-        User user = userRepository.findByUserID(loginId);
+        }*/
+        User user = userRepository.findByUserID(request.getUserId());
+
+        System.out.println("user = " + user);
+
         return new MyPageResponse(user.getUserID(),user.getUserName(),user.getUserPhoneNumber(),user.getUserEmail(),
                 user.getUserBirth(), user.getUserBlood(), user.getSex(),user.getIsRH(),user.getBloodHistory(),user.getUserPoint());
     }
+
+
     @Transactional
     public MyPageResponse updateMyPage(HttpSession session, MyPageRequest request) {
         String loginId = (String) session.getAttribute("loginId");

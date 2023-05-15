@@ -122,8 +122,8 @@ public class UserController {
     }*/
 
     @GetMapping("/mypage")
-    public MyPageResponse myPage(HttpSession session) {
-        return userService.myPage(session);
+    public MyPageResponse myPage(HttpSession session, MyPageRequest request) {
+        return userService.myPage(session,request);
     }
     @PutMapping("/mypage")
     public MyPageResponse updateMyPage(HttpSession session, @RequestBody MyPageRequest request) {
