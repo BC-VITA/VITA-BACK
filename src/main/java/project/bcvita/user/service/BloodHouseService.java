@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.user.dto.request.BloodHouseRegisterRequestDto;
 import project.bcvita.user.dto.request.BloodHouseReservationRequestDto;
+import project.bcvita.user.dto.request.BloodHouseReservationSaveRequestDto;
 import project.bcvita.user.dto.response.BloodHouseBusResponse;
 import project.bcvita.user.dto.response.BloodHouseRegisterResponse;
 import project.bcvita.user.dto.response.BloodHouseReservationResponse;
@@ -175,22 +176,22 @@ public class BloodHouseService {
 
     //헌혈의 집 예약 api 구현
     @Transactional
-    public String bloodHouseReservation(HttpSession session, BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
+    public String bloodHouseReservation(HttpSession session, BloodHouseReservationSaveRequestDto bloodHouseReservationSaveRequestDto) {
         String userLoginId = (String) session.getAttribute("user");
         User byUserID = userRepository.findByUserID(userLoginId);
         BloodHouseReservation bloodHouseReservation = new BloodHouseReservation();
         //BloodHouseReservationRequestDto bloodHouseReservation = new BloodHouseReservationRequestDto();
-        BloodHouse bloodHouse = bloodHouseRepository.findByCenterName(bloodHouseReservationRequestDto.getBloodHouseName());
+        BloodHouse bloodHouse = bloodHouseRepository.findByCenterName(bloodHouseReservationSaveRequestDto.getBloodHouseName());
 
         bloodHouseReservation.setBloodHouse(bloodHouse);
-        //bloodHouseReservation.setWholeBlood(bloodHouseReservationRequestDto.getWholeBlood());
-        //bloodHouseReservation.setPlasma(bloodHouseReservationRequestDto.getPlasma());
-        //bloodHouseReservation.setPlatelet(bloodHouseReservationRequestDto.getPlatelet());
-        bloodHouseReservation.setIsBloodType(bloodHouseReservationRequestDto.getIsBloodType());
-        bloodHouseReservation.setTime(bloodHouseReservationRequestDto.getTime());
-        bloodHouseReservation.setLocalDateTime(bloodHouseReservationRequestDto.getLocalDateTime());
+        //bloodHouseReservation.setWholeBlood(bloodHouseReservationSaveRequestDto.getWholeBlood());
+        //bloodHouseReservation.setPlasma(bloodHouseReservationSaveRequestDto.getPlasma());
+        //bloodHouseReservation.setPlatelet(bloodHouseReservationSaveRequestDto.getPlatelet());
+        bloodHouseReservation.setIsBloodType(bloodHouseReservationSaveRequestDto.getIsBloodType());
+        bloodHouseReservation.setTime(bloodHouseReservationSaveRequestDto.getTime());
+        bloodHouseReservation.setLocalDateTime(bloodHouseReservationSaveRequestDto.getLocalDateTime());
         bloodHouseReservation.setLocalDateTime(LocalDateTime.now());
-        bloodHouseReservation.setDate(bloodHouseReservationRequestDto.getDate());
+        bloodHouseReservation.setDate(bloodHouseReservationSaveRequestDto.getDate());
         bloodHouseReservation.setUser(byUserID);
 
         //System.out.println(bloodHouseReservation.getWholeBlood());
@@ -208,7 +209,7 @@ public class BloodHouseService {
     }
 
     //헌혈의집 등록 list(헌혈 종류 리스트 형식 -> 사용자에게 보여지는 예약 ui) 출력
-    /*public List<BloodHouseReservationResponse> registerReservationResponse(RequestCenterNameDto centerName) {
+    /*public List<BloodHouseReservationResponse> registerReservationResponse(BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
         BloodHouse blood = bloodHouseRepository.findByCenterName(centerName.getCenterName());
         System.out.println("centerName = " + centerName.getCenterName());
         if (blood == null) {
@@ -231,7 +232,7 @@ public class BloodHouseService {
                 continue;
             }
             bloodHouseReservationResponses.add(new BloodHouseReservationResponse((bloodHouseRegister.getBloodHouse().getCenterName()),
-                    bloodHouseRegister.getDate(), bloodHouseRegister.getTime(), bloodHouseReservationRequestDto.getIsBloodType(), bloodHouseReservationRequestDto.getLocalDateTime()));
+                    bloodHouseRegister.getDate(), bloodHouseRegister.getTime(), bloodHouseReservationRequestDto.getWholeBlood(), bloodHouseReservationRequestDto.getPlasma(), bloodHouseReservationRequestDto.getPlatelet(),bloodHouseReservationRequestDto.getLocalDateTime()));
         }
         return bloodHouseReservationResponses;
     }

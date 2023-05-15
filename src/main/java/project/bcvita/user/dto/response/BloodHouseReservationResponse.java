@@ -19,15 +19,15 @@ public class BloodHouseReservationResponse {
     private String time;
 
     //전혈
-    /*private String wholeBlood;
+    private String wholeBlood;
 
     //혈장
     private String plasma;
 
     //혈소판
-    private String platelet;*/
+    private String platelet;
 
-    private String isBloodType;
+    //private String isBloodType;
 
     private LocalDateTime localDateTime;
 

@@ -26,13 +26,13 @@ public class BloodHouseReservation {
 
 
     //전혈
-    //private String wholeBlood;
+    private String wholeBlood;
 
     //혈장
-    //private String plasma;
+    private String plasma;
 
     //혈소판
-    //private String platelet;
+    private String platelet;
 
     //헌혈종류 하나로 합치기
     private String isBloodType;

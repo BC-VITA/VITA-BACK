@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.BloodHouseRegisterRequestDto;
 import project.bcvita.user.dto.request.BloodHouseReservationRequestDto;
+import project.bcvita.user.dto.request.BloodHouseReservationSaveRequestDto;
 import project.bcvita.user.dto.response.BloodHouseBusResponse;
 import project.bcvita.user.dto.response.BloodHouseRegisterResponse;
 import project.bcvita.user.dto.response.BloodHouseReservationResponse;
@@ -29,8 +30,8 @@ public class BloodHouseController {
 
 
     @PostMapping("/reservation")
-    public String reservation(HttpSession session, @RequestBody BloodHouseReservationRequestDto bloodHouseReservationRequestDto) {
-        return bloodHouseService.bloodHouseReservation(session, bloodHouseReservationRequestDto);
+    public String reservation(HttpSession session, @RequestBody BloodHouseReservationSaveRequestDto bloodHouseReservationSaveRequestDto) {
+        return bloodHouseService.bloodHouseReservation(session, bloodHouseReservationSaveRequestDto);
     }
 //
 //    @GetMapping("/reservation/list")
