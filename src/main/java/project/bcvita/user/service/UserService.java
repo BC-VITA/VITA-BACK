@@ -90,7 +90,7 @@ public class UserService {
 
 
 
-    /*public UserInfo userInfo(HttpSession session)  {
+    public UserInfo userInfo(HttpSession session)  {
         System.out.println("httpSession.getId() = " + session.getId());
         String userId = (String)session.getAttribute("loginId");
         System.out.println("userId = " + userId);
@@ -99,7 +99,7 @@ public class UserService {
             }
         User user = userRepository.findByUserID(userId);
         return new UserInfo(user.getUserID(),user.getUserName());
-    }*/
+    }
 
     public MyPageResponse myPage(HttpSession session) {
         String loginId = (String) session.getAttribute("loginId");

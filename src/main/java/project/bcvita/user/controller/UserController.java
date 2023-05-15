@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.BoardListResponse;
 import project.bcvita.user.dto.response.MyPageResponse;
+import project.bcvita.user.dto.response.UserInfo;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.service.BoardService;
@@ -112,14 +113,14 @@ public class UserController {
         return boardService.wishListDelete(wishListRequestDto);
     }
 
-    /*@GetMapping("/check")
+    @GetMapping("/check")
     public UserInfo check(HttpSession session) {
         if(session == null ){
             throw new IllegalArgumentException("세션이 존재하지 않습니다.");
         }
         System.out.println(session.getId());
         return userService.userInfo(session);
-    }*/
+    }
 
     @GetMapping("/mypage")
     public MyPageResponse myPage(HttpSession session) {
