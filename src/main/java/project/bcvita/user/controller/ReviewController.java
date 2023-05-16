@@ -3,6 +3,7 @@ package project.bcvita.user.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import project.bcvita.user.dto.request.ReviewCommentDto;
 import project.bcvita.user.dto.request.ReviewRegisterRequestDto;
 import project.bcvita.user.dto.response.ReviewRegisterResponse;
 import project.bcvita.user.service.ReviewService;
@@ -30,6 +31,11 @@ public class ReviewController {
     @GetMapping("board/list")
     public List<ReviewRegisterResponse> boardListResponseList(@RequestParam String reviewType) {
         return reviewService.boardListResponseList(reviewType);
+    }
+
+    @PostMapping("/comment")
+    public ReviewCommentDto reviewRegisterComment(HttpSession session, @RequestBody ReviewCommentDto reviewCommentDto){
+        return reviewService.writeComment(session,reviewCommentDto);
     }
 
 }
