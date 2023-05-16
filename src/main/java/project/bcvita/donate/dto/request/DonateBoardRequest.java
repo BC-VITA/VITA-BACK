@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class DonateBoardRequest {
+    private String userId;
     private String title;
     private String content;
     private String imageUrl;

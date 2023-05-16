@@ -1,8 +1,10 @@
 package project.bcvita.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,4 +35,6 @@ public class BloodHouseRegister {
 
     //시간대
     private String time;
+
+    private LocalDateTime localDateTime;
 }

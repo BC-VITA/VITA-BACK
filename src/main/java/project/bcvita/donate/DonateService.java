@@ -20,8 +20,9 @@ public class DonateService {
 
 
     public String writeDonateBoard(HttpSession session, DonateBoardRequest donateBoardRequest) {
-        String loginId = (String) session.getAttribute("loginId");
-        User user = userRepository.findByUserID(loginId);
+        //String loginId = (String) session.getAttribute("loginId");
+        User user = userRepository.findByUserID(donateBoardRequest.getUserId());
+        System.out.println("user = " + user);
         if(user.isAdmin() == false) {
             return "관리자가 아니므로 저장 안됨";
         }
