@@ -49,10 +49,9 @@ public class DonateController {
 
 
     @PostMapping("/board")
-    public String writeDonateBoard(HttpSession session, @RequestBody DonateBoardRequest donateBoardRequest) {
-        return donateService.writeDonateBoard(session, donateBoardRequest);
+    public String writeDonateBoard(HttpSession session, @ModelAttribute DonateBoardRequest donateBoardRequest,@RequestPart(value = "file") MultipartFile file) {
+        return donateService.writeDonateBoard(session, donateBoardRequest, file);
     }
-
     @GetMapping("/board")
     public Page<DonateBoardResponse> boardList(@PageableDefault(size = 6)Pageable pageable) {
         return donateService.boardList(pageable);
