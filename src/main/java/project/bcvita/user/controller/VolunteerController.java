@@ -41,9 +41,9 @@ public class VolunteerController {
     
 
     //봉사 기업-단체 게시글 등록
-    @PostMapping("/board")
+    /*@PostMapping("/board")
     public String volunteerCreate(HttpSession session, @RequestBody VolunteerRequestDto requestDto){
         return volunteerService.volunteerCreate(session, requestDto);
-    }
+    }*/
 
 }

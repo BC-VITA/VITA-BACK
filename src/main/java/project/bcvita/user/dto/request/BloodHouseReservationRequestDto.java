@@ -29,8 +29,11 @@ public class BloodHouseReservationRequestDto {
     //시간
     private String time;
 
-    public BloodHouseReservationRequestDto(String bloodHouseName, String date, String time, String wholeBlood, String plasma, String platelet) {
-        this.wholeBlood  = wholeBlood;
+    //private String isBloodType;
+
+
+    public BloodHouseReservationRequestDto(String wholeBlood, String plasma, String platelet, String bloodHouseName, String date, String time) {
+        this.wholeBlood = wholeBlood;
         this.plasma = plasma;
         this.platelet = platelet;
         this.bloodHouseName = bloodHouseName;

@@ -35,24 +35,42 @@ public class VolunteerService {
         return "Success";
     }
 
-    //봉사 기업-단체 봉사 게시글 등록 api
-    @Transactional
+    //봉사 기업-단체 봉사 게시글 등록 api (개인-시간/활동)
+    /*@Transactional
     public String volunteerCreate(HttpSession session, VolunteerRequestDto requestDto){
-        Volunteer volunteer = (Volunteer) session.getAttribute("volunteer");
+        //Volunteer volunteer = (Volunteer) session.getAttribute("volunteer");
+        Volunteer volunteer = volunteerRegisterRepository.findByUserID(requestDto.getVolunteer().getVolunteerId());
 
         if(requestDto.getVolunteerType().equals("time")){
-
+            VolunteerRegister volunteerRegister = new VolunteerRegister();
+            volunteerRegister.setVolunteerArea(requestDto.getVolunteerArea());
+            volunteerRegister.setVolunteerPlace(requestDto.getVolunteerPlace());
+            volunteerRegister.setVolunteerAddress(requestDto.getVolunteerAddress());
+            volunteerRegister.setLatitude(requestDto.getLatitude());
+            volunteerRegister.setLongitude(requestDto.getLongitude());
+            volunteerRegister.setVolunteerSeekStartDate(requestDto.getVolunteerSeekStartDate());
+            volunteerRegister.setVolunteerSeekEndDate(requestDto.getVolunteerSeekEndDate());
+            volunteerRegister.setVolunteerStartDate(requestDto.getVolunteerStartDate());
+            volunteerRegister.setVolunteerEndDate(requestDto.getVolunteerEndDate());
+            volunteerRegister.setNeedVolunteerNumber(requestDto.getNeedVolunteerNumber());
+            volunteerRegister.setVolunteerStartTime(requestDto.getVolunteerStartTime());
+            volunteerRegister.setVolunteerEndTime(requestDto.getVolunteerEndTime());
+            volunteerRegister.setVolunteerActivityWeek(requestDto.getVolunteerActivityWeek());
+            volunteerRegister.setVolunteerType(requestDto.getVolunteerType());
+            volunteerRegister.setVolunteerField(requestDto.getVolunteerField());
+            volunteerRegister.setActivitySection(requestDto.getActivitySection());
+            volunteerRegister.setVolunteerTarget(requestDto.getVolunteerTarget());
+            volunteerRegister.setVolunteerPersonType(requestDto.getVolunteerPersonType());
+            volunteerRegister.setManagerName(requestDto.getManagerName());
+            volunteerRegister.setManagerEmail(requestDto.getManagerEmail());
+            volunteerRegister.setTitle(requestDto.getTitle());
+            volunteerRegister.setContent(requestDto.getContent());
+            volunteerRegister.setVolunteer(volunteer);
+            volunteerRegisterRepository.save(volunteerRegister);
+            return "게시글 작성완료";
+        } else if (requestDto.getVolunteerType().equals("Activity")) {
+            
         }
-
-            /*
-            if (wishListRequestDto.getBoardType().equals("user")) {
-            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(wishListRequestDto.getBoardId()).get();
-            designatedBloodWriteUser.setUserNumber(user);
-            designatedBloodWriteUser.setWishListCount(wishListRequestDto.getWishListCount() + 1);
-            designatedBloodWriteUserRepository.save(designatedBloodWriteUser);
-            return "찜하기 성공";
-        }
-             */
 
         VolunteerRegister volunteerRegister = new VolunteerRegister();
         volunteerRegister.setVolunteerStartDate(requestDto.getVolunteerStartDate());
@@ -73,4 +91,6 @@ public class VolunteerService {
         volunteerRegisterRepository.save(volunteerRegister);
         return "게시글 작성완료";
     }
+
+     */
 }

@@ -22,12 +22,12 @@ public class VolunteerRegister {
     private String volunteerType;
 
     //봉사 카테고리
-    private String volunteerCategory;
+    //private String volunteerCategory;
 
     //내용
     private String content;
 
-    //제목
+    //제목(봉사명)
     private String title;
 
     //봉사시작기간
@@ -42,7 +42,7 @@ public class VolunteerRegister {
     //봉사마감시간
     private String volunteerEndTime;
 
-    //필요봉사자수
+    //모집인원
     private String needVolunteerNumber;
 
     //봉사지역
@@ -52,7 +52,7 @@ public class VolunteerRegister {
     private String activitySection;
 
     //완료여부
-    private boolean isFinish;
+    //private boolean isFinish;
 
     //신고여부
     private boolean isReport;
@@ -71,4 +71,42 @@ public class VolunteerRegister {
 
     //봉사 대상
     private String volunteerTarget;
+
+    //봉사 장소
+    private String volunteerPlace;
+
+    //위도
+    private double latitude;
+
+    //경도
+    private double longitude;
+
+    //활동요일
+    private String volunteerActivityWeek;
+
+    //자격요건
+    private String qualification;
+
+    //봉사자유형
+    private String volunteerPersonType;
+
+    //활동빈도
+    private String volunteerActivityNumber;
+
+    //요구사항
+    private String requirements;
+
+    //담당자명
+    private String managerName;
+
+    //담당자이메일
+    private String managerEmail;
+
+    //모집기관
+    private String requireGroup;
+
+    //사이트 url
+    private String url;
+
+
 }
