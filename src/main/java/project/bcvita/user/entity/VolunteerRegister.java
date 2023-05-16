@@ -52,7 +52,7 @@ public class VolunteerRegister {
     private String activitySection;
 
     //완료여부
-    //private boolean isFinish;
+    private boolean isFinish;
 
     //신고여부
     private boolean isReport;
