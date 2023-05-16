@@ -14,10 +14,12 @@ import javax.persistence.ManyToOne;
 public class VolunteerRequestDto {
 
     //봉사게시글번호
-    private Long id;
+    //private Long id;
 
     //작성자 회원번호
-    private Volunteer volunteer;
+    //private Volunteer volunteer;
+
+    private String volunteerId;
 
     //봉사 타입 (봉사 종류)
     private String volunteerType;
@@ -53,7 +55,7 @@ public class VolunteerRequestDto {
     private String activitySection;
 
     //완료여부
-    //private boolean isFinish;
+    private boolean isFinish;
 
     //신고여부
     private boolean isReport;

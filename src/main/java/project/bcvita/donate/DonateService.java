@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.donate.dto.request.DonateBoardRequest;
 import project.bcvita.donate.dto.response.DonateBoardResponse;
 import project.bcvita.donate.enttiy.DonateBoard;
@@ -46,5 +47,18 @@ public class DonateService {
         return new DonateBoardResponse(donateBoard.getId(),donateBoard.getTitle(),donateBoard.getImageUrl(),donateBoard.getContent());
     }
 
+    public String uploadImage(MultipartFile imageFile) {
+        String fileName = imageFile.getOriginalFilename();
+
+        return fileName;
+    }
+
+    public void createDonationPost(String userId, String title, String content, String imageUrl){
+        System.out.println("게시물 생성");
+        System.out.println("유저 아이디: " + userId);
+        System.out.println("제목: " + title);
+        System.out.println("내용: " + content);
+        System.out.println("이미지 URL = " + imageUrl);
+    }
 
 }

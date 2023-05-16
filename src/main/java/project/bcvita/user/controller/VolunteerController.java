@@ -4,18 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
+import project.bcvita.user.dto.response.VolunteerRegisterResponse;
 import project.bcvita.user.repository.VolunteerRegisterRepository;
 import project.bcvita.user.repository.VolunteerRepository;
 import project.bcvita.user.service.VolunteerService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -41,9 +40,14 @@ public class VolunteerController {
     
 
     //봉사 기업-단체 게시글 등록
-    /*@PostMapping("/board")
+    @PostMapping("/board")
     public String volunteerCreate(HttpSession session, @RequestBody VolunteerRequestDto requestDto){
         return volunteerService.volunteerCreate(session, requestDto);
-    }*/
+    }
+
+    @GetMapping("/board/list")
+    public List<VolunteerRegisterResponse> boardListResponseList(@RequestParam String volunteerType) {
+        return volunteerService.boardListResponseList(volunteerType);
+    }
 
 }
