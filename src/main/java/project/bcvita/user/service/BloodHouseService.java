@@ -237,7 +237,7 @@ public class BloodHouseService {
                 continue;
             }
             bloodHouseReservationResponses.add(new BloodHouseReservationResponse((bloodHouseRegister.getBloodHouse().getCenterName()),
-                    bloodHouseRegister.getDate(), bloodHouseRegister.getTime(), bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(), bloodHouseRegister.getPlatelet(),bloodHouseRegister.getLocalDateTime()));
+                    bloodHouseRegister.getDate(), bloodHouseRegister.getTime(), bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(), bloodHouseRegister.getPlatelet(),bloodHouseRegister.getLocalDateTime().now()));
         }
         return bloodHouseReservationResponses;
     }
