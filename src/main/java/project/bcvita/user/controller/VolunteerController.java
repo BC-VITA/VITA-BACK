@@ -38,12 +38,6 @@ public class VolunteerController {
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
-    
 
-    //봉사 기업-단체 게시글 등록
-    /*@PostMapping("/board")
-    public String volunteerCreate(HttpSession session, @RequestBody VolunteerRequestDto requestDto){
-        return volunteerService.volunteerCreate(session, requestDto);
-    }*/
 
 }
