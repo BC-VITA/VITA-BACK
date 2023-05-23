@@ -199,7 +199,7 @@ public class VolunteerService {
     }
 
     //봉사 예약 내역
-    public List<VolunteerReservationResponse> reservationResponse(String volunteerType) {
+    public List<VolunteerReservationResponse> reservationResponse() {
         List<VolunteerReservation> volunteerReservationList = volunteerReservationRepository.findAll();
         List<VolunteerReservationResponse> volunteerReservationResponses = new ArrayList<>();
         for(VolunteerReservation  volunteerReservation : volunteerReservationList) {
