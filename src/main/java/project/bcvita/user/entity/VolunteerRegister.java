@@ -101,6 +101,9 @@ public class VolunteerRegister {
 
     //담당자이메일
     private String managerEmail;
+    
+    //담당자전화번호
+    private String managerPhoneNumber;
 
     //모집기관
     private String requireGroup;
