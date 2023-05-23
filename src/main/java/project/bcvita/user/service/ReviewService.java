@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.user.dto.request.ReviewCommentDto;
 import project.bcvita.user.dto.request.ReviewRegisterRequestDto;
+import project.bcvita.user.dto.response.ReviewCommentResponse;
 import project.bcvita.user.dto.response.ReviewRegisterResponse;
 import project.bcvita.user.entity.ReviewComment;
 import project.bcvita.user.entity.ReviewRegister;
@@ -82,9 +83,22 @@ public class ReviewService {
 
 
         return new ReviewCommentDto(user.getUserID(),
-                reviewRegister.getId(), save.getComment(), LocalDateTime.now(),
+                reviewRegister.getId(), save.getComment(), save.getLocalDateTime().now(),
                 false);
     }
 
 
+    //게시글에 해당하는 전체 댓글 불러오기
+    /*@Transactional
+    public List<ReviewCommentResponse> commentResponseList(ReviewCommentDto requestDto) {
+
+        ReviewRegister reviewRegister1 = reviewRegisterRepository.findById(requestDto.getReviewRegisterId()).get();
+        User user = userRepository.findByUserID(requestDto.getUserId());
+        List<ReviewCommentResponse> reviewCommentResponses = new ArrayList<>();
+        for (ReviewRegister reviewRegister : reviewRegister1) {
+            reviewCommentResponses.add(new ReviewCommentResponse(reviewRegister.getUser().getUserID(),reviewRegister.getId(), requestDto.getComment(), requestDto.getLocalDateTime(),requestDto.isReport()));
+        }
+        return reviewCommentResponses;
+
+    }*/
 }

@@ -13,5 +13,7 @@ import java.util.List;
 public interface VolunteerRegisterRepository extends JpaRepository<VolunteerRegister, Long> {
     Volunteer findByVolunteerId(String volunteerId);
 
+    VolunteerRegister findById(String volunteerBoardId);
+
     List<VolunteerRegister> findAllByVolunteerType(String volunteerType);
 }

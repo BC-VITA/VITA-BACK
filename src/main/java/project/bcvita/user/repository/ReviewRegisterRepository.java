@@ -11,4 +11,6 @@ public interface ReviewRegisterRepository extends JpaRepository<ReviewRegister,L
 
     List<ReviewRegister> findAllByReviewType(String reviewType);
 
+    ReviewRegister findById(String reviewId);
+
 }
