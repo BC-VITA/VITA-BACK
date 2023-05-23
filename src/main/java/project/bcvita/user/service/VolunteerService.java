@@ -179,8 +179,6 @@ public class VolunteerService {
         return volunteerRegisterResponses;
     }
 
-
-
     //봉사 예약
     @Transactional
     public String volunteerReservation(HttpSession session, VolunteerReservationRequestDto volunteerReservationRequestDto){

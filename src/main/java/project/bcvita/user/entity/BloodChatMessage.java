@@ -27,4 +27,6 @@ public class BloodChatMessage {
         this.chatMessage = chatMessage;
         this.chatTime = chatTime;
     }
+
+
 }

@@ -3,6 +3,7 @@ package project.bcvita.user.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.user.dto.request.ReviewCommentDto;
 import project.bcvita.user.dto.request.ReviewRegisterRequestDto;
 import project.bcvita.user.dto.response.ReviewRegisterResponse;
@@ -23,8 +24,8 @@ public class ReviewController {
 
     //후기 작성 게시물 api
     @PostMapping("/reviewBoard")
-    public String reviewRegister(HttpSession session, @RequestBody ReviewRegisterRequestDto requestDto){
-        return reviewService.reviewRegister(session, requestDto);
+    public String reviewRegister(HttpSession session, @ModelAttribute ReviewRegisterRequestDto requestDto, @RequestPart(value = "file") MultipartFile file){
+        return reviewService.reviewRegister(session, requestDto, file);
     }
 
     //후기 게시물 list
