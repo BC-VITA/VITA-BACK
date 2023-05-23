@@ -33,6 +33,7 @@ public class ReviewController {
         return reviewService.boardListResponseList(reviewType);
     }
 
+    //댓글 작성 api
     @PostMapping("/comment")
     public ReviewCommentDto reviewRegisterComment(HttpSession session, @RequestBody ReviewCommentDto reviewCommentDto){
         return reviewService.writeComment(session,reviewCommentDto);

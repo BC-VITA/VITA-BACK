@@ -6,13 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
+import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
 import project.bcvita.user.dto.response.VolunteerRegisterResponse;
-import project.bcvita.user.entity.ReviewRegister;
-import project.bcvita.user.entity.User;
-import project.bcvita.user.entity.Volunteer;
-import project.bcvita.user.entity.VolunteerRegister;
+import project.bcvita.user.entity.*;
+import project.bcvita.user.repository.UserRepository;
 import project.bcvita.user.repository.VolunteerRegisterRepository;
 import project.bcvita.user.repository.VolunteerRepository;
+import project.bcvita.user.repository.VolunteerReservationRepository;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -25,6 +25,9 @@ import java.util.List;
 public class VolunteerService {
     private final VolunteerRepository volunteerRepository;
     private final VolunteerRegisterRepository volunteerRegisterRepository;
+    private final UserRepository userRepository;
+
+    private final VolunteerReservationRepository volunteerReservationRepository;
 
     //봉사 기업-단체 회원가입 api
     @Transactional
@@ -173,5 +176,24 @@ public class VolunteerService {
                     volunteerRegister.getVolunteerActivityNumber(), volunteerRegister.getRequirements(), volunteerRegister.getManagerName(), volunteerRegister.getManagerEmail(), volunteerRegister.getRequireGroup(), volunteerRegister.getUrl()));
         }
         return volunteerRegisterResponses;
+    }
+
+
+
+    //봉사 예약
+    @Transactional
+    public String volunteerReservation(HttpSession session, VolunteerReservationRequestDto volunteerReservationRequestDto){
+        String userLoginId = (String) session.getAttribute("loginId");
+        User byUserID = userRepository.findByUserID(userLoginId);
+        VolunteerRegister volunteerRegister = volunteerRegisterRepository.findById(volunteerReservationRequestDto.getVolunteerBoardId()).get();
+        VolunteerReservation volunteerReservation = new VolunteerReservation();
+        volunteerReservation.setVolunteerDate(volunteerReservationRequestDto.getVolunteerDate());
+        volunteerReservation.setVolunteerType(volunteerReservationRequestDto.getVolunteerKind());
+        volunteerReservation.setUser(byUserID);
+        volunteerReservation.setInformationAgree(volunteerReservationRequestDto.isInformationAgree());
+        volunteerReservation.setBoardStatus(volunteerReservationRequestDto.getVolunteerStatus());
+        volunteerReservation.setVolunteerRegister(volunteerRegister);
+        volunteerReservationRepository.save(volunteerReservation);
+        return "예약완료";
     }
 }
