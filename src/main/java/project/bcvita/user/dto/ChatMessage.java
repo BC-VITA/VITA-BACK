@@ -7,12 +7,17 @@ import lombok.Setter;
 @Setter
 public class ChatMessage {
     public enum MessageType{
-        ENTER, TALK
+        // 방에 입장하는 요청은 ENTER 요청을 보내고,
+        ENTER,
+        // 방에 입장 후 채팅을 보내는 요청에는 TALK를 사용합니다.
+        TALK
     }
 
     private MessageType type;
-    private String roomId;
-    private String sender;
+    // room Id 대신 session을 사용해야합니다. (보안때문!)
+//    private String roomId;
+    // sender 또한 위조할 수 있기 때문에 세션에서 뽑아와야 합니다.
+//    private String sender;
     private String message;
 }
 
