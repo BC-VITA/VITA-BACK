@@ -9,6 +9,7 @@ import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
 import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
 import project.bcvita.user.dto.response.VolunteerRegisterResponse;
+import project.bcvita.user.dto.response.VolunteerReservationResponse;
 import project.bcvita.user.repository.VolunteerRegisterRepository;
 import project.bcvita.user.repository.VolunteerRepository;
 import project.bcvita.user.service.VolunteerService;
@@ -56,4 +57,10 @@ public class VolunteerController {
     public String volunteerReservation(HttpSession session, @RequestBody VolunteerReservationRequestDto requestDto){
         return volunteerService.volunteerReservation(session, requestDto);
     }
+
+    @GetMapping("/reservation/list")
+    public List<VolunteerReservationResponse> reservationResponse(@RequestParam String volunteerType) {
+        return volunteerService.reservationResponse(volunteerType);
+    }
 }
+

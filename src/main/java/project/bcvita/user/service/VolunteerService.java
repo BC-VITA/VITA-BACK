@@ -8,6 +8,7 @@ import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
 import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
 import project.bcvita.user.dto.response.VolunteerRegisterResponse;
+import project.bcvita.user.dto.response.VolunteerReservationResponse;
 import project.bcvita.user.entity.*;
 import project.bcvita.user.repository.UserRepository;
 import project.bcvita.user.repository.VolunteerRegisterRepository;
@@ -196,4 +197,20 @@ public class VolunteerService {
         volunteerReservationRepository.save(volunteerReservation);
         return "예약완료";
     }
+
+    //봉사 예약 내역
+    public List<VolunteerReservationResponse> reservationResponse(String volunteerType) {
+        List<VolunteerReservation> volunteerReservationList = volunteerReservationRepository.findAll();
+        List<VolunteerReservationResponse> volunteerReservationResponses = new ArrayList<>();
+        for(VolunteerReservation  volunteerReservation : volunteerReservationList) {
+            if (volunteerReservation.getVolunteerRegister() == null) {
+                continue;
+            }
+            volunteerReservationResponses.add(new VolunteerReservationResponse(volunteerReservation.getVolunteerRegister().getTitle(), volunteerReservation.getVolunteerDate(), volunteerReservation.getVolunteerRegister().getVolunteerStartTime(), volunteerReservation.getVolunteerRegister().getVolunteerEndTime()
+            , volunteerReservation.getVolunteerRegister().getVolunteerAddress(), volunteerReservation.getVolunteerRegister().getVolunteerType(), volunteerReservation.getVolunteerRegister().getManagerName(), volunteerReservation.getVolunteerRegister().getManagerPhoneNumber(), volunteerReservation.getVolunteerRegister().getVolunteerPlace()));
+        }
+        return volunteerReservationResponses;
+    }
 }
+
+
