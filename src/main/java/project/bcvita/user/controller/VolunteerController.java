@@ -59,8 +59,8 @@ public class VolunteerController {
     }
 
     @GetMapping("/reservation/list")
-    public List<VolunteerReservationResponse> reservationResponse(@RequestParam String volunteerType) {
-        return volunteerService.reservationResponse(volunteerType);
+    public List<VolunteerReservationResponse> reservationResponse() {
+        return volunteerService.reservationResponse();
     }
 }
 
