@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.donate.dto.request.DonateBoardRequest;
+import project.bcvita.donate.dto.request.DonatePointRequest;
 import project.bcvita.donate.dto.response.DonateBoardResponse;
 
 import javax.servlet.http.HttpSession;
@@ -62,5 +63,8 @@ public class DonateController {
         return donateService.boardDetail(id);
     }
 
-
+    @PostMapping("/donation")
+    public String donatePointAdd(HttpSession session, @RequestBody DonatePointRequest request){
+        return donateService.donatePointAdd(session, request);
+    }
 }
