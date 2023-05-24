@@ -6,7 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.donate.dto.request.DonateBoardRequest;
+import project.bcvita.donate.dto.request.DonatePointRequest;
 import project.bcvita.donate.dto.response.DonateBoardResponse;
+import project.bcvita.donate.enttiy.Donate;
 import project.bcvita.donate.enttiy.DonateBoard;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.repository.UserRepository;
@@ -20,6 +22,7 @@ public class DonateService {
     private final DonateBoardRepository donateBoardRepository;
     private final UserRepository userRepository;
 
+    private final DonatePointRepository donatePointRepository;
 
     public String writeDonateBoard(HttpSession session, DonateBoardRequest donateBoardRequest, MultipartFile file) {
         try {
@@ -79,4 +82,21 @@ public class DonateService {
         }
         return "이미지 저장 완료";
     }
+
+    //기부 포인트 구현 api
+    public String donatePointAdd(HttpSession session, DonatePointRequest request) {
+        User byUserID = userRepository.findByUserID(request.getUserId());
+        DonateBoard donateBoard = donateBoardRepository.findById(request.getDonateId()).get();
+        Donate donate = new Donate();
+        donate.setDonateBoard(donateBoard);
+        donate.setPoint(byUserID.getUserPoint());
+        donate.setAnonymous(request.isAnonymous());
+        donate.setPoint(request.getFinalPoint());
+        donate.setLocalDateTime(request.getLocalDateTime().now());
+        donate.setUser(byUserID);
+        donatePointRepository.save(donate);
+        return "기부완료";
+    }
+
+    //기부 포인트
 }

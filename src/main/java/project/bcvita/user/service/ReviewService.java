@@ -112,16 +112,16 @@ public class ReviewService {
 
 
     //게시글에 해당하는 전체 댓글 불러오기
-    /*@Transactional
-    public List<ReviewCommentResponse> commentResponseList(ReviewCommentDto requestDto) {
-
-        ReviewRegister reviewRegister1 = reviewRegisterRepository.findById(requestDto.getReviewRegisterId()).get();
-        User user = userRepository.findByUserID(requestDto.getUserId());
-        List<ReviewCommentResponse> reviewCommentResponses = new ArrayList<>();
-        for (ReviewRegister reviewRegister : reviewRegister1) {
-            reviewCommentResponses.add(new ReviewCommentResponse(reviewRegister.getUser().getUserID(),reviewRegister.getId(), requestDto.getComment(), requestDto.getLocalDateTime(),requestDto.isReport()));
-        }
-        return reviewCommentResponses;
-
-    }*/
+//    @Transactional
+//    public List<ReviewCommentResponse> commentResponseList(ReviewCommentDto requestDto) {
+//
+//        ReviewRegister reviewRegister1 = reviewRegisterRepository.findById(requestDto.getReviewRegisterId()).get();
+//        User user = userRepository.findByUserID(requestDto.getUserId());
+//        List<ReviewCommentResponse> reviewCommentResponses = new ArrayList<>();
+//        for (ReviewRegister reviewRegister : reviewRegister1) {
+//            reviewCommentResponses.add(new ReviewCommentResponse(reviewRegister.getUser().getUserID(),reviewRegister.getId(), requestDto.getComment(), requestDto.getLocalDateTime(),requestDto.isReport()));
+//        }
+//        return reviewCommentResponses;
+//
+//    }
 }
