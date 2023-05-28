@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.donate.dto.request.DonateBoardRequest;
 import project.bcvita.donate.dto.request.DonatePointRequest;
 import project.bcvita.donate.dto.response.DonateBoardResponse;
+import project.bcvita.donate.dto.response.DonateDetail;
 
 import javax.servlet.http.HttpSession;
 
@@ -66,5 +67,15 @@ public class DonateController {
     @PostMapping("/donation")
     public String donatePointAdd(HttpSession session, @RequestBody DonatePointRequest request){
         return donateService.donatePointAdd(session, request);
+    }
+
+    @GetMapping("/user-point")
+    public Integer donateUserPoint(HttpSession session, String userId){
+        return donateService.donateUserPoint(session, userId);
+    }
+
+    @GetMapping("/donate-receipt")
+    public DonateDetail donateReceipt(String userId, Long donateId) {
+        return donateService.donateReceipt(userId,donateId);
     }
 }
