@@ -17,6 +17,7 @@ public class ReviewCommentDto {
 
     private String userId;
 
+
     //댓글내용
     private String comment;
 

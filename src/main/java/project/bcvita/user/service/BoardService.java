@@ -174,7 +174,9 @@ public class BoardService {
             if(wishList != null) {
                 wishListRepository.delete(wishList);
             }else {
-                wishList.createDesignateBloodHeart(user, "designatedBlood", true, designatedBloodWriteUser);
+                WishList designateBloodWishList = new WishList();
+                designateBloodWishList.createDesignateBloodHeart(user, "designatedBlood", true, designatedBloodWriteUser);
+                wishListRepository.save(designateBloodWishList);
             }
         }else if(wishListRequestDto.getBoardType().equals("volunteer")) {
             VolunteerRegister volunteerRegister = volunteerRegisterRepository.findById(boardId).orElse(null);
@@ -185,7 +187,11 @@ public class BoardService {
             if(wishList != null) {
                 wishListRepository.delete(wishList);
             }else {
-                wishList.createVolunteerHeart(user, "volunteer", true, volunteerRegister);
+                WishList volunteerList = new WishList();
+
+
+                volunteerList.createVolunteerHeart(user, "volunteer", true, volunteerRegister);
+                wishListRepository.save(volunteerList);
             }
         }
         //병원에 대한 로직 작성
