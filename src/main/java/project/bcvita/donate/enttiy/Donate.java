@@ -28,8 +28,9 @@ public class Donate {
     private boolean isAnonymous;
 
     //기부날짜
-    private LocalDateTime localDateTime;
+    private LocalDateTime localDateTime = LocalDateTime.now();
 
-    //포인트
-    private Integer point;
+    //사용할 포인트(기부할 포인트)
+    private Integer usePoint;
+
 }

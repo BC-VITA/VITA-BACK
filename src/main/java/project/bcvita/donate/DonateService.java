@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.donate.dto.request.DonateBoardRequest;
 import project.bcvita.donate.dto.request.DonatePointRequest;
 import project.bcvita.donate.dto.response.DonateBoardResponse;
+import project.bcvita.donate.dto.response.DonateDetail;
+import project.bcvita.donate.dto.response.DonatePointResponse;
 import project.bcvita.donate.enttiy.Donate;
 import project.bcvita.donate.enttiy.DonateBoard;
 import project.bcvita.user.entity.User;
@@ -15,6 +17,8 @@ import project.bcvita.user.repository.UserRepository;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -89,14 +93,35 @@ public class DonateService {
         DonateBoard donateBoard = donateBoardRepository.findById(request.getDonateId()).get();
         Donate donate = new Donate();
         donate.setDonateBoard(donateBoard);
-        donate.setPoint(byUserID.getUserPoint());
         donate.setAnonymous(request.isAnonymous());
-        donate.setPoint(request.getFinalPoint());
         donate.setLocalDateTime(request.getLocalDateTime().now());
         donate.setUser(byUserID);
+        donate.setUsePoint(request.getUsePoint());
+        donateBoard.setPointHistory(donateBoard.getPointHistory() + request.getUsePoint());
+        byUserID.setUserPoint(request.getFinalPoint());
         donatePointRepository.save(donate);
         return "기부완료";
     }
 
-    //기부 포인트
+    //기부할때 나의 포인트 getApi
+    public Integer donateUserPoint(HttpSession session, String userId) {
+        User user = userRepository.findByUserID(userId);
+        return user.getUserPoint();
+    }
+
+    //개인 기부 영수증 -> 포인트 기부하면 다음페이지에 개인 기부 영수증 부분 나옴
+    public DonateDetail donateReceipt(String userId, Long donateId) {
+        DonateBoard donateBoard = donateBoardRepository.findById(donateId).get();
+        User user = userRepository.findByUserID(userId);
+        List<DonatePointResponse> donatePointResponses = new ArrayList<>();
+        List<Donate> donateList = donatePointRepository.findAllByUserAndDonateBoardOrderByLocalDateTimeAsc(user, donateBoard);
+        int total = 0;
+        for (Donate donate : donateList) {
+            int donatePoint = donate.getUsePoint() == null ? 0 : donate.getUsePoint().intValue();
+            total += donatePoint;
+            donatePointResponses.add(new DonatePointResponse(donate.getUser().getUserID(), donate.getDonateBoard().getId(), donate.getLocalDateTime(), donatePoint, donate.getDonateBoard().getImageUrl()));
+        }
+
+        return new DonateDetail(total,donatePointResponses);
+    }
 }
