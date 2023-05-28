@@ -147,5 +147,9 @@ public class UserService {
 
     }
 
+    public String loginId(HttpSession httpSession) {
+        return (String) httpSession.getAttribute("loginId");
+    }
+
 
 }

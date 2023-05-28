@@ -33,6 +33,7 @@ public class ReviewService {
     private final ReviewRegisterRepository reviewRegisterRepository;
     private final ReviewCommentRepository reviewCommentRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
     public String reviewRegister(HttpSession session, ReviewRegisterRequestDto requestDto, MultipartFile file) {

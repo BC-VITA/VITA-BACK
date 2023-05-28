@@ -29,4 +29,8 @@ public class BoardListResponse {
 
     private Integer bloodNumber;
 
+    private int wishListCount;
+
+    private boolean isWishList;
+
 }

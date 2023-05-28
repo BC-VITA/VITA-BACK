@@ -28,6 +28,8 @@ public class BoardService {
     private final DesignateBloodWishListRepository designateBloodWishListRepository;
     private final VolunteerRegisterRepository volunteerRegisterRepository;
     private final HospitalRepository hospitalRepository;
+    private final UserService userService;
+
 
 
     @Transactional
@@ -66,7 +68,7 @@ public class BoardService {
     }
 
 
-    public List<BoardListResponse> filter(String patientIsRH, String requestHospitalAddress, String title, String content, String hospitalName, String patientBlood, String bloodType) {
+    public List<BoardListResponse> filter(HttpSession session,String patientIsRH, String requestHospitalAddress, String title, String content, String hospitalName, String patientBlood, String bloodType) {
         List<DesignatedBloodWrite> postList = null;
         if (patientIsRH != null) { //rh여부
             postList = designatedBloodWriteRepository.filterIsRH(patientIsRH);
@@ -113,13 +115,23 @@ public class BoardService {
         }
 
         List<BoardListResponse> resultList = new ArrayList<>();
+        User user = userRepository.findByUserID(userService.loginId(session));
+
         for (DesignatedBloodWrite post : postList) {
+            boolean isWishList = false;
+
             DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWrite(post).orElse(null);
             if (designatedBloodWriteUser == null) {
                 continue;
             }
+            if(user != null) {
+                WishList wishList = wishListRepository.findByUserAndDesignatedBloodWriteUser(user, designatedBloodWriteUser).orElse(null);
+                if(wishList != null) {
+                    isWishList = true;
+                }
+            }
             BoardListResponse boardListResponse = new BoardListResponse(post.getHospitalName(), post.getTitle(), post.getContent(),
-                    post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(), designatedBloodWriteUser.getBloodNumber());
+                    post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(), designatedBloodWriteUser.getBloodNumber(),wishListRepository.countByDesignatedBloodWriteUser(designatedBloodWriteUser),isWishList);
             resultList.add(boardListResponse);
         }
 
@@ -127,22 +139,7 @@ public class BoardService {
     }
 
 
-    @Transactional(readOnly = true)
-    public List<BoardListResponse> boardListResponseList() {
-        List<DesignatedBloodWrite> boardWriteList = designatedBloodWriteRepository.findAll();
-        List<BoardListResponse> boardListResponse = new ArrayList<>();
-        for (DesignatedBloodWrite designatedBloodWrite : boardWriteList) {
-            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(designatedBloodWrite.getId()).orElse(null);
-            if (designatedBloodWriteUser == null) {
-                throw new IllegalArgumentException("DesignatedBloodWriteUser 값이 null");
-            }
 
-            boardListResponse.add(new BoardListResponse(designatedBloodWrite.getHospitalName(), designatedBloodWrite.getTitle(),
-                    designatedBloodWrite.getContent(), designatedBloodWrite.getPatientBlood(), designatedBloodWrite.getBloodType(), designatedBloodWrite.getStartDate(),
-                    designatedBloodWrite.getId(), designatedBloodWriteUser.getBloodNumber()));
-        }
-        return boardListResponse;
-    }
 
 
 //    @Transactional
@@ -166,11 +163,7 @@ public class BoardService {
     @Transactional
     public String wishListUpdate(HttpSession session,WishListRequestDto wishListRequestDto) {
         //User user = userRepository.findByUserID(wishListRequestDto.getLoginId());
-        User user = userRepository.findByUserID(loginId(session));
-        Hospital hospital = hospitalRepository.findByHospitalId(loginId(session));
-        if(user == null) {
-
-        }
+        User user = userRepository.findByUserID(userService.loginId(session));
         Long boardId = wishListRequestDto.getBoardId();
         if (wishListRequestDto.getBoardType().equals("designatedBlood")) {
             DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(boardId).orElse(null);
@@ -199,9 +192,7 @@ public class BoardService {
         return "성공";
     }
 
-    private String loginId(HttpSession httpSession) {
-        return (String) httpSession.getAttribute("loginId");
-    }
+
 
 
 //    @Transactional

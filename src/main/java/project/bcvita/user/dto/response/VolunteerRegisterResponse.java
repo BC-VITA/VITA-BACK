@@ -97,4 +97,8 @@ public class VolunteerRegisterResponse {
 
     //사이트 url
     private String url;
+
+    private int wishListCount;
+
+    private boolean isWishList;
 }
