@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.user.dto.request.ReviewCommentDto;
 import project.bcvita.user.dto.request.ReviewRegisterRequestDto;
+import project.bcvita.user.dto.response.ReviewCommentResponse;
+import project.bcvita.user.dto.response.ReviewDetail;
 import project.bcvita.user.dto.response.ReviewRegisterResponse;
 import project.bcvita.user.service.ReviewService;
 
@@ -17,7 +19,6 @@ import java.util.List;
 @Slf4j
 @RequestMapping("review")
 @RequiredArgsConstructor
-@Valid
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -35,9 +36,14 @@ public class ReviewController {
     }
 
     //댓글 작성 api
-    @PostMapping("/comment")
-    public ReviewCommentDto reviewRegisterComment(HttpSession session, @RequestBody ReviewCommentDto reviewCommentDto){
-        return reviewService.writeComment(session,reviewCommentDto);
+    @PostMapping("/comment/{registerId}")
+    public ReviewCommentResponse reviewRegisterComment(HttpSession session, @PathVariable("registerId") Long registerId, @RequestBody ReviewCommentDto reviewCommentDto){
+        return reviewService.writeComment(session,registerId,reviewCommentDto);
+    }
+
+    @GetMapping("/comment/{registerId}")
+    public ReviewDetail reviewDetail(@PathVariable("registerId") Long registerId) {
+        return reviewService.reviewDetail(registerId);
     }
 
 }
