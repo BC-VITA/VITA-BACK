@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import project.bcvita.heart.WishListRepository;
 import project.bcvita.user.dto.request.ReviewCommentDto;
 import project.bcvita.user.dto.request.ReviewRegisterRequestDto;
 import project.bcvita.user.dto.response.ReviewCommentResponse;
+import project.bcvita.user.dto.response.ReviewDetail;
 import project.bcvita.user.dto.response.ReviewRegisterResponse;
 import project.bcvita.user.entity.ReviewComment;
 import project.bcvita.user.entity.ReviewRegister;
@@ -21,6 +23,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +33,12 @@ public class ReviewService {
     private final ReviewRegisterRepository reviewRegisterRepository;
     private final ReviewCommentRepository reviewCommentRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
     public String reviewRegister(HttpSession session, ReviewRegisterRequestDto requestDto, MultipartFile file) {
         try{
-            String path = "C:\\vita";
+            String path = "/Users/hoewoon/image";
             File destination = new File(path + File.separator + file.getOriginalFilename());
             file.transferTo(destination);
             //String loginId = (String) session.getAttribute("loginId");
@@ -89,39 +93,39 @@ public class ReviewService {
 
     //댓글 작성하기
     @Transactional
-    public ReviewCommentDto writeComment(HttpSession session, ReviewCommentDto reviewCommentDto){
+    public ReviewCommentResponse writeComment(HttpSession session,Long registerId,ReviewCommentDto reviewCommentDto){
+        ReviewRegister reviewRegister = reviewRegisterRepository.findById(registerId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("게시판을 찾을 수 없습니다.")
+                );
+
         ReviewComment reviewComment = new ReviewComment();
         reviewComment.setComment(reviewCommentDto.getComment());
 
         //게시판 번호로 게시글 찾기
-        User user = userRepository.findByUserID(reviewCommentDto.getUserId());
+        String loginId = (String) session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
         reviewComment.setUser(user);
-        ReviewComment save = reviewCommentRepository.save(reviewComment);
-        ReviewRegister reviewRegister = reviewRegisterRepository.findById(reviewComment.getId())
-                .orElseThrow(() ->
-                     new IllegalArgumentException("게시판을 찾을 수 없습니다.")
-                );
-
         reviewComment.setReviewRegister(reviewRegister);
+        ReviewComment save = reviewCommentRepository.save(reviewComment);
 
-
-        return new ReviewCommentDto(user.getUserID(),
-                reviewRegister.getId(), save.getComment(), save.getLocalDateTime().now(),
+        return new ReviewCommentResponse(user.getUserID(),user.getUserName(),registerId,
+                 save.getComment(),save.getLocalDateTime().now(),
                 false);
     }
 
+    public ReviewDetail reviewDetail(Long registerId) {
+        ReviewRegister reviewRegister = reviewRegisterRepository.findById(registerId).orElse(null);
+        if(reviewRegister == null) {
+            throw new IllegalArgumentException("게시판을 찾을 수 없습니다.");
+        }
+        List<ReviewCommentResponse> reviewCommentResponses = reviewCommentRepository.findAllByReviewRegister(reviewRegister).stream().map(x -> new ReviewCommentResponse(
+                  x.getUser().getUserID(),x.getUser().getUserName(),x.getReviewRegister().getId(),x.getComment(),
+                x.getLocalDateTime(),x.isReport()
+        )).collect(Collectors.toList());
+        return new ReviewDetail(reviewRegister.getTitle(),reviewRegister.getContent(),reviewCommentResponses);
 
-    //게시글에 해당하는 전체 댓글 불러오기
-//    @Transactional
-//    public List<ReviewCommentResponse> commentResponseList(ReviewCommentDto requestDto) {
-//
-//        ReviewRegister reviewRegister1 = reviewRegisterRepository.findById(requestDto.getReviewRegisterId()).get();
-//        User user = userRepository.findByUserID(requestDto.getUserId());
-//        List<ReviewCommentResponse> reviewCommentResponses = new ArrayList<>();
-//        for (ReviewRegister reviewRegister : reviewRegister1) {
-//            reviewCommentResponses.add(new ReviewCommentResponse(reviewRegister.getUser().getUserID(),reviewRegister.getId(), requestDto.getComment(), requestDto.getLocalDateTime(),requestDto.isReport()));
-//        }
-//        return reviewCommentResponses;
-//
-//    }
+
+
+    }
 }

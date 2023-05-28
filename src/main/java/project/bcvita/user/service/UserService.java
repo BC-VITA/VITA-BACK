@@ -73,7 +73,6 @@ public class UserService {
             throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
         } else {
             session.setAttribute("loginId", user.getUserID());
-            System.out.println("ooo");
         }
             System.out.println("user = " + user.getUserID());
         return "로그인 성공";
@@ -146,6 +145,10 @@ public class UserService {
         return new MyPageResponse(user.getUserID(),user.getUserName(),user.getUserPhoneNumber(),user.getUserEmail(),
                 user.getUserBirth(), user.getUserBlood(), user.getSex(),user.getIsRH(),user.getBloodHistory(),user.getUserPoint());
 
+    }
+
+    public String loginId(HttpSession httpSession) {
+        return (String) httpSession.getAttribute("loginId");
     }
 
 

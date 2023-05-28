@@ -3,6 +3,8 @@ package project.bcvita.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.bcvita.heart.WishListRepository;
+import project.bcvita.heart.entity.WishList;
 import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
@@ -29,6 +31,8 @@ public class VolunteerService {
     private final UserRepository userRepository;
 
     private final VolunteerReservationRepository volunteerReservationRepository;
+    private final UserService userService;
+    private final WishListRepository wishListRepository;
 
     //봉사 기업-단체 회원가입 api
     @Transactional
@@ -166,15 +170,26 @@ public class VolunteerService {
      */
 
     @Transactional
-    public List<VolunteerRegisterResponse> boardListResponseList(String volunteerType) {
+    public List<VolunteerRegisterResponse> boardListResponseList(HttpSession session,String volunteerType) {
+
+        String loginId = userService.loginId(session);
+        User user = userRepository.findByUserID(loginId);
+
         List<VolunteerRegister>  volunteerRegisters = volunteerRegisterRepository.findAllByVolunteerType(volunteerType);
         List<VolunteerRegisterResponse> volunteerRegisterResponses = new ArrayList<>();
         for(VolunteerRegister volunteerRegister : volunteerRegisters) {
+            boolean isWishList = false;
+            if(user != null) {
+                WishList wishList = wishListRepository.findByUserAndVolunteerRegister(user, volunteerRegister).orElse(null);
+                if(wishList != null) {
+                    isWishList = true;
+                }
+            }
             volunteerRegisterResponses.add(new VolunteerRegisterResponse(volunteerRegister.getVolunteerType(), volunteerRegister.getContent(), volunteerRegister.getTitle(),
                     volunteerRegister.getVolunteerStartDate(), volunteerRegister.getVolunteerEndDate(), volunteerRegister.getVolunteerStartTime(), volunteerRegister.getVolunteerEndTime(), volunteerRegister.getNeedVolunteerNumber(), volunteerRegister.getVolunteerArea(),
                     volunteerRegister.getActivitySection(), volunteerRegister.getVolunteerField(), volunteerRegister.getVolunteerStartDate(), volunteerRegister.getVolunteerEndDate(), volunteerRegister.getVolunteerAddress(),
                     volunteerRegister.getVolunteerTarget(), volunteerRegister.getVolunteerPlace(), volunteerRegister.getLatitude(), volunteerRegister.getLongitude(), volunteerRegister.getVolunteerActivityWeek(), volunteerRegister.getQualification(), volunteerRegister.getVolunteerPersonType(),
-                    volunteerRegister.getVolunteerActivityNumber(), volunteerRegister.getRequirements(), volunteerRegister.getManagerName(), volunteerRegister.getManagerEmail(), volunteerRegister.getRequireGroup(), volunteerRegister.getUrl()));
+                    volunteerRegister.getVolunteerActivityNumber(), volunteerRegister.getRequirements(), volunteerRegister.getManagerName(), volunteerRegister.getManagerEmail(), volunteerRegister.getRequireGroup(), volunteerRegister.getUrl(),wishListRepository.countByVolunteerRegister(volunteerRegister),isWishList));
         }
         return volunteerRegisterResponses;
     }
@@ -209,6 +224,8 @@ public class VolunteerService {
         }
         return volunteerReservationResponses;
     }
+
+
 }
 
 

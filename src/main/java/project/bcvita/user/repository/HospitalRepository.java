@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface HospitalRepository extends JpaRepository<Hospital,Long> {
     Hospital findByHospitalIdAndHospitalPw(String hospitalId, String hospitalPw);
+    Hospital findByHospitalId(String hospitalId);
 
 }

@@ -2,24 +2,16 @@ package project.bcvita.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.NotFound;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.bcvita.heart.WishListRepository;
+import project.bcvita.heart.entity.WishList;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
-import project.bcvita.user.dto.request.RequestCenterNameDto;
-import project.bcvita.user.dto.request.UserLoginRequestDto;
 import project.bcvita.user.dto.request.WishListRequestDto;
-import project.bcvita.user.dto.response.BloodHouseReservationResponse;
 import project.bcvita.user.dto.response.BoardListResponse;
-import project.bcvita.user.dto.response.WishListResponse;
 import project.bcvita.user.entity.*;
-import project.bcvita.user.repository.DesignateBloodWishListRepository;
-import project.bcvita.user.repository.DesignatedBloodWriteRepository;
-import project.bcvita.user.repository.DesignatedBloodWriteUserRepository;
-import project.bcvita.user.repository.UserRepository;
+import project.bcvita.user.repository.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +23,13 @@ public class BoardService {
     private final DesignatedBloodWriteRepository designatedBloodWriteRepository;
     private final UserRepository userRepository;
     private final DesignatedBloodWriteUserRepository designatedBloodWriteUserRepository;
+    private final WishListRepository wishListRepository;
 
     private final DesignateBloodWishListRepository designateBloodWishListRepository;
+    private final VolunteerRegisterRepository volunteerRegisterRepository;
+    private final HospitalRepository hospitalRepository;
+    private final UserService userService;
+
 
 
     @Transactional
@@ -71,7 +68,7 @@ public class BoardService {
     }
 
 
-    public List<BoardListResponse> filter(String patientIsRH, String requestHospitalAddress, String title, String content, String hospitalName, String patientBlood, String bloodType) {
+    public List<BoardListResponse> filter(HttpSession session,String patientIsRH, String requestHospitalAddress, String title, String content, String hospitalName, String patientBlood, String bloodType) {
         List<DesignatedBloodWrite> postList = null;
         if (patientIsRH != null) { //rh여부
             postList = designatedBloodWriteRepository.filterIsRH(patientIsRH);
@@ -118,13 +115,23 @@ public class BoardService {
         }
 
         List<BoardListResponse> resultList = new ArrayList<>();
+        User user = userRepository.findByUserID(userService.loginId(session));
+
         for (DesignatedBloodWrite post : postList) {
+            boolean isWishList = false;
+
             DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWrite(post).orElse(null);
             if (designatedBloodWriteUser == null) {
                 continue;
             }
+            if(user != null) {
+                WishList wishList = wishListRepository.findByUserAndDesignatedBloodWriteUser(user, designatedBloodWriteUser).orElse(null);
+                if(wishList != null) {
+                    isWishList = true;
+                }
+            }
             BoardListResponse boardListResponse = new BoardListResponse(post.getHospitalName(), post.getTitle(), post.getContent(),
-                    post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(), designatedBloodWriteUser.getBloodNumber());
+                    post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(), designatedBloodWriteUser.getBloodNumber(),wishListRepository.countByDesignatedBloodWriteUser(designatedBloodWriteUser),isWishList);
             resultList.add(boardListResponse);
         }
 
@@ -132,22 +139,7 @@ public class BoardService {
     }
 
 
-    @Transactional(readOnly = true)
-    public List<BoardListResponse> boardListResponseList() {
-        List<DesignatedBloodWrite> boardWriteList = designatedBloodWriteRepository.findAll();
-        List<BoardListResponse> boardListResponse = new ArrayList<>();
-        for (DesignatedBloodWrite designatedBloodWrite : boardWriteList) {
-            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(designatedBloodWrite.getId()).orElse(null);
-            if (designatedBloodWriteUser == null) {
-                throw new IllegalArgumentException("DesignatedBloodWriteUser 값이 null");
-            }
 
-            boardListResponse.add(new BoardListResponse(designatedBloodWrite.getHospitalName(), designatedBloodWrite.getTitle(),
-                    designatedBloodWrite.getContent(), designatedBloodWrite.getPatientBlood(), designatedBloodWrite.getBloodType(), designatedBloodWrite.getStartDate(),
-                    designatedBloodWrite.getId(), designatedBloodWriteUser.getBloodNumber()));
-        }
-        return boardListResponse;
-    }
 
 
 //    @Transactional
@@ -169,19 +161,38 @@ public class BoardService {
 
     //좋아요 여부
     @Transactional
-    public String wishListUpdate(WishListRequestDto wishListRequestDto) {
+    public String wishListUpdate(HttpSession session,WishListRequestDto wishListRequestDto) {
         //User user = userRepository.findByUserID(wishListRequestDto.getLoginId());
-        User user = userRepository.findAllByUserID(wishListRequestDto.getLoginId());
-        if (wishListRequestDto.getBoardType().equals("user")) {
-            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(wishListRequestDto.getBoardId()).get();
-            designatedBloodWriteUser.setUserNumber(user);
-            designatedBloodWriteUser.setWishListCount(wishListRequestDto.getWishListCount() + 1);
-            designatedBloodWriteUserRepository.save(designatedBloodWriteUser);
-            return "찜하기 성공";
+        User user = userRepository.findByUserID(userService.loginId(session));
+        Long boardId = wishListRequestDto.getBoardId();
+        if (wishListRequestDto.getBoardType().equals("designatedBlood")) {
+            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(boardId).orElse(null);
+            if(designatedBloodWriteUser == null) {
+                throw new IllegalArgumentException("게시판 없습니다.");
+            }
+            WishList wishList = wishListRepository.findByUserAndDesignatedBloodWriteUser(user, designatedBloodWriteUser).orElse(null);
+            if(wishList != null) {
+                wishListRepository.delete(wishList);
+            }else {
+                wishList.createDesignateBloodHeart(user, "designatedBlood", true, designatedBloodWriteUser);
+            }
+        }else if(wishListRequestDto.getBoardType().equals("volunteer")) {
+            VolunteerRegister volunteerRegister = volunteerRegisterRepository.findById(boardId).orElse(null);
+            if(volunteerRegister == null) {
+                throw new IllegalArgumentException("게시판 없습니다.");
+            }
+            WishList wishList = wishListRepository.findByUserAndVolunteerRegister(user, volunteerRegister).orElse(null);
+            if(wishList != null) {
+                wishListRepository.delete(wishList);
+            }else {
+                wishList.createVolunteerHeart(user, "volunteer", true, volunteerRegister);
+            }
         }
         //병원에 대한 로직 작성
-        return "실패";
+        return "성공";
     }
+
+
 
 
 //    @Transactional
@@ -203,21 +214,7 @@ public class BoardService {
 //        return bloodHouseReservationResponses;
 //    }
 
-    @Transactional
-    public String wishListDelete(WishListRequestDto wishListRequestDto) {
-        User user  = userRepository.findByUserID(wishListRequestDto.getLoginId());
 
-        if (wishListRequestDto.getBoardType().equals("user")){
-            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(wishListRequestDto.getBoardId()).get();
-            DesignatedBloodWishList designatedBloodWishList = new DesignatedBloodWishList();
-            designatedBloodWishList.setUser(user);
-            designatedBloodWishList.setDesignatedBloodWriteUser(designatedBloodWriteUser);
-            designateBloodWishListRepository.delete(designatedBloodWishList);
-            return "찜하기 취소";
-        }
-        //병원에 대한 로직 작성
-        return "실패";
-    }
 
 
 
