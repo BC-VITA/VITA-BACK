@@ -31,6 +31,7 @@ public class WishList {
     private VolunteerRegister volunteerRegister;
 
 
+
     public void createDesignateBloodHeart(User user, String boardType, boolean isWishList,DesignatedBloodWriteUser designatedBloodWriteUser){
         this.user = user;
         this.boardType = boardType;

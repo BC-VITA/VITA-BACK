@@ -1,7 +1,6 @@
 package project.bcvita.user.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -20,7 +19,7 @@ public class ReviewCommentResponse {
 
     //작성 날짜 및 시간
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime localDateTime;
+    private LocalDateTime createdAt;
 
     //신고여부
     private boolean isReport;
