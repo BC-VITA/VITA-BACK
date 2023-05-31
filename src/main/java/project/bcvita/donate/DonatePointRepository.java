@@ -12,4 +12,7 @@ import java.util.List;
 public interface DonatePointRepository extends JpaRepository<Donate, Long> {
 
     List<Donate> findAllByUserAndDonateBoardOrderByLocalDateTimeAsc(User user, DonateBoard donateBoard);
+
+    List<Donate> findAllByDonateBoard(DonateBoard donateBoard);
+
 }

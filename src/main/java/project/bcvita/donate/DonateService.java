@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.donate.dto.request.DonateBoardRequest;
 import project.bcvita.donate.dto.request.DonatePointRequest;
@@ -46,6 +47,8 @@ public class DonateService {
 
         return "기부 게시글 저장";
     }
+
+    //기부 게시판 list api
     public Page<DonateBoardResponse> boardList(Pageable pageable) {
         Page<DonateBoard> donateBoard = donateBoardRepository.findAll(pageable);
         return  donateBoard.map(board ->
@@ -110,18 +113,49 @@ public class DonateService {
     }
 
     //개인 기부 영수증 -> 포인트 기부하면 다음페이지에 개인 기부 영수증 부분 나옴
-    public DonateDetail donateReceipt(String userId, Long donateId) {
+//    public DonateDetail donateReceipt(String userId, Long donateId) {
+//        DonateBoard donateBoard = donateBoardRepository.findById(donateId).get();
+//        User user = userRepository.findByUserID(userId);
+//        List<DonatePointResponse> donatePointResponses = new ArrayList<>();
+//        List<Donate> donateList = donatePointRepository.findAllByUserAndDonateBoardOrderByLocalDateTimeAsc(user, donateBoard);
+//        int total = 0;
+//        for (Donate donate : donateList) {
+//            int donatePoint = donate.getUsePoint() == null ? 0 : donate.getUsePoint().intValue();
+//            total += donatePoint;
+//            donatePointResponses.add(new DonatePointResponse(donate.getUser().getUserID(), donate.getDonateBoard().getId(), donate.getLocalDateTime(), donatePoint, donate.getDonateBoard().getImageUrl()));
+//        }
+//
+//        return new DonateDetail(total,donatePointResponses);
+//    }
+
+
+
+    //하나의 게시글 기부 영수증 -> 개인x, 한 게시글에 기부한 사람 다 나옴
+    public DonateDetail donateReceiptPerson(Long donateId) {
         DonateBoard donateBoard = donateBoardRepository.findById(donateId).get();
-        User user = userRepository.findByUserID(userId);
+        List<Donate> donateList = donatePointRepository.findAllByDonateBoard(donateBoard);
+
         List<DonatePointResponse> donatePointResponses = new ArrayList<>();
-        List<Donate> donateList = donatePointRepository.findAllByUserAndDonateBoardOrderByLocalDateTimeAsc(user, donateBoard);
+        //List<Donate> donateList = donatePointRepository.findAllByUserAndDonateBoardOrderByLocalDateTimeAsc(user, donateBoard);
         int total = 0;
-        for (Donate donate : donateList) {
+        for(Donate donate : donateList) {
+            if(donate.getUser() == null) {
+                continue;
+            }
             int donatePoint = donate.getUsePoint() == null ? 0 : donate.getUsePoint().intValue();
             total += donatePoint;
-            donatePointResponses.add(new DonatePointResponse(donate.getUser().getUserID(), donate.getDonateBoard().getId(), donate.getLocalDateTime(), donatePoint, donate.getDonateBoard().getImageUrl()));
+            donatePointResponses.add(new DonatePointResponse(donate.getUser().getUserID(), donate.getDonateBoard().getTitle(), donate.getLocalDateTime(), donatePoint,
+                    donate.getDonateBoard().getImageUrl()));
         }
-
-        return new DonateDetail(total,donatePointResponses);
+        return new DonateDetail(total, donatePointResponses);
     }
+
+    /*
+    DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWrite(post).orElse(null);
+            if (designatedBloodWriteUser == null) {
+                continue;
+            }
+     */
+
+
 }

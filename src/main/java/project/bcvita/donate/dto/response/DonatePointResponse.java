@@ -13,7 +13,7 @@ public class DonatePointResponse {
     private String userId;
 
     //기부 게시글 번호
-    private Long donateId;
+    private String donateId;
 
     //기부하고 남을 포인트
     //private Integer finalPoint;
