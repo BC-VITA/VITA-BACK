@@ -74,8 +74,13 @@ public class DonateController {
         return donateService.donateUserPoint(session, userId);
     }
 
+//    @GetMapping("/donate-receipt")
+//    public DonateDetail donateReceipt(String userId, Long donateId) {
+//        return donateService.donateReceipt(userId,donateId);
+//    }
+
     @GetMapping("/donate-receipt")
-    public DonateDetail donateReceipt(String userId, Long donateId) {
-        return donateService.donateReceipt(userId,donateId);
+    public DonateDetail donateReceiptPerson(Long donateId) {
+        return donateService.donateReceiptPerson(donateId);
     }
 }
