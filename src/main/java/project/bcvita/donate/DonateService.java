@@ -112,6 +112,7 @@ public class DonateService {
         return user.getUserPoint();
     }
 
+
     //개인 기부 영수증 -> 포인트 기부하면 다음페이지에 개인 기부 영수증 부분 나옴
 //    public DonateDetail donateReceipt(String userId, Long donateId) {
 //        DonateBoard donateBoard = donateBoardRepository.findById(donateId).get();
@@ -150,11 +151,41 @@ public class DonateService {
         return new DonateDetail(total, donatePointResponses);
     }
 
+
+    //기부 영수증 게시글 list
+    @Transactional
+    public List<DonateBoardResponse> donatePointResponses() {
+        List<DonateBoard> donateList = donateBoardRepository.findAll();
+        List<DonateBoardResponse> donateBoardResponses = new ArrayList<>();
+        for (DonateBoard donateBoard : donateList) {
+            donateBoardResponses.add(new DonateBoardResponse(donateBoard.getId(), donateBoard.getTitle(), donateBoard.getImageUrl(), donateBoard.getContent()));
+        }
+        return donateBoardResponses;
+    }
+
+
     /*
-    DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWrite(post).orElse(null);
-            if (designatedBloodWriteUser == null) {
-                continue;
-            }
+    @Transactional
+    public List<ReviewRegisterResponse> boardListResponseList(String reviewType) {
+        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByReviewType(reviewType);
+        List<ReviewRegisterResponse> reviewRegisterResponses = new ArrayList<>();
+        for(ReviewRegister reviewRegister : reviewRegisters) {
+            reviewRegisterResponses.add(new ReviewRegisterResponse(reviewRegister.getReviewType(), reviewRegister.getImg(), reviewRegister.getContent(), reviewRegister.getTitle()));
+        }
+        return reviewRegisterResponses;
+    }
+     */
+
+    /*
+    public Page<DonateBoardResponse> boardList(Pageable pageable) {
+        Page<DonateBoard> donateBoard = donateBoardRepository.findAll(pageable);
+        return  donateBoard.map(board ->
+                {
+                    DonateBoardResponse donateBoardResponse = new DonateBoardResponse(board.getId(), board.getTitle(), board.getImageUrl(), board.getContent());
+                    return donateBoardResponse;
+                }
+                );
+    }
      */
 
 

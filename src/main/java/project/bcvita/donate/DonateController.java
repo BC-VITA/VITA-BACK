@@ -15,6 +15,7 @@ import project.bcvita.donate.dto.response.DonateBoardResponse;
 import project.bcvita.donate.dto.response.DonateDetail;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -83,4 +84,10 @@ public class DonateController {
     public DonateDetail donateReceiptPerson(Long donateId) {
         return donateService.donateReceiptPerson(donateId);
     }
+
+    @GetMapping("/donate-receipt-list")
+    public List<DonateBoardResponse> donateBoardResponse() {
+        return donateService.donatePointResponses();
+    }
 }
+
