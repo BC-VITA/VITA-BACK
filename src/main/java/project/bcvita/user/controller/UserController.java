@@ -6,9 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.*;
-import project.bcvita.user.dto.response.BoardListResponse;
-import project.bcvita.user.dto.response.MyPageResponse;
-import project.bcvita.user.dto.response.UserListResponse;
+import project.bcvita.user.dto.response.*;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.service.BoardService;
 import project.bcvita.user.service.TestService;
@@ -128,6 +126,32 @@ public class UserController {
     public MyPageResponse updateMyPage(HttpSession session, @RequestBody MyPageRequest request) {
         return userService.updateMyPage(session,request);
     }
+
+    @GetMapping("/mypage-designated-write")
+    public MyPageDesignatedBloodBoardResponse mypageWrite(HttpSession session, MyPageDesignatedBloodWriteRequest requestDto){
+        return userService.myPage(session, requestDto);
+    }
+
+    @PutMapping("/mypage-designated-write-update")
+    public MyPageDesignatedBloodHistoryResponse mypageWriteUpdate(HttpSession session, @RequestBody BoardCreateRequestDto requestDto) {
+        return userService.updateDesignatedBoardMyPage(session, requestDto);
+    }
+
+    @DeleteMapping("/mypage-designated-write-delete/{designatedId}/{designatedUserId}")
+    public String mypageWriteDelete(HttpSession session, @PathVariable("designatedId") Long designatedId, @PathVariable("designatedUserId") Long designatedUserId){
+        return userService.deleteMypageDesignatedBoard(session, designatedId, designatedUserId);
+    }
+
+    @GetMapping("/mypage-blood-reservation-history")
+    public MyPageBloodReservationHistoryResponse myPageBloodReservationHistory(HttpSession session, MyPageBloodReservationHistoryRequest request){
+        return userService.mypageBloodReservationHistory(session, request);
+    }
+
+    @DeleteMapping("/mypage-blood-reservation-cancel/{reservationId}")
+    public String cancelMyPageBloodReservation(@PathVariable Long reservationId){
+        return userService.CancelMyPageBloodReservation(reservationId);
+    }
+
 }
 
 

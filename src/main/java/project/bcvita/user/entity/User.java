@@ -43,6 +43,9 @@ public class User {
     //사용자 관리자 권한 여부
     private boolean isAdmin;
 
+    //지정헌혈 참여횟수
+    private Integer designatedNumber;
+
     
 
 

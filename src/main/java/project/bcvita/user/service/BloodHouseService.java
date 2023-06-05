@@ -177,7 +177,7 @@ public class BloodHouseService {
     //헌혈의 집 예약 api 구현
     @Transactional
     public String bloodHouseReservation(HttpSession session, BloodHouseReservationSaveRequestDto bloodHouseReservationSaveRequestDto) {
-        String userLoginId = (String) session.getAttribute("user");
+        String userLoginId = (String) session.getAttribute("loginId");
         User byUserID = userRepository.findByUserID(userLoginId);
         BloodHouseReservation bloodHouseReservation = new BloodHouseReservation();
         //BloodHouseReservationRequestDto bloodHouseReservation = new BloodHouseReservationRequestDto();
@@ -242,6 +242,6 @@ public class BloodHouseService {
         return bloodHouseReservationResponses;
     }
 }
-//헌혈 후기 게시물 작성 api
+
 
 
