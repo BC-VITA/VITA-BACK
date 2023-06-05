@@ -6,12 +6,11 @@ import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import project.bcvita.user.dto.request.*;
-import project.bcvita.user.dto.response.MyPageResponse;
-import project.bcvita.user.dto.response.UserInfo;
-import project.bcvita.user.dto.response.UserListResponse;
-import project.bcvita.user.dto.response.UserLoginResponse;
-import project.bcvita.user.entity.Hospital;
-import project.bcvita.user.entity.User;
+import project.bcvita.user.dto.response.*;
+import project.bcvita.user.entity.*;
+import project.bcvita.user.repository.BloodHouseReservationRepository;
+import project.bcvita.user.repository.DesignatedBloodWriteRepository;
+import project.bcvita.user.repository.DesignatedBloodWriteUserRepository;
 import project.bcvita.user.repository.UserRepository;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +21,19 @@ import javax.servlet.http.HttpSession;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
+
+    private final DesignatedBloodWriteUserRepository designatedBloodWriteUserRepository;
+
+    private final DesignatedBloodWriteRepository designatedBloodWriteRepository;
+
+    private final BloodHouseReservationRepository bloodHouseReservationRepository;
 
     @Transactional
     public String join(UserRequest request) {
@@ -152,4 +158,92 @@ public class UserService {
     }
 
 
+    //마이페이지 작성한 게시물 api
+    public MyPageDesignatedBloodBoardResponse myPage(HttpSession session, MyPageDesignatedBloodWriteRequest requestDto) {
+        String loginId = (String)session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+        return new MyPageDesignatedBloodBoardResponse(user.getUserName(), user.getDesignatedNumber(), requestDto.getBoardTitle(), requestDto.getLocalDateTime().now());
+    }
+
+    //마이페이지 작성한 게시물 수정 api
+    @Transactional
+    public MyPageDesignatedBloodHistoryResponse updateDesignatedBoardMyPage(HttpSession session, BoardCreateRequestDto requestDto) {
+        String loginId = (String)session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+        DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(requestDto.getUserId()).get();
+        DesignatedBloodWrite designatedBloodWrite = designatedBloodWriteRepository.findDesignatedBloodWriteById(requestDto.getUserId()).get();
+        designatedBloodWriteUser.setId(requestDto.getUserId());
+        designatedBloodWriteUser.setPatientName(requestDto.getPatientName());
+        designatedBloodWriteUser.setBloodPersonNumber(requestDto.getBloodPersonNumber());
+        designatedBloodWriteUser.setBloodNumber(requestDto.getBloodNumber());
+        designatedBloodWriteUser.setPatientAge(requestDto.getPatientAge());
+        designatedBloodWriteUser.setHospitalRoomNumber(requestDto.getHospitalRoomNumber());
+        //designatedBloodWriteUser.setDesignatedBloodWrite(requestDto.getHospitalName());
+        designatedBloodWrite.setHospitalName(requestDto.getHospitalName());
+        designatedBloodWrite.setHospitalPhoneNumber(requestDto.getHospitalPhoneNumber());
+        designatedBloodWrite.setRequestHospitalAddress(requestDto.getRequestHospitalAddress());
+        //designatedBloodWriteUser.getUserNumber(requestDto.getUserId());
+        //designatedBloodWriteUser.setUserNumber(user.getUserPhoneNumber());
+        designatedBloodWrite.setPatientBlood(requestDto.getPatientBlood());
+        designatedBloodWrite.setPatientIsRH(requestDto.getPatientIsRH());
+        designatedBloodWrite.setBloodType(requestDto.getBloodType());
+        designatedBloodWrite.setNeedBloodSystem(requestDto.getNeedBloodSystem());
+        designatedBloodWriteUser.setBloodMatchType(requestDto.isBloodMatchType());
+        designatedBloodWriteUser.setReport(requestDto.isReview());
+        designatedBloodWrite.setStartDate(requestDto.getStartDate());
+        designatedBloodWrite.setEndDate(requestDto.getEndDate());
+        designatedBloodWrite.setTitle(requestDto.getTitle());
+        designatedBloodWrite.setContent(requestDto.getContent());
+
+        return new MyPageDesignatedBloodHistoryResponse(user.getUserID(), user.getUserName(), designatedBloodWriteUser.getPatientName(), designatedBloodWriteUser.getBloodPersonNumber(),
+                designatedBloodWriteUser.getBloodNumber(), designatedBloodWriteUser.getPatientAge(), designatedBloodWriteUser.getHospitalRoomNumber(), designatedBloodWrite.getHospitalName(), designatedBloodWrite.getHospitalPhoneNumber(),
+                designatedBloodWrite.getRequestHospitalAddress(), user.getUserPhoneNumber(), designatedBloodWrite.getPatientBlood(), designatedBloodWrite.getPatientIsRH(), designatedBloodWrite.getBloodType(),
+                designatedBloodWrite.getNeedBloodSystem(), designatedBloodWriteUser.isBloodMatchType(), designatedBloodWriteUser.isReview(), designatedBloodWrite.getStartDate(), designatedBloodWrite.getEndDate(),
+                designatedBloodWrite.getTitle(), designatedBloodWrite.getContent(), designatedBloodWrite.getLocalDateTime());
+    }
+
+
+    //마이페이지 작성한 게시물 삭제 api
+    @Transactional
+    public String deleteMypageDesignatedBoard(HttpSession session, Long designatedId, Long designatedUserId){
+        String loginId = (String)session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+
+        Optional<DesignatedBloodWriteUser> designatedBloodWriteUserOptional = designatedBloodWriteUserRepository.findById(designatedUserId);
+        Optional<DesignatedBloodWrite> designatedBloodWriteOptional = designatedBloodWriteRepository.findById(designatedId);
+
+        //해당 객체 존재하는지 !
+        if (designatedBloodWriteUserOptional.isPresent() && designatedBloodWriteOptional.isPresent()) {
+            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserOptional.get();
+            DesignatedBloodWrite designatedBloodWrite = designatedBloodWriteOptional.get();
+            designatedBloodWriteUserRepository.delete(designatedBloodWriteUser);
+            designatedBloodWriteRepository.delete(designatedBloodWrite);
+        }else {
+            throw new RuntimeException("게시물을 찾을 수 없습니다.");
+        }
+        return "삭제완료";
+    }
+
+    //마이페이지 헌혈 예약 내역 api
+    @Transactional
+    public MyPageBloodReservationHistoryResponse mypageBloodReservationHistory(HttpSession session, MyPageBloodReservationHistoryRequest request){
+        String loginId = (String)session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+        BloodHouseReservation reservation = bloodHouseReservationRepository.findById(request.getBloodReservationId()).get();
+        return new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), request.getHistoryType(), request.getBloodType(), request.getCenterName(), reservation.getDate());
+    }
+
+
+    //마이페이지 헌혈 예약 내역 취소 api
+    @Transactional
+    public String CancelMyPageBloodReservation(Long reservationId){
+        Optional<BloodHouseReservation> bloodHouseReservationOptional = bloodHouseReservationRepository.findById(reservationId);
+        if (bloodHouseReservationOptional.isPresent()) {
+            BloodHouseReservation bloodHouseReservation = bloodHouseReservationOptional.get();
+            bloodHouseReservationRepository.delete(bloodHouseReservation);
+        }else {
+            throw new RuntimeException("게시물을 찾을 수 없습니다.");
+        }
+        return "취소완료";
+    }
 }

@@ -14,4 +14,9 @@ public interface DesignatedBloodWriteUserRepository extends JpaRepository<Design
 //    DesignatedBloodWriteUser findByBloodNumber(Integer BloodNumber);
 
     Optional<DesignatedBloodWriteUser> findByDesignatedBloodWrite(DesignatedBloodWrite designatedBloodWrite);
+
+    DesignatedBloodWriteUser findById(String designatedUserId);
+
+
+
 }
