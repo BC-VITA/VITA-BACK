@@ -128,8 +128,8 @@ public class UserController {
     }
 
     @GetMapping("/mypage-designated-write")
-    public MyPageDesignatedBloodBoardResponse mypageWrite(HttpSession session, MyPageDesignatedBloodWriteRequest requestDto){
-        return userService.myPage(session, requestDto);
+    public List<MyPageDesignatedBloodBoardResponse> mypageWrite(HttpSession session){
+        return userService.myPage(session);
     }
 
     @PutMapping("/mypage-designated-write-update")
@@ -143,8 +143,8 @@ public class UserController {
     }
 
     @GetMapping("/mypage-blood-reservation-history")
-    public MyPageBloodReservationHistoryResponse myPageBloodReservationHistory(HttpSession session, MyPageBloodReservationHistoryRequest request){
-        return userService.mypageBloodReservationHistory(session, request);
+    public List<MyPageBloodReservationHistoryResponse> myPageBloodReservationHistory(HttpSession session){
+        return userService.mypageBloodReservationHistory(session);
     }
 
     @DeleteMapping("/mypage-blood-reservation-cancel/{reservationId}")

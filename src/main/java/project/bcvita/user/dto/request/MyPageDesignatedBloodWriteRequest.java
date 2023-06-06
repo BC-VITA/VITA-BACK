@@ -3,6 +3,7 @@ package project.bcvita.user.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -16,5 +17,8 @@ public class MyPageDesignatedBloodWriteRequest {
 
     private String boardTitle;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime localDateTime;
+
+    private Long userId;
 }
