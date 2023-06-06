@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Blob;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -34,4 +35,6 @@ public class ReviewRegister {
 
     //신고여부
     private boolean isReport;
+
+    private LocalDateTime localDateTime;
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import project.bcvita.user.entity.User;
 
 import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -24,4 +25,7 @@ public class ReviewRegisterRequestDto {
 
     //제목
     private String title;
+
+    //후기 시간
+    private LocalDateTime localDateTime;
 }
