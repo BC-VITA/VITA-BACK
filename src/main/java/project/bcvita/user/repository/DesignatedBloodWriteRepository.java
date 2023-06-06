@@ -16,6 +16,7 @@ public interface DesignatedBloodWriteRepository extends JpaRepository<Designated
 
     Optional<DesignatedBloodWrite> findDesignatedBloodWriteById(Long id);
 
+
     DesignatedBloodWrite findById(String designatedId);
 
     //1가지 경우의 수

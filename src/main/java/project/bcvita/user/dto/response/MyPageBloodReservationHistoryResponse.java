@@ -13,7 +13,7 @@ public class MyPageBloodReservationHistoryResponse {
     private String bloodHistory;
 
     //분류 -> 헌혈의집 / 버스
-    private String historyType;
+    //private String historyType;
 
     private String bloodType;
 

@@ -158,18 +158,26 @@ public class UserService {
     }
 
 
-    //마이페이지 작성한 게시물 api
-    public MyPageDesignatedBloodBoardResponse myPage(HttpSession session, MyPageDesignatedBloodWriteRequest requestDto) {
+    //마이페이지 지정헌혈 작성한 게시물 api
+    public List<MyPageDesignatedBloodBoardResponse> myPage(HttpSession session) {
         String loginId = (String)session.getAttribute("loginId");
         User user = userRepository.findByUserID(loginId);
-        return new MyPageDesignatedBloodBoardResponse(user.getUserName(), user.getDesignatedNumber(), requestDto.getBoardTitle(), requestDto.getLocalDateTime().now());
+        List<DesignatedBloodWriteUser> designatedBloodWriteUsers = designatedBloodWriteUserRepository.findAllByUserNumber(user);
+       // System.out.println("designatedBloodWrite = " + designatedBloodWrite.getLocalDateTime());
+        List<MyPageDesignatedBloodBoardResponse> list = new ArrayList<>();
+        for (DesignatedBloodWriteUser designatedBloodWriteUser : designatedBloodWriteUsers) {
+            list.add (new MyPageDesignatedBloodBoardResponse(user.getUserName(), user.getDesignatedNumber(),designatedBloodWriteUser.getDesignatedBloodWrite().getTitle(),
+                    designatedBloodWriteUser.getDesignatedBloodWrite().getLocalDateTime() ));
+        }
+        return list;
     }
 
-    //마이페이지 작성한 게시물 수정 api
+    //마이페이지 지정헌혈 작성한 게시물 수정 api
     @Transactional
     public MyPageDesignatedBloodHistoryResponse updateDesignatedBoardMyPage(HttpSession session, BoardCreateRequestDto requestDto) {
         String loginId = (String)session.getAttribute("loginId");
         User user = userRepository.findByUserID(loginId);
+        //List<DesignatedBloodWriteUser> designatedBloodWriteUser = designatedBloodWriteUserRepository.findAllByUserNumber(user);
         DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(requestDto.getUserId()).get();
         DesignatedBloodWrite designatedBloodWrite = designatedBloodWriteRepository.findDesignatedBloodWriteById(requestDto.getUserId()).get();
         designatedBloodWriteUser.setId(requestDto.getUserId());
@@ -203,7 +211,7 @@ public class UserService {
     }
 
 
-    //마이페이지 작성한 게시물 삭제 api
+    //마이페이지 지정헌혈 작성한 게시물 삭제 api
     @Transactional
     public String deleteMypageDesignatedBoard(HttpSession session, Long designatedId, Long designatedUserId){
         String loginId = (String)session.getAttribute("loginId");
@@ -226,11 +234,16 @@ public class UserService {
 
     //마이페이지 헌혈 예약 내역 api
     @Transactional
-    public MyPageBloodReservationHistoryResponse mypageBloodReservationHistory(HttpSession session, MyPageBloodReservationHistoryRequest request){
+    public List<MyPageBloodReservationHistoryResponse> mypageBloodReservationHistory(HttpSession session){
         String loginId = (String)session.getAttribute("loginId");
         User user = userRepository.findByUserID(loginId);
-        BloodHouseReservation reservation = bloodHouseReservationRepository.findById(request.getBloodReservationId()).get();
-        return new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), request.getHistoryType(), request.getBloodType(), request.getCenterName(), reservation.getDate());
+        //BloodHouseReservation reservation = bloodHouseReservationRepository.findById(request.getBloodReservationId()).get();
+        List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
+        List<MyPageBloodReservationHistoryResponse> list = new ArrayList<>();
+        for (BloodHouseReservation bloodHouseReservation : reservations) {
+            list.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate()));
+        }
+        return list;
     }
 
 
