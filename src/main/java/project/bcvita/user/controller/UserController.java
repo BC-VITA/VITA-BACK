@@ -119,11 +119,11 @@ public class UserController {
     }*/
 
     @GetMapping("/mypage")
-    public MyPageResponse myPage(HttpSession session, MyPageRequest request) {
-        return userService.myPage(session,request);
+    public MyPageResponse myPage(HttpSession session,@RequestParam(required = false) String reviewType) {
+        return userService.myPage(session,reviewType);
     }
     @PutMapping("/mypage")
-    public MyPageResponse updateMyPage(HttpSession session, @RequestBody MyPageRequest request) {
+    public MyPageUserInfoResponse updateMyPage(HttpSession session, @RequestBody MyPageRequest request) {
         return userService.updateMyPage(session,request);
     }
 
@@ -150,6 +150,11 @@ public class UserController {
     @DeleteMapping("/mypage-blood-reservation-cancel/{reservationId}")
     public String cancelMyPageBloodReservation(@PathVariable Long reservationId){
         return userService.CancelMyPageBloodReservation(reservationId);
+    }
+
+    @GetMapping("/mypage-designated-review")
+    public List<MyPageDesignatedBloodReviewResponse> myPageDesignatedBloodReviewResponses(HttpSession session, String reviewType) {
+        return userService.myPageBloodReviewResponses(session, reviewType);
     }
 
 }
