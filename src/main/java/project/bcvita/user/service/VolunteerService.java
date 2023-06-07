@@ -187,7 +187,7 @@ public class VolunteerService {
             }
             volunteerRegisterResponses.add(new VolunteerRegisterResponse(volunteerRegister.getVolunteerType(), volunteerRegister.getContent(), volunteerRegister.getTitle(),
                     volunteerRegister.getVolunteerStartDate(), volunteerRegister.getVolunteerEndDate(), volunteerRegister.getVolunteerStartTime(), volunteerRegister.getVolunteerEndTime(), volunteerRegister.getNeedVolunteerNumber(), volunteerRegister.getVolunteerArea(),
-                    volunteerRegister.getActivitySection(), volunteerRegister.getVolunteerField(), volunteerRegister.getVolunteerStartDate(), volunteerRegister.getVolunteerEndDate(), volunteerRegister.getVolunteerAddress(),
+                    volunteerRegister.getActivitySection(), volunteerRegister.getVolunteerField(), volunteerRegister.getVolunteerSeekStartDate(), volunteerRegister.getVolunteerSeekEndDate(), volunteerRegister.getVolunteerAddress(),
                     volunteerRegister.getVolunteerTarget(), volunteerRegister.getVolunteerPlace(), volunteerRegister.getLatitude(), volunteerRegister.getLongitude(), volunteerRegister.getVolunteerActivityWeek(), volunteerRegister.getQualification(), volunteerRegister.getVolunteerPersonType(),
                     volunteerRegister.getVolunteerActivityNumber(), volunteerRegister.getRequirements(), volunteerRegister.getManagerName(), volunteerRegister.getManagerEmail(), volunteerRegister.getRequireGroup(), volunteerRegister.getUrl(),wishListRepository.countByVolunteerRegister(volunteerRegister),isWishList));
         }
