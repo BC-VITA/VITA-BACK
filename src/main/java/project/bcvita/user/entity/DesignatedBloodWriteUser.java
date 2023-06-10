@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -38,6 +39,8 @@ public class DesignatedBloodWriteUser {
     private boolean isReport;
 
     private Integer wishListCount;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 
     public DesignatedBloodWriteUser(Long id, User userNumber, DesignatedBloodWrite designatedBloodWrite, String bloodPersonNumber, int bloodNumber, String patientName, String patientAge, String hospitalRoomNumber, boolean bloodMatchType, boolean isReview) {

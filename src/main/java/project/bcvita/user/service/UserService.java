@@ -1,26 +1,19 @@
 package project.bcvita.user.service;
 
-import com.mysql.cj.xdevapi.Session;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+import project.bcvita.chat.ChatRoomRepository;
+import project.bcvita.chat.entity.ChatRoom;
 import project.bcvita.user.dto.request.*;
-import project.bcvita.user.dto.response.MyPageResponse;
-import project.bcvita.user.dto.response.UserInfo;
-import project.bcvita.user.dto.response.UserListResponse;
-import project.bcvita.user.dto.response.UserLoginResponse;
-import project.bcvita.user.entity.Hospital;
+import project.bcvita.user.dto.response.*;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.repository.UserRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -28,6 +21,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
+    private final ChatRoomRepository chatRoomRepository;
+
 
     @Transactional
     public String join(UserRequest request) {
@@ -152,4 +147,21 @@ public class UserService {
     }
 
 
+    public List<MyPageChatResponse> myPageChat(HttpSession session) {
+        User user = userRepository.findByUserID(loginId(session));
+        List<ChatRoom> boardSeeUserList = chatRoomRepository.findAllByBoardSeeUser(user);
+        List<ChatRoom> boardWriterList = chatRoomRepository.findAllByBoardWriter(user);
+        List<MyPageChatResponse> myPageChatResponseList = new ArrayList<>();
+        for (ChatRoom chatRoom : boardSeeUserList) {
+            myPageChatResponseList.add(new MyPageChatResponse(chatRoom.getId(),chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),
+                    chatRoom.getDesignatedBloodWriteUser().getCreatedAt(),chatRoom.getIsAgree()));
+        }
+        for (ChatRoom chatRoom : boardWriterList) {
+            myPageChatResponseList.add(new MyPageChatResponse(chatRoom.getId(),chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),
+                    chatRoom.getDesignatedBloodWriteUser().getCreatedAt(),chatRoom.getIsAgree()));
+        }
+        myPageChatResponseList.sort(Comparator.comparing(MyPageChatResponse::getTime));
+
+        return myPageChatResponseList;
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.BoardListResponse;
+import project.bcvita.user.dto.response.MyPageChatResponse;
 import project.bcvita.user.dto.response.MyPageResponse;
 import project.bcvita.user.dto.response.UserListResponse;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
@@ -127,6 +128,12 @@ public class UserController {
     @PutMapping("/mypage")
     public MyPageResponse updateMyPage(HttpSession session, @RequestBody MyPageRequest request) {
         return userService.updateMyPage(session,request);
+    }
+
+    //마이페이지- 채팅
+    @GetMapping("/mypage/chat")
+    public List<MyPageChatResponse> myPageChat(HttpSession session) {
+        return userService.myPageChat(session);
     }
 }
 
