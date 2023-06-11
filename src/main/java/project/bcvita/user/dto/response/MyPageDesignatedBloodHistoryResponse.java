@@ -1,19 +1,15 @@
-package project.bcvita.user.dto.request;
+package project.bcvita.user.dto.response;
 
-        import lombok.AllArgsConstructor;
-        import lombok.Builder;
-        import lombok.Getter;
-        import lombok.NoArgsConstructor;
-        import project.bcvita.user.entity.DesignatedBloodWrite;
-        import project.bcvita.user.entity.User;
 
-        import java.lang.reflect.Member;
-        import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Getter
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
-public class BoardCreateRequestDto {
-    private Long userId;
+@Getter
+public class MyPageDesignatedBloodHistoryResponse {
+    private String userId;
     private String userName;
     private String patientName;
     private String bloodPersonNumber;
@@ -35,14 +31,4 @@ public class BoardCreateRequestDto {
     private String title;
     private String content;
     private LocalDateTime localDateTime;
-
-
-//    public BoardCreateRequestDto(String patientIsRH, String requestHospitalAddress) {
-//        this.patientIsRH = patientIsRH;
-//        this.requestHospitalAddress = requestHospitalAddress;
-//    }
-
-
 }
-
-

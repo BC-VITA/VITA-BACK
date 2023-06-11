@@ -1,11 +1,11 @@
-package project.bcvita.user.dto.request;
+package project.bcvita.user.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MyPageRequest {
+public class MyPageUserInfoResponse {
     private String userId;
 
     private String userName;
@@ -24,10 +24,8 @@ public class MyPageRequest {
 
     private String bloodHistory;
 
-    private String password;
-    private String confirmPassword;
+    private Integer userPoint;
 
-    private String reviewType;
 
 
 }

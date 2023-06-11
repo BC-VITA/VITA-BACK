@@ -164,29 +164,4 @@ public class DonateService {
     }
 
 
-    /*
-    @Transactional
-    public List<ReviewRegisterResponse> boardListResponseList(String reviewType) {
-        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByReviewType(reviewType);
-        List<ReviewRegisterResponse> reviewRegisterResponses = new ArrayList<>();
-        for(ReviewRegister reviewRegister : reviewRegisters) {
-            reviewRegisterResponses.add(new ReviewRegisterResponse(reviewRegister.getReviewType(), reviewRegister.getImg(), reviewRegister.getContent(), reviewRegister.getTitle()));
-        }
-        return reviewRegisterResponses;
-    }
-     */
-
-    /*
-    public Page<DonateBoardResponse> boardList(Pageable pageable) {
-        Page<DonateBoard> donateBoard = donateBoardRepository.findAll(pageable);
-        return  donateBoard.map(board ->
-                {
-                    DonateBoardResponse donateBoardResponse = new DonateBoardResponse(board.getId(), board.getTitle(), board.getImageUrl(), board.getContent());
-                    return donateBoardResponse;
-                }
-                );
-    }
-     */
-
-
 }

@@ -1,28 +1,33 @@
 package project.bcvita.user.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
-import project.bcvita.chat.ChatRoomRepository;
-import project.bcvita.chat.entity.ChatRoom;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.*;
-import project.bcvita.user.entity.User;
-import project.bcvita.user.repository.UserRepository;
+import project.bcvita.user.entity.*;
+import project.bcvita.user.repository.*;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
-    private final ChatRoomRepository chatRoomRepository;
 
+    private final DesignatedBloodWriteUserRepository designatedBloodWriteUserRepository;
+
+    private final DesignatedBloodWriteRepository designatedBloodWriteRepository;
+
+    private final BloodHouseReservationRepository bloodHouseReservationRepository;
+
+    private final ReviewRegisterRepository reviewRegisterRepository;
 
     @Transactional
     public String join(UserRequest request) {
@@ -69,7 +74,7 @@ public class UserService {
         } else {
             session.setAttribute("loginId", user.getUserID());
         }
-            System.out.println("user = " + user.getUserID());
+        System.out.println("user = " + user.getUserID());
         return "로그인 성공";
     }
 
@@ -93,22 +98,49 @@ public class UserService {
         return new UserInfo(user.getUserID(),user.getUserName());
     }*/
 
-    public MyPageResponse myPage(HttpSession session, MyPageRequest request) {
-        /*String loginId = (String) session.getAttribute("loginId");
+    public MyPageResponse myPage(HttpSession session,String reviewType) {
+        String loginId = (String) session.getAttribute("loginId");
         if (loginId == null) {
-            return null;
-        }*/
-        User user = userRepository.findByUserID(request.getUserId());
+           throw new IllegalArgumentException("로그인안됨");
+        }
+        User user = userRepository.findByUserID(loginId);
+        if(reviewType == null) {
+            reviewType = "designatedBlood";
+        }
 
-        System.out.println("user = " + user);
+        MyPageUserInfoResponse myPageUserInfoResponse = new MyPageUserInfoResponse(user.getUserID(), user.getUserName(), user.getUserPhoneNumber(), user.getUserEmail(),
+                user.getUserBirth(), user.getUserBlood(), user.getSex(), user.getIsRH(), user.getBloodHistory(), user.getUserPoint());
 
-        return new MyPageResponse(user.getUserID(),user.getUserName(),user.getUserPhoneNumber(),user.getUserEmail(),
-                user.getUserBirth(), user.getUserBlood(), user.getSex(),user.getIsRH(),user.getBloodHistory(),user.getUserPoint());
+        List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
+        List<MyPageBloodReservationHistoryResponse> myPageBloodReservationHistoryList = new ArrayList<>();
+        for (BloodHouseReservation bloodHouseReservation : reservations) {
+            myPageBloodReservationHistoryList.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate()));
+        }
+
+        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByUserAndReviewType(user,reviewType);
+        List<MyPageDesignatedBloodReviewResponse> myPageDesignatedBloodReviewList = new ArrayList<>();
+        for (ReviewRegister reviewRegister1 : reviewRegisters) {
+            myPageDesignatedBloodReviewList.add(new MyPageDesignatedBloodReviewResponse(user.getUserName(), user.getDesignatedNumber(), reviewRegister1.getTitle(), reviewRegister1.getLocalDateTime()));
+        }
+
+        List<DesignatedBloodWriteUser> designatedBloodWriteUsers = designatedBloodWriteUserRepository.findAllByUserNumber(user);
+        List<MyPageDesignatedBloodBoardResponse> myPageDesignatedBloodBoardList = new ArrayList<>();
+        for (DesignatedBloodWriteUser designatedBloodWriteUser : designatedBloodWriteUsers) {
+            myPageDesignatedBloodBoardList.add(new MyPageDesignatedBloodBoardResponse(user.getUserName(), user.getDesignatedNumber(), designatedBloodWriteUser.getDesignatedBloodWrite().getTitle(),
+                    designatedBloodWriteUser.getDesignatedBloodWrite().getLocalDateTime()));
+        }
+        MyPageResponse myPageResponse = new MyPageResponse();
+        myPageResponse.setMyPageUserInfo(myPageUserInfoResponse);
+        myPageResponse.setMyPageDesignatedBloodBoardList(myPageDesignatedBloodBoardList);
+        myPageResponse.setMyPageBloodReservationHistoryList(myPageBloodReservationHistoryList);
+        myPageResponse.setMyPageDesignatedBloodReviewList(myPageDesignatedBloodReviewList);
+
+        return myPageResponse;
     }
 
 
     @Transactional
-    public MyPageResponse updateMyPage(HttpSession session, MyPageRequest request) {
+    public MyPageUserInfoResponse updateMyPage(HttpSession session, MyPageRequest request) {
         /*String loginId = (String) session.getAttribute("loginId");
 
         if(loginId == null) {
@@ -116,29 +148,29 @@ public class UserService {
         }*/
         User user = userRepository.findByUserID(request.getUserId());
         String password = user.getUserPW();
-        if((request.getPassword() != null && request.getConfirmPassword() == null) || (request.getPassword() == null && request.getConfirmPassword() != null)) {
+        if ((request.getPassword() != null && request.getConfirmPassword() == null) || (request.getPassword() == null && request.getConfirmPassword() != null)) {
             throw new RuntimeException("비밀번호와 비밀번호 재확인이 일치하지 않습니다.");
         }
-        if(request.getPassword() != null && request.getConfirmPassword() != null){
+        if (request.getPassword() != null && request.getConfirmPassword() != null) {
             if (!request.getPassword().equals(request.getConfirmPassword())) {
                 throw new RuntimeException("비밀번호와 비밀번호 재확인이 일치하지 않습니다.");
-            }else {
+            } else {
                 password = request.getPassword();
             }
         }
 
         user.setUserID(request.getUserId());
-                user.setUserName(request.getUserName());
-                user.setUserBirth(request.getUserBirth());
-                user.setUserPW(password);
-                user.setUserEmail(request.getUserEmail());
-                user.setUserBlood(request.getUserBlood());
-                user.setSex(request.getSex());
-                user.setIsRH(request.getIsRH());
-                user.setBloodHistory(request.getBloodHistory());
-                user.setUserPhoneNumber(request.getUserPhoneNumber());
-        return new MyPageResponse(user.getUserID(),user.getUserName(),user.getUserPhoneNumber(),user.getUserEmail(),
-                user.getUserBirth(), user.getUserBlood(), user.getSex(),user.getIsRH(),user.getBloodHistory(),user.getUserPoint());
+        user.setUserName(request.getUserName());
+        user.setUserBirth(request.getUserBirth());
+        user.setUserPW(password);
+        user.setUserEmail(request.getUserEmail());
+        user.setUserBlood(request.getUserBlood());
+        user.setSex(request.getSex());
+        user.setIsRH(request.getIsRH());
+        user.setBloodHistory(request.getBloodHistory());
+        user.setUserPhoneNumber(request.getUserPhoneNumber());
+        return new MyPageUserInfoResponse(user.getUserID(), user.getUserName(), user.getUserPhoneNumber(), user.getUserEmail(),
+                user.getUserBirth(), user.getUserBlood(), user.getSex(), user.getIsRH(), user.getBloodHistory(), user.getUserPoint());
 
     }
 
@@ -147,21 +179,119 @@ public class UserService {
     }
 
 
-    public List<MyPageChatResponse> myPageChat(HttpSession session) {
-        User user = userRepository.findByUserID(loginId(session));
-        List<ChatRoom> boardSeeUserList = chatRoomRepository.findAllByBoardSeeUser(user);
-        List<ChatRoom> boardWriterList = chatRoomRepository.findAllByBoardWriter(user);
-        List<MyPageChatResponse> myPageChatResponseList = new ArrayList<>();
-        for (ChatRoom chatRoom : boardSeeUserList) {
-            myPageChatResponseList.add(new MyPageChatResponse(chatRoom.getId(),chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),
-                    chatRoom.getDesignatedBloodWriteUser().getCreatedAt(),chatRoom.getIsAgree()));
+    //마이페이지 지정헌혈 작성한 게시물 api
+    public List<MyPageDesignatedBloodBoardResponse> myPage(HttpSession session) {
+        String loginId = (String) session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+        List<DesignatedBloodWriteUser> designatedBloodWriteUsers = designatedBloodWriteUserRepository.findAllByUserNumber(user);
+        // System.out.println("designatedBloodWrite = " + designatedBloodWrite.getLocalDateTime());
+        List<MyPageDesignatedBloodBoardResponse> list = new ArrayList<>();
+        for (DesignatedBloodWriteUser designatedBloodWriteUser : designatedBloodWriteUsers) {
+            list.add(new MyPageDesignatedBloodBoardResponse(user.getUserName(), user.getDesignatedNumber(), designatedBloodWriteUser.getDesignatedBloodWrite().getTitle(),
+                    designatedBloodWriteUser.getDesignatedBloodWrite().getLocalDateTime()));
         }
-        for (ChatRoom chatRoom : boardWriterList) {
-            myPageChatResponseList.add(new MyPageChatResponse(chatRoom.getId(),chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),
-                    chatRoom.getDesignatedBloodWriteUser().getCreatedAt(),chatRoom.getIsAgree()));
-        }
-        myPageChatResponseList.sort(Comparator.comparing(MyPageChatResponse::getTime));
+        return list;
+    }
 
-        return myPageChatResponseList;
+    //마이페이지 지정헌혈 작성한 게시물 수정 api
+    @Transactional
+    public MyPageDesignatedBloodHistoryResponse updateDesignatedBoardMyPage(HttpSession session, BoardCreateRequestDto requestDto) {
+        String loginId = (String) session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+        //List<DesignatedBloodWriteUser> designatedBloodWriteUser = designatedBloodWriteUserRepository.findAllByUserNumber(user);
+        DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(requestDto.getUserId()).get();
+        DesignatedBloodWrite designatedBloodWrite = designatedBloodWriteRepository.findDesignatedBloodWriteById(requestDto.getUserId()).get();
+        designatedBloodWriteUser.setId(requestDto.getUserId());
+        designatedBloodWriteUser.setPatientName(requestDto.getPatientName());
+        designatedBloodWriteUser.setBloodPersonNumber(requestDto.getBloodPersonNumber());
+        designatedBloodWriteUser.setBloodNumber(requestDto.getBloodNumber());
+        designatedBloodWriteUser.setPatientAge(requestDto.getPatientAge());
+        designatedBloodWriteUser.setHospitalRoomNumber(requestDto.getHospitalRoomNumber());
+        //designatedBloodWriteUser.setDesignatedBloodWrite(requestDto.getHospitalName());
+        designatedBloodWrite.setHospitalName(requestDto.getHospitalName());
+        designatedBloodWrite.setHospitalPhoneNumber(requestDto.getHospitalPhoneNumber());
+        designatedBloodWrite.setRequestHospitalAddress(requestDto.getRequestHospitalAddress());
+        //designatedBloodWriteUser.getUserNumber(requestDto.getUserId());
+        //designatedBloodWriteUser.setUserNumber(user.getUserPhoneNumber());
+        designatedBloodWrite.setPatientBlood(requestDto.getPatientBlood());
+        designatedBloodWrite.setPatientIsRH(requestDto.getPatientIsRH());
+        designatedBloodWrite.setBloodType(requestDto.getBloodType());
+        designatedBloodWrite.setNeedBloodSystem(requestDto.getNeedBloodSystem());
+        designatedBloodWriteUser.setBloodMatchType(requestDto.isBloodMatchType());
+        designatedBloodWriteUser.setReport(requestDto.isReview());
+        designatedBloodWrite.setStartDate(requestDto.getStartDate());
+        designatedBloodWrite.setEndDate(requestDto.getEndDate());
+        designatedBloodWrite.setTitle(requestDto.getTitle());
+        designatedBloodWrite.setContent(requestDto.getContent());
+
+        return new MyPageDesignatedBloodHistoryResponse(user.getUserID(), user.getUserName(), designatedBloodWriteUser.getPatientName(), designatedBloodWriteUser.getBloodPersonNumber(),
+                designatedBloodWriteUser.getBloodNumber(), designatedBloodWriteUser.getPatientAge(), designatedBloodWriteUser.getHospitalRoomNumber(), designatedBloodWrite.getHospitalName(), designatedBloodWrite.getHospitalPhoneNumber(),
+                designatedBloodWrite.getRequestHospitalAddress(), user.getUserPhoneNumber(), designatedBloodWrite.getPatientBlood(), designatedBloodWrite.getPatientIsRH(), designatedBloodWrite.getBloodType(),
+                designatedBloodWrite.getNeedBloodSystem(), designatedBloodWriteUser.isBloodMatchType(), designatedBloodWriteUser.isReview(), designatedBloodWrite.getStartDate(), designatedBloodWrite.getEndDate(),
+                designatedBloodWrite.getTitle(), designatedBloodWrite.getContent(), designatedBloodWrite.getLocalDateTime());
+    }
+
+
+    //마이페이지 지정헌혈 작성한 게시물 삭제 api
+    @Transactional
+    public String deleteMypageDesignatedBoard(HttpSession session, Long designatedId, Long designatedUserId) {
+        String loginId = (String) session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+
+        Optional<DesignatedBloodWriteUser> designatedBloodWriteUserOptional = designatedBloodWriteUserRepository.findById(designatedUserId);
+        Optional<DesignatedBloodWrite> designatedBloodWriteOptional = designatedBloodWriteRepository.findById(designatedId);
+
+        //해당 객체 존재하는지 !
+        if (designatedBloodWriteUserOptional.isPresent() && designatedBloodWriteOptional.isPresent()) {
+            DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserOptional.get();
+            DesignatedBloodWrite designatedBloodWrite = designatedBloodWriteOptional.get();
+            designatedBloodWriteUserRepository.delete(designatedBloodWriteUser);
+            designatedBloodWriteRepository.delete(designatedBloodWrite);
+        } else {
+            throw new RuntimeException("게시물을 찾을 수 없습니다.");
+        }
+        return "삭제완료";
+    }
+
+    //마이페이지 내가 작성한 후기 api
+    public List<MyPageDesignatedBloodReviewResponse> myPageBloodReviewResponses(HttpSession session, String reviewType) {
+        String loginId = (String) session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByUserAndReviewType(user,reviewType);
+        List<MyPageDesignatedBloodReviewResponse> list = new ArrayList<>();
+        for (ReviewRegister reviewRegister1 : reviewRegisters) {
+                    list.add(new MyPageDesignatedBloodReviewResponse(user.getUserName(), user.getDesignatedNumber(), reviewRegister1.getTitle(), reviewRegister1.getLocalDateTime()));
+        }
+        return list;
+    }
+
+
+
+    //마이페이지 헌혈 예약 내역 api
+    @Transactional
+    public List<MyPageBloodReservationHistoryResponse> mypageBloodReservationHistory(HttpSession session){
+        String loginId = (String)session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+        //BloodHouseReservation reservation = bloodHouseReservationRepository.findById(request.getBloodReservationId()).get();
+        List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
+        List<MyPageBloodReservationHistoryResponse> list = new ArrayList<>();
+        for (BloodHouseReservation bloodHouseReservation : reservations) {
+            list.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate()));
+        }
+        return list;
+    }
+
+
+    //마이페이지 헌혈 예약 내역 취소 api
+    @Transactional
+    public String CancelMyPageBloodReservation(Long reservationId){
+        Optional<BloodHouseReservation> bloodHouseReservationOptional = bloodHouseReservationRepository.findById(reservationId);
+        if (bloodHouseReservationOptional.isPresent()) {
+            BloodHouseReservation bloodHouseReservation = bloodHouseReservationOptional.get();
+            bloodHouseReservationRepository.delete(bloodHouseReservation);
+        }else {
+            throw new RuntimeException("게시물을 찾을 수 없습니다.");
+        }
+        return "취소완료";
     }
 }

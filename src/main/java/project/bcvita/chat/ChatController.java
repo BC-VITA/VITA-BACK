@@ -24,7 +24,11 @@ public class ChatController {
     private final ChatService chatService;
     @MessageMapping("/send")
     public String sendMessage(@Payload ChatMessageRequest message) {
-        simpMessagingTemplate.convertAndSend("/sub/chat",chatService.chatSend(message));
+        if(message.getRoomId() != 0L){
+            simpMessagingTemplate.convertAndSend("/sub/chat/"+message.getRoomId(), chatService.chatSend(message));
+        }else {
+            simpMessagingTemplate.convertAndSend("/sub/chat", chatService.chatSend(message));
+        }
         return "message";
     }
     @GetMapping("list")

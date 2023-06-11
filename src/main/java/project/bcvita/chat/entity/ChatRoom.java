@@ -28,7 +28,7 @@ public class ChatRoom {
     @ManyToOne(fetch = FetchType.LAZY)
     private DesignatedBloodWriteUser designatedBloodWriteUser; // 게시글
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chatRoom",cascade = CascadeType.ALL)
     private List<ChattingMessage> chattingMessages = new ArrayList<>();
 
     private Boolean isAgree;

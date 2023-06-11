@@ -1,6 +1,7 @@
 package project.bcvita.chat.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import project.bcvita.user.entity.User;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class ChattingMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

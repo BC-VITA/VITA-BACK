@@ -14,6 +14,11 @@ import java.util.Optional;
 @Repository
 public interface DesignatedBloodWriteRepository extends JpaRepository<DesignatedBloodWrite, Long> {
 
+    Optional<DesignatedBloodWrite> findDesignatedBloodWriteById(Long id);
+
+
+    DesignatedBloodWrite findById(String designatedId);
+
     //1가지 경우의 수
     @Query("select me from DesignatedBloodWrite me where me.requestHospitalAddress like %:requestHospitalAddress%")
     List<DesignatedBloodWrite> filterArea(@Param("requestHospitalAddress") String requestHospitalAddress);

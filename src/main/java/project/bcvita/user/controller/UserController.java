@@ -6,10 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.*;
-import project.bcvita.user.dto.response.BoardListResponse;
-import project.bcvita.user.dto.response.MyPageChatResponse;
-import project.bcvita.user.dto.response.MyPageResponse;
-import project.bcvita.user.dto.response.UserListResponse;
+import project.bcvita.user.dto.response.*;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.service.BoardService;
 import project.bcvita.user.service.TestService;
@@ -122,19 +119,44 @@ public class UserController {
     }*/
 
     @GetMapping("/mypage")
-    public MyPageResponse myPage(HttpSession session, MyPageRequest request) {
-        return userService.myPage(session,request);
+    public MyPageResponse myPage(HttpSession session,@RequestParam(required = false) String reviewType) {
+        return userService.myPage(session,reviewType);
     }
     @PutMapping("/mypage")
-    public MyPageResponse updateMyPage(HttpSession session, @RequestBody MyPageRequest request) {
+    public MyPageUserInfoResponse updateMyPage(HttpSession session, @RequestBody MyPageRequest request) {
         return userService.updateMyPage(session,request);
     }
 
-    //마이페이지- 채팅
-    @GetMapping("/mypage/chat")
-    public List<MyPageChatResponse> myPageChat(HttpSession session) {
-        return userService.myPageChat(session);
+    @GetMapping("/mypage-designated-write")
+    public List<MyPageDesignatedBloodBoardResponse> mypageWrite(HttpSession session){
+        return userService.myPage(session);
     }
+
+    @PutMapping("/mypage-designated-write-update")
+    public MyPageDesignatedBloodHistoryResponse mypageWriteUpdate(HttpSession session, @RequestBody BoardCreateRequestDto requestDto) {
+        return userService.updateDesignatedBoardMyPage(session, requestDto);
+    }
+
+    @DeleteMapping("/mypage-designated-write-delete/{designatedId}/{designatedUserId}")
+    public String mypageWriteDelete(HttpSession session, @PathVariable("designatedId") Long designatedId, @PathVariable("designatedUserId") Long designatedUserId){
+        return userService.deleteMypageDesignatedBoard(session, designatedId, designatedUserId);
+    }
+
+    @GetMapping("/mypage-blood-reservation-history")
+    public List<MyPageBloodReservationHistoryResponse> myPageBloodReservationHistory(HttpSession session){
+        return userService.mypageBloodReservationHistory(session);
+    }
+
+    @DeleteMapping("/mypage-blood-reservation-cancel/{reservationId}")
+    public String cancelMyPageBloodReservation(@PathVariable Long reservationId){
+        return userService.CancelMyPageBloodReservation(reservationId);
+    }
+
+    @GetMapping("/mypage-designated-review")
+    public List<MyPageDesignatedBloodReviewResponse> myPageDesignatedBloodReviewResponses(HttpSession session, String reviewType) {
+        return userService.myPageBloodReviewResponses(session, reviewType);
+    }
+
 }
 
 

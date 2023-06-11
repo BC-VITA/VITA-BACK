@@ -1,33 +1,18 @@
 package project.bcvita.user.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.List;
+
+@Setter
 @Getter
-@AllArgsConstructor
 public class MyPageResponse {
-    private String userId;
+    private MyPageUserInfoResponse myPageUserInfo;
 
-    private String userName;
-
-    private String userPhoneNumber;
-
-    private String userEmail;
-
-    private String userBirth;
-
-    private String userBlood;
-
-    private String sex;
-
-    private String isRH;
-
-    private String bloodHistory;
-
-    private Integer userPoint;
-
-
+    private List<MyPageDesignatedBloodReviewResponse> myPageDesignatedBloodReviewList;
+    private List<MyPageBloodReservationHistoryResponse> myPageBloodReservationHistoryList;
+    private  List<MyPageDesignatedBloodBoardResponse> myPageDesignatedBloodBoardList;
 
 }

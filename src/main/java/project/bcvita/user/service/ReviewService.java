@@ -38,7 +38,7 @@ public class ReviewService {
     @Transactional
     public String reviewRegister(HttpSession session, ReviewRegisterRequestDto requestDto, MultipartFile file) {
         try{
-            String path = "/Users/hoewoon/image";
+            String path = "C:\\vita";
             File destination = new File(path + File.separator + file.getOriginalFilename());
             file.transferTo(destination);
             //String loginId = (String) session.getAttribute("loginId");
@@ -48,6 +48,7 @@ public class ReviewService {
             reviewRegister.setContent(requestDto.getContent());
             reviewRegister.setTitle(requestDto.getTitle());
             reviewRegister.setUser(byUserID);
+            reviewRegister.setLocalDateTime(requestDto.getLocalDateTime().now());
             if (requestDto.getReviewType().equals("designatedBlood")) {
                 reviewRegister.setReviewType(requestDto.getReviewType());
             } else if (requestDto.getReviewType().equals("Blood")) {
