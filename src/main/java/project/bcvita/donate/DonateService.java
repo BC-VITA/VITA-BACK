@@ -31,7 +31,7 @@ public class DonateService {
 
     public String writeDonateBoard(HttpSession session, DonateBoardRequest donateBoardRequest, MultipartFile file) {
         try {
-            String path = "C:\\vita";
+            String path = "C:\\Users\\lby99\\OneDrive\\문서\\GitHub\\VITA-FRONT\\vita\\public\\images";
             File destination = new File(path + File.separator + file.getOriginalFilename());
             file.transferTo(destination);
             User user = userRepository.findByUserID(donateBoardRequest.getUserId());
