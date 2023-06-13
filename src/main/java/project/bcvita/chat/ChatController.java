@@ -31,17 +31,17 @@ public class ChatController {
         }
         return "message";
     }
-    @GetMapping("list")
+    @GetMapping("list") //mypage chat list
     public List<ChatListResponse> chatList(HttpSession session) {
         return chatService.chatList(session);
     }
 
-    @GetMapping("{roomId}")
+    @GetMapping("{roomId}") // chattingRoom into message detail
     public ChatMessageInfoResponse detailRoom(@PathVariable Long roomId) {
         return chatService.detailRoom(roomId);
     }
 
-    @DeleteMapping("{roomId}")
+    @DeleteMapping("{roomId}") // chattingRoom delete -> message delete
     public String deleteRoom(@PathVariable Long roomId) {
         return chatService.deleteRoom(roomId);
     }

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class    ChatMessageRequest {
+public class  ChatMessageRequest {
     private long roomId;
     private Long boardId; // 게시글 id
     private Long senderId; // 메시지 보내는 유저 기본키
