@@ -11,6 +11,7 @@ public class VolunteerJoinRequestDto {
 
     //봉사 비밀번호
     private String volunteerPw;
+    private String volunteerConfirmPw;
 
     //기업-단체 이름
     private String volunteerGroupName;
