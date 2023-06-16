@@ -37,6 +37,9 @@ public class VolunteerService {
     //봉사 기업-단체 회원가입 api
     @Transactional
     public String volunteerJoin(VolunteerJoinRequestDto request) {
+        if(!request.getVolunteerConfirmPw().equals(request.getVolunteerPw())) {
+            throw new IllegalArgumentException("비밀번호 일치하지 않습니다.");
+        }
         volunteerRepository.save(Volunteer.builder()
                 .volunteerId(request.getVolunteerId())
                 .volunteerPw(request.getVolunteerPw())
@@ -50,96 +53,12 @@ public class VolunteerService {
     //봉사 기업-단체 봉사 게시글 등록 api (개인-시간/활동)
     @Transactional
     public String volunteerCreate(HttpSession session, VolunteerRequestDto requestDto) {
-        Volunteer volunteer = (Volunteer) session.getAttribute("volunteer");
-        //Volunteer volunteer = volunteerRegisterRepository.findByVolunteerId(requestDto.getVolunteerId());
-        //System.out.println("volunteerID"+requestDto.getVolunteerId());
-
-        if (requestDto.getVolunteerType().equals("time")) {
-            VolunteerRegister volunteerRegister = new VolunteerRegister();
-            volunteerRegister.setVolunteerArea(requestDto.getVolunteerArea());
-            volunteerRegister.setVolunteerPlace(requestDto.getVolunteerPlace());
-            volunteerRegister.setVolunteerAddress(requestDto.getVolunteerAddress());
-            volunteerRegister.setLatitude(requestDto.getLatitude());
-            volunteerRegister.setLongitude(requestDto.getLongitude());
-            volunteerRegister.setVolunteerSeekStartDate(requestDto.getVolunteerSeekStartDate());
-            volunteerRegister.setVolunteerSeekEndDate(requestDto.getVolunteerSeekEndDate());
-            volunteerRegister.setVolunteerStartDate(requestDto.getVolunteerStartDate());
-            volunteerRegister.setVolunteerEndDate(requestDto.getVolunteerEndDate());
-            volunteerRegister.setNeedVolunteerNumber(requestDto.getNeedVolunteerNumber());
-            volunteerRegister.setVolunteerStartTime(requestDto.getVolunteerStartTime());
-            volunteerRegister.setVolunteerEndTime(requestDto.getVolunteerEndTime());
-            volunteerRegister.setVolunteerActivityWeek(requestDto.getVolunteerActivityWeek());
-            volunteerRegister.setVolunteerType(requestDto.getVolunteerType());
-            volunteerRegister.setVolunteerField(requestDto.getVolunteerField());
-            volunteerRegister.setActivitySection(requestDto.getActivitySection());
-            volunteerRegister.setVolunteerTarget(requestDto.getVolunteerTarget());
-            volunteerRegister.setVolunteerPersonType(requestDto.getVolunteerPersonType());
-            volunteerRegister.setManagerName(requestDto.getManagerName());
-            volunteerRegister.setManagerEmail(requestDto.getManagerEmail());
-            volunteerRegister.setTitle(requestDto.getTitle());
-            volunteerRegister.setContent(requestDto.getContent());
-            volunteerRegister.setVolunteer(volunteer);
-            volunteerRegisterRepository.save(volunteerRegister);
-
-        } else if (requestDto.getVolunteerType().equals("Activity")) {
-            VolunteerRegister volunteerRegister = new VolunteerRegister();
-            volunteerRegister.setVolunteerArea(requestDto.getVolunteerArea());
-            volunteerRegister.setVolunteerPlace(requestDto.getVolunteerPlace());
-            volunteerRegister.setVolunteerAddress(requestDto.getVolunteerAddress());
-            volunteerRegister.setLatitude(requestDto.getLatitude());
-            volunteerRegister.setLongitude(requestDto.getLongitude());
-            volunteerRegister.setVolunteerSeekStartDate(requestDto.getVolunteerSeekStartDate());
-            volunteerRegister.setVolunteerSeekEndDate(requestDto.getVolunteerSeekEndDate());
-            volunteerRegister.setNeedVolunteerNumber(requestDto.getNeedVolunteerNumber());
-            volunteerRegister.setVolunteerStartDate(requestDto.getVolunteerStartDate());
-            volunteerRegister.setVolunteerEndDate(requestDto.getVolunteerEndDate());
-            volunteerRegister.setVolunteerStartTime(requestDto.getVolunteerStartTime());
-            volunteerRegister.setVolunteerEndTime(requestDto.getVolunteerEndTime());
-            volunteerRegister.setVolunteerActivityWeek(requestDto.getVolunteerActivityWeek());
-            volunteerRegister.setVolunteerType(requestDto.getVolunteerType());
-            volunteerRegister.setQualification(requestDto.getQualification());
-            volunteerRegister.setActivitySection(requestDto.getActivitySection());
-            volunteerRegister.setVolunteerTarget(requestDto.getVolunteerTarget());
-            volunteerRegister.setVolunteerPersonType(requestDto.getVolunteerPersonType());
-            volunteerRegister.setVolunteerActivityNumber(requestDto.getVolunteerActivityNumber());
-            volunteerRegister.setRequirements(requestDto.getRequirements());
-            volunteerRegister.setManagerName(requestDto.getManagerName());
-            volunteerRegister.setManagerEmail(requestDto.getManagerEmail());
-            volunteerRegister.setTitle(requestDto.getTitle());
-            volunteerRegister.setContent(requestDto.getContent());
-            volunteerRegister.setVolunteer(volunteer);
-            volunteerRegisterRepository.save(volunteerRegister);
+        String volunteerLoginId = (String) session.getAttribute("loginId");
+        Volunteer volunteer = volunteerRepository.findByVolunteerId(volunteerLoginId);
 
 
-        } else if (requestDto.getVolunteerType().equals("Group")) {
-            VolunteerRegister volunteerRegister = new VolunteerRegister();
-            volunteerRegister.setVolunteerArea(requestDto.getVolunteerArea());
-            volunteerRegister.setVolunteerPlace(requestDto.getVolunteerPlace());
-            volunteerRegister.setVolunteerAddress(requestDto.getVolunteerAddress());
-            volunteerRegister.setLongitude(requestDto.getLongitude());
-            volunteerRegister.setLatitude(requestDto.getLatitude());
-            volunteerRegister.setVolunteerSeekStartDate(requestDto.getVolunteerSeekStartDate());
-            volunteerRegister.setVolunteerSeekEndDate(requestDto.getVolunteerSeekEndDate());
-            volunteerRegister.setNeedVolunteerNumber(requestDto.getNeedVolunteerNumber());
-            volunteerRegister.setVolunteerStartDate(requestDto.getVolunteerStartDate());
-            volunteerRegister.setVolunteerEndDate(requestDto.getVolunteerEndDate());
-            volunteerRegister.setVolunteerStartTime(requestDto.getVolunteerStartTime());
-            volunteerRegister.setVolunteerEndTime(requestDto.getVolunteerEndTime());
-            volunteerRegister.setVolunteerActivityWeek(requestDto.getVolunteerActivityWeek());
-            volunteerRegister.setVolunteerType(requestDto.getVolunteerType());
-            volunteerRegister.setVolunteerField(requestDto.getVolunteerField());
-            volunteerRegister.setActivitySection(requestDto.getActivitySection());
-            volunteerRegister.setVolunteerTarget(requestDto.getVolunteerTarget());
-            volunteerRegister.setVolunteerPersonType(requestDto.getVolunteerPersonType());
-            volunteerRegister.setManagerName(requestDto.getManagerName());
-            volunteerRegister.setManagerEmail(requestDto.getManagerEmail());
-            volunteerRegister.setTitle(requestDto.getTitle());
-            volunteerRegister.setContent(requestDto.getContent());
-            volunteerRegister.setVolunteer(volunteer);
-            volunteerRegisterRepository.save(volunteerRegister);
-
-        } else if (requestDto.getVolunteerType().equals("otherGroup")) {
-            VolunteerRegister volunteerRegister = new VolunteerRegister();
+        VolunteerRegister volunteerRegister = new VolunteerRegister();
+         if (requestDto.getVolunteerType().equals("otherGroup")) {
             volunteerRegister.setVolunteerArea(requestDto.getVolunteerArea());
             volunteerRegister.setRequireGroup(requestDto.getRequireGroup());
             volunteerRegister.setVolunteerTarget(requestDto.getVolunteerTarget());
@@ -150,9 +69,33 @@ public class VolunteerService {
             volunteerRegister.setTitle(requestDto.getTitle());
             volunteerRegister.setContent(requestDto.getContent());
             volunteerRegister.setUrl(requestDto.getUrl());
+        }else  {
+            volunteerRegister.setVolunteerArea(requestDto.getVolunteerArea());
+            volunteerRegister.setVolunteerPlace(requestDto.getVolunteerPlace());
+            volunteerRegister.setVolunteerAddress(requestDto.getVolunteerAddress());
+            volunteerRegister.setLatitude(requestDto.getLatitude());
+            volunteerRegister.setLongitude(requestDto.getLongitude());
+            volunteerRegister.setVolunteerSeekStartDate(requestDto.getVolunteerSeekStartDate());
+            volunteerRegister.setVolunteerSeekEndDate(requestDto.getVolunteerSeekEndDate());
+            volunteerRegister.setVolunteerStartDate(requestDto.getVolunteerStartDate());
+            volunteerRegister.setVolunteerEndDate(requestDto.getVolunteerEndDate());
+            volunteerRegister.setNeedVolunteerNumber(requestDto.getNeedVolunteerNumber());
+            volunteerRegister.setVolunteerStartTime(requestDto.getVolunteerStartTime());
+            volunteerRegister.setVolunteerEndTime(requestDto.getVolunteerEndTime());
+            volunteerRegister.setVolunteerActivityWeek(requestDto.getVolunteerActivityWeek());
+             volunteerRegister.setVolunteerType(requestDto.getVolunteerType());
+            volunteerRegister.setVolunteerField(requestDto.getVolunteerField());
+            volunteerRegister.setActivitySection(requestDto.getActivitySection());
+            volunteerRegister.setVolunteerTarget(requestDto.getVolunteerTarget());
+            volunteerRegister.setVolunteerPersonType(requestDto.getVolunteerPersonType());
+            volunteerRegister.setManagerName(requestDto.getManagerName());
+            volunteerRegister.setManagerEmail(requestDto.getManagerEmail());
+            volunteerRegister.setTitle(requestDto.getTitle());
+            volunteerRegister.setContent(requestDto.getContent());
             volunteerRegister.setVolunteer(volunteer);
-            volunteerRegisterRepository.save(volunteerRegister);
         }
+        volunteerRegister.setVolunteer(volunteer);
+        volunteerRegisterRepository.save(volunteerRegister);
         return "게시글 작성 완료";
     }
 

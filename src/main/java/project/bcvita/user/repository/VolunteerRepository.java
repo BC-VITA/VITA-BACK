@@ -6,5 +6,8 @@ import project.bcvita.user.entity.Volunteer;
 
 @Repository
 public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
-    
+
+    Volunteer findByVolunteerId(String volunteerId);
+    Volunteer findByVolunteerIdAndVolunteerPw(String volunteerId, String password);
+
 }

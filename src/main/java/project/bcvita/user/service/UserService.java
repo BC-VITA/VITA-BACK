@@ -28,6 +28,7 @@ public class UserService {
     private final BloodHouseReservationRepository bloodHouseReservationRepository;
 
     private final ReviewRegisterRepository reviewRegisterRepository;
+    private final VolunteerRepository volunteerRepository;
 
     @Transactional
     public String join(UserRequest request) {
@@ -68,13 +69,22 @@ public class UserService {
 
 
     public String login(UserLoginRequestDto userLoginRequestDto, HttpSession session) {
-        User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
-        if (user == null) {
-            throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
-        } else {
-            session.setAttribute("loginId", user.getUserID());
+        String loginId = "";
+        if(userLoginRequestDto.getType().equals("account")) {
+            User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
+            if (user == null) {
+                throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
+            }
+            loginId = user.getUserID();
+        }else if(userLoginRequestDto.getType().equals("volunteer")) {
+            Volunteer volunteer= volunteerRepository.findByVolunteerIdAndVolunteerPw(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
+            loginId = volunteer.getVolunteerId();
         }
-        System.out.println("user = " + user.getUserID());
+        //나중에 기업도 추가하셈
+        if(loginId.equals("")) {
+            throw new IllegalArgumentException("로그인 안됨");
+        }
+        session.setAttribute("loginId", loginId);
         return "로그인 성공";
     }
 

@@ -52,6 +52,8 @@ public class VolunteerController {
         return volunteerService.boardListResponseList(session,volunteerType);
     }
 
+    @GetMapping
+
     //봉사예약
     @PostMapping("/reservation")
     public String volunteerReservation(HttpSession session, @RequestBody VolunteerReservationRequestDto requestDto){
