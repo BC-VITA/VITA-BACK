@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.heart.WishListRepository;
+import project.bcvita.point.PointHistoryRepository;
+import project.bcvita.point.entity.PointHistory;
 import project.bcvita.user.dto.request.ReviewCommentDto;
 import project.bcvita.user.dto.request.ReviewRegisterRequestDto;
 import project.bcvita.user.dto.response.ReviewCommentResponse;
@@ -34,6 +36,8 @@ public class ReviewService {
     private final ReviewCommentRepository reviewCommentRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final PointHistoryRepository pointHistoryRepository;
+
 
     @Transactional
     public String reviewRegister(HttpSession session, ReviewRegisterRequestDto requestDto, MultipartFile file) {
@@ -42,7 +46,7 @@ public class ReviewService {
             File destination = new File(path + File.separator + file.getOriginalFilename());
             file.transferTo(destination);
             //String loginId = (String) session.getAttribute("loginId");
-            User byUserID = userRepository.findByUserID(requestDto.getUserId());
+            User byUserID = userRepository.findByUserID(userService.loginId(session));
             ReviewRegister reviewRegister = new ReviewRegister();
             reviewRegister.setImg(destination.getAbsolutePath());
             reviewRegister.setContent(requestDto.getContent());
@@ -54,7 +58,12 @@ public class ReviewService {
             } else if (requestDto.getReviewType().equals("Blood")) {
                 reviewRegister.setReviewType(requestDto.getReviewType());
             }
+
             reviewRegisterRepository.save(reviewRegister);
+            byUserID.setUserPoint(byUserID.getUserPoint() + 500); // 사용자 포인트 누적
+            PointHistory pointHistory = new PointHistory();
+            pointHistory.reviewRegisterPoint(byUserID,500, reviewRegister); // 리뷰 작성시 pointHistory 테이블에 저장
+            pointHistoryRepository.save(pointHistory);
         }catch (Exception e) {
             e.printStackTrace();
         }
