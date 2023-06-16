@@ -80,11 +80,13 @@ public class DonateController {
 //        return donateService.donateReceipt(userId,donateId);
 //    }
 
+    //하나의 기부 영수증 게시글 api
     @GetMapping("/donate-receipt")
     public DonateDetail donateReceiptPerson(Long donateId) {
         return donateService.donateReceiptPerson(donateId);
     }
 
+    //기부 영수증 list api
     @GetMapping("/donate-receipt-list")
     public List<DonateBoardResponse> donateBoardResponse() {
         return donateService.donatePointResponses();

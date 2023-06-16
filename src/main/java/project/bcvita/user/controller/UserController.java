@@ -157,6 +157,11 @@ public class UserController {
         return userService.myPageBloodReviewResponses(session, reviewType);
     }
 
+    @GetMapping("/mypage/volunteer-history")
+    public MyPageVolunteerInfo myPageVolunteerReservationResponses(String userId) {
+        return userService.myPageVolunteerReservationResponses(userId);
+    }
+
 }
 
 

@@ -29,6 +29,8 @@ public class UserService {
 
     private final ReviewRegisterRepository reviewRegisterRepository;
 
+    private final VolunteerReservationRepository volunteerReservationRepository;
+
     @Transactional
     public String join(UserRequest request) {
         userRepository.save(User.builder()
@@ -98,6 +100,7 @@ public class UserService {
         return new UserInfo(user.getUserID(),user.getUserName());
     }*/
 
+    //***마이페이지 api 하나로 합친것***
     public MyPageResponse myPage(HttpSession session,String reviewType) {
         String loginId = (String) session.getAttribute("loginId");
         if (loginId == null) {
@@ -294,4 +297,43 @@ public class UserService {
         }
         return "취소완료";
     }
+
+
+    //마이페이지 봉사 내역 api
+    @Transactional
+    public MyPageVolunteerInfo myPageVolunteerReservationResponses(String userId) {
+        User user = userRepository.findByUserID(userId);
+        List<VolunteerReservation> reservations = volunteerReservationRepository.findAllByUser(user);
+        List<MyPageVolunteerReservationResponse> list = new ArrayList<>();
+        int totalVolunteerTime = 0;
+        for(VolunteerReservation volunteerReservation : reservations) {
+            String startTime[] = volunteerReservation.getVolunteerRegister().getVolunteerStartTime().split(":");
+            String endTime[] = volunteerReservation.getVolunteerRegister().getVolunteerEndTime().split(":");
+             totalVolunteerTime += (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
+             int volunteerTime = (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
+            list.add(new MyPageVolunteerReservationResponse(user.getUserName(),  volunteerReservation.getVolunteerRegister().getVolunteer().getVolunteerGroupName()
+                    ,volunteerTime
+                  ,volunteerReservation.getVolunteerRegister().getTitle(),
+                    volunteerReservation.getVolunteerRegister().getVolunteerType(),volunteerReservation.getVolunteerRegister().getLocalDateTime()));
+        }
+
+        return new MyPageVolunteerInfo(totalVolunteerTime, list);
+    }
+
+
+    /*
+    //마이페이지 헌혈 예약 내역 api
+    @Transactional
+    public List<MyPageBloodReservationHistoryResponse> mypageBloodReservationHistory(HttpSession session){
+        String loginId = (String)session.getAttribute("loginId");
+        User user = userRepository.findByUserID(loginId);
+        //BloodHouseReservation reservation = bloodHouseReservationRepository.findById(request.getBloodReservationId()).get();
+        List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
+        List<MyPageBloodReservationHistoryResponse> list = new ArrayList<>();
+        for (BloodHouseReservation bloodHouseReservation : reservations) {
+            list.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate()));
+        }
+        return list;
+    }
+     */
 }

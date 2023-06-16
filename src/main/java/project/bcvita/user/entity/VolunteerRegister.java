@@ -3,6 +3,7 @@ package project.bcvita.user.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -110,6 +111,8 @@ public class VolunteerRegister {
 
     //사이트 url
     private String url;
+
+    private LocalDateTime localDateTime = LocalDateTime.now();
 
 
 }

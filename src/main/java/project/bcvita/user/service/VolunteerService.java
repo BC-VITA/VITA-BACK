@@ -41,7 +41,7 @@ public class VolunteerService {
                 .volunteerId(request.getVolunteerId())
                 .volunteerPw(request.getVolunteerPw())
                 .volunteerGroupName(request.getVolunteerGroupName())
-                .volunteerField(request.getVolunteerField())
+                //.volunteerField(request.getVolunteerField())
                 .volunteerPhoneNumber(request.getVolunteerPhoneNumber())
                 .build());
         return "Success";

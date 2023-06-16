@@ -2,10 +2,7 @@ package project.bcvita.user.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -30,10 +27,9 @@ public class Volunteer {
     //봉사 전화번호
     private String volunteerPhoneNumber;
 
-    //봉사 종류 ??
-    private String volunteerKind;
+    //봉사 단체 외래키
+    @ManyToOne
+    private VolunteerGroup volunteerGroup;
 
-    //봉사 분야(카테고리) ??
-    private String volunteerField;
 
 }
