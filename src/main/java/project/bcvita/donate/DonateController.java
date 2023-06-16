@@ -134,6 +134,7 @@ public class DonateController {
 
 
 
+
         document.close(); // 저장이 끝났으면 document객체를 닫는다.
 
 
