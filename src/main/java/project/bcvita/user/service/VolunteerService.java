@@ -11,6 +11,8 @@ import project.bcvita.user.dto.request.VolunteerRequestDto;
 import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
 import project.bcvita.user.dto.response.VolunteerRegisterResponse;
 import project.bcvita.user.dto.response.VolunteerReservationResponse;
+import project.bcvita.user.dto.response.VolunteerReservationSaveResponseDto;
+import project.bcvita.user.dto.response.VolunteerReservationUserInfoResponse;
 import project.bcvita.user.entity.*;
 import project.bcvita.user.repository.UserRepository;
 import project.bcvita.user.repository.VolunteerRegisterRepository;
@@ -54,7 +56,7 @@ public class VolunteerService {
     @Transactional
     public String volunteerCreate(HttpSession session, VolunteerRequestDto requestDto) {
         String volunteerLoginId = (String) session.getAttribute("loginId");
-        Volunteer volunteer = volunteerRepository.findByVolunteerId(volunteerLoginId);
+        //Volunteer volunteer = volunteerRepository.findByVolunteerId(volunteerLoginId);
 
 
         VolunteerRegister volunteerRegister = new VolunteerRegister();
@@ -92,9 +94,9 @@ public class VolunteerService {
             volunteerRegister.setManagerEmail(requestDto.getManagerEmail());
             volunteerRegister.setTitle(requestDto.getTitle());
             volunteerRegister.setContent(requestDto.getContent());
-            volunteerRegister.setVolunteer(volunteer);
+           // volunteerRegister.setVolunteer(volunteer);
         }
-        volunteerRegister.setVolunteer(volunteer);
+        //volunteerRegister.setVolunteer(volunteer);
         volunteerRegisterRepository.save(volunteerRegister);
         return "게시글 작성 완료";
     }
@@ -139,9 +141,8 @@ public class VolunteerService {
 
     //봉사 예약
     @Transactional
-    public String volunteerReservation(HttpSession session, VolunteerReservationRequestDto volunteerReservationRequestDto){
-        String userLoginId = (String) session.getAttribute("loginId");
-        User byUserID = userRepository.findByUserID(userLoginId);
+    public VolunteerReservationSaveResponseDto volunteerReservation(VolunteerReservationRequestDto volunteerReservationRequestDto){
+        User byUserID = userRepository.findByUserID(volunteerReservationRequestDto.getUserId());
         VolunteerRegister volunteerRegister = volunteerRegisterRepository.findById(volunteerReservationRequestDto.getVolunteerBoardId()).get();
         VolunteerReservation volunteerReservation = new VolunteerReservation();
         volunteerReservation.setVolunteerDate(volunteerReservationRequestDto.getVolunteerDate());
@@ -150,8 +151,21 @@ public class VolunteerService {
         volunteerReservation.setInformationAgree(volunteerReservationRequestDto.isInformationAgree());
         volunteerReservation.setBoardStatus(volunteerReservationRequestDto.getVolunteerStatus());
         volunteerReservation.setVolunteerRegister(volunteerRegister);
+        volunteerReservation.setBoardStatus("대기중");
         volunteerReservationRepository.save(volunteerReservation);
-        return "예약완료";
+        return new VolunteerReservationSaveResponseDto(
+                volunteerReservation.getBoardStatus(),volunteerReservation.getVolunteerDate(),
+                volunteerRegister.getVolunteerStartTime(),volunteerRegister.getVolunteerEndTime(),
+                volunteerRegister.getVolunteerAddress(),volunteerRegister.getVolunteerPlace(),
+                volunteerRegister.getVolunteerType(),byUserID.getUserName(),byUserID.getUserPhoneNumber()
+
+        );
+    }
+
+    // 봉사 신청할때 신청자 정보 뿌려주는 기능
+    public VolunteerReservationUserInfoResponse volunteerReservationUserInfo(String userId) {
+        User byUserID = userRepository.findByUserID(userId);
+        return new VolunteerReservationUserInfoResponse(byUserID.getUserName(),byUserID.getUserPhoneNumber());
     }
 
     //봉사 예약 내역
