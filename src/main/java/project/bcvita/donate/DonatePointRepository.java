@@ -15,4 +15,7 @@ public interface DonatePointRepository extends JpaRepository<Donate, Long> {
 
     List<Donate> findAllByDonateBoard(DonateBoard donateBoard);
 
+    List<Donate> findAllByUser(User user);
+
+
 }

@@ -85,17 +85,17 @@ public class UserService {
         //나중에 기업도 추가하셈
         if(loginId.equals("")) {
             throw new IllegalArgumentException("로그인 안됨");
-        }
-        session.setAttribute("loginId", loginId);
-        return "로그인 성공";
-    }
+        }*/
+//        session.setAttribute("loginId", user.getUserID());
+//        return "로그인 성공";
+    //}
 
-    public String logout(HttpSession session) {
-        if (session != null) {
-            session.invalidate();
-        }
-        return "로그아웃 성공";
-    }*/
+//    public String logout(HttpSession session) {
+//        if (session != null) {
+//            session.invalidate();
+//        }
+//        return "로그아웃 성공";
+    //}
 
         String loginId = "";
         User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
@@ -105,7 +105,6 @@ public class UserService {
         loginId = user.getUserID();
         session.setAttribute("loginId", loginId);
         return "로그인 성공";
-
 }
 
 
@@ -357,4 +356,16 @@ public class UserService {
         return list;
     }
      */
+
+    public List<VolunteerActiveHistoryResponse> volunteerActiveHistory(String userId) {
+        User user = userRepository.findByUserID(userId);
+        List<VolunteerReservation> resultList = volunteerReservationRepository.findAllByUserAndBoardStatus(
+            user, "참여완료");
+        return resultList.stream()
+            .map(x -> new VolunteerActiveHistoryResponse(x.getId(),x.getVolunteerRegister().getTitle(),x.getVolunteerRegister().getLocalDateTime()))
+            .toList();
+    }
+
+
+
 }

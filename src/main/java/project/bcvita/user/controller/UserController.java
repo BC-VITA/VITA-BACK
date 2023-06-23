@@ -162,6 +162,12 @@ public class UserController {
     public MyPageVolunteerInfo myPageVolunteerReservationResponses(String userId) {
         return userService.myPageVolunteerReservationResponses(userId);
     }
+    //마이페이지 - 봉사 참여 실적(상태가 참여완료인것들만 가져오기)
+    @GetMapping("/mypage/volunteer-active-history")
+    public List<VolunteerActiveHistoryResponse> volunteerActiveHistory(String userId) {
+        return userService.volunteerActiveHistory(userId);
+    }
+
 
 }
 

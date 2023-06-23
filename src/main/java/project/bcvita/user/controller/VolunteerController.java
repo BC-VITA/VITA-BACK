@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
 import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
-import project.bcvita.user.dto.response.VolunteerRegisterResponse;
-import project.bcvita.user.dto.response.VolunteerReservationResponse;
+import project.bcvita.user.dto.response.*;
 import project.bcvita.user.repository.VolunteerRegisterRepository;
 import project.bcvita.user.repository.VolunteerRepository;
 import project.bcvita.user.service.VolunteerService;
@@ -51,18 +51,36 @@ public class VolunteerController {
     public List<VolunteerRegisterResponse> boardListResponseList(HttpSession session, @RequestParam String volunteerType) {
         return volunteerService.boardListResponseList(session,volunteerType);
     }
+    // 봉사 신청할때 신청자 정보 뿌려주는 api
+    @GetMapping("/reservation")
+    @Transactional
+    public VolunteerReservationUserInfoResponse volunteerReservationUserInfo(String userId) {
+        return volunteerService.volunteerReservationUserInfo(userId);
+    }
 
-    @GetMapping
-
-    //봉사예약
+    //봉사예약 -> 봉사 예약하고 봉사 내용을 담는 ui에 해당 response로 프론트가 처리하면 돼서  "봉사 내용을 담는 ui"에 대한 api는 필요없
     @PostMapping("/reservation")
-    public String volunteerReservation(HttpSession session, @RequestBody VolunteerReservationRequestDto requestDto){
-        return volunteerService.volunteerReservation(session, requestDto);
+    public VolunteerReservationSaveResponseDto volunteerReservation(@RequestBody VolunteerReservationRequestDto requestDto){
+        return volunteerService.volunteerReservation( requestDto);
     }
 
     @GetMapping("/reservation/list")
     public List<VolunteerReservationResponse> reservationResponse() {
         return volunteerService.reservationResponse();
     }
+
+    //봉사 게시글을 보고 신청한 사람들 list
+    // 승인 반려 참여완료에 대한게 없는 이유는 해당 내용은 프론트에서 화면에 뿌려주고 아래 api호출할때 승인이면 승인이라고 값을 보내주면 됨
+    @GetMapping("/reservation/{volunteerBoardId}/list")
+    public List<VolunteerRequestUserResponse> volunteerRequestUser(@PathVariable("volunteerBoardId") Long volunteerBoardId) {
+        return volunteerService.volunteerRequestUser(volunteerBoardId);
+    }
+
+    //봉사 신청한 사람들 승인, 반려, 참여완료 결정하는곳
+    @PostMapping("/reservation/list/{reservationId}")
+    public String volunteerStatus(@PathVariable Long reservationId, String status) {
+        return volunteerService.volunteerStatus(reservationId,status);
+    }
+
 }
 
