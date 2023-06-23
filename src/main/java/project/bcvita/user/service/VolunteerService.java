@@ -9,10 +9,7 @@ import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
 import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
-import project.bcvita.user.dto.response.VolunteerRegisterResponse;
-import project.bcvita.user.dto.response.VolunteerReservationResponse;
-import project.bcvita.user.dto.response.VolunteerReservationSaveResponseDto;
-import project.bcvita.user.dto.response.VolunteerReservationUserInfoResponse;
+import project.bcvita.user.dto.response.*;
 import project.bcvita.user.entity.*;
 import project.bcvita.user.repository.UserRepository;
 import project.bcvita.user.repository.VolunteerRegisterRepository;
@@ -151,10 +148,10 @@ public class VolunteerService {
         volunteerReservation.setInformationAgree(volunteerReservationRequestDto.isInformationAgree());
         volunteerReservation.setBoardStatus(volunteerReservationRequestDto.getVolunteerStatus());
         volunteerReservation.setVolunteerRegister(volunteerRegister);
-        volunteerReservation.setBoardStatus("대기중");
+        volunteerReservation.setBoardStatus("접수");
         volunteerReservationRepository.save(volunteerReservation);
         return new VolunteerReservationSaveResponseDto(
-                volunteerReservation.getBoardStatus(),volunteerReservation.getVolunteerDate(),
+                "대기중",volunteerReservation.getVolunteerDate(),
                 volunteerRegister.getVolunteerStartTime(),volunteerRegister.getVolunteerEndTime(),
                 volunteerRegister.getVolunteerAddress(),volunteerRegister.getVolunteerPlace(),
                 volunteerRegister.getVolunteerType(),byUserID.getUserName(),byUserID.getUserPhoneNumber()
@@ -169,6 +166,7 @@ public class VolunteerService {
     }
 
     //봉사 예약 내역
+    // 해당부분은 마이페이지 부분에서 사용할 경우 프론트가 필요한 내용만 보여주면 됨
     public List<VolunteerReservationResponse> reservationResponse() {
         List<VolunteerReservation> volunteerReservationList = volunteerReservationRepository.findAll();
         List<VolunteerReservationResponse> volunteerReservationResponses = new ArrayList<>();
@@ -180,6 +178,23 @@ public class VolunteerService {
             , volunteerReservation.getVolunteerRegister().getVolunteerAddress(), volunteerReservation.getVolunteerRegister().getVolunteerType(), volunteerReservation.getVolunteerRegister().getManagerName(), volunteerReservation.getVolunteerRegister().getManagerPhoneNumber(), volunteerReservation.getVolunteerRegister().getVolunteerPlace()));
         }
         return volunteerReservationResponses;
+    }
+
+
+    public List<VolunteerRequestUserResponse> volunteerRequestUser(Long volunteerBoardId) {
+        VolunteerRegister volunteerRegister = volunteerRegisterRepository.findById(volunteerBoardId).get();
+        List<VolunteerReservation> volunteerReservation = volunteerReservationRepository.findAllByVolunteerRegister(volunteerRegister);
+
+        return volunteerReservation.stream().map(x -> new VolunteerRequestUserResponse(x.getId(),x.getUser().getUserName()))
+                .toList();
+
+    }
+
+    @Transactional
+    public String volunteerStatus(Long reservationId ,String status) {
+        VolunteerReservation volunteerReservation = volunteerReservationRepository.findById(reservationId).get();
+        volunteerReservation.setBoardStatus(status);
+        return status;
     }
 
 

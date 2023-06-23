@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
 import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
-import project.bcvita.user.dto.response.VolunteerRegisterResponse;
-import project.bcvita.user.dto.response.VolunteerReservationResponse;
-import project.bcvita.user.dto.response.VolunteerReservationSaveResponseDto;
-import project.bcvita.user.dto.response.VolunteerReservationUserInfoResponse;
+import project.bcvita.user.dto.response.*;
 import project.bcvita.user.repository.VolunteerRegisterRepository;
 import project.bcvita.user.repository.VolunteerRepository;
 import project.bcvita.user.service.VolunteerService;
@@ -71,5 +68,19 @@ public class VolunteerController {
     public List<VolunteerReservationResponse> reservationResponse() {
         return volunteerService.reservationResponse();
     }
+
+    //봉사 게시글을 보고 신청한 사람들 list
+    // 승인 반려 참여완료에 대한게 없는 이유는 해당 내용은 프론트에서 화면에 뿌려주고 아래 api호출할때 승인이면 승인이라고 값을 보내주면 됨
+    @GetMapping("/reservation/{volunteerBoardId}/list")
+    public List<VolunteerRequestUserResponse> volunteerRequestUser(@PathVariable("volunteerBoardId") Long volunteerBoardId) {
+        return volunteerService.volunteerRequestUser(volunteerBoardId);
+    }
+
+    //봉사 신청한 사람들 승인, 반려, 참여완료 결정하는곳
+    @PostMapping("/reservation/list/{reservationId}")
+    public String volunteerStatus(@PathVariable Long reservationId, String status) {
+        return volunteerService.volunteerStatus(reservationId,status);
+    }
+
 }
 

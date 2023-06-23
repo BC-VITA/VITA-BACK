@@ -71,22 +71,19 @@ public class UserService {
 
 
     public String login(UserLoginRequestDto userLoginRequestDto, HttpSession session) {
-        String loginId = "";
-        if(userLoginRequestDto.getType().equals("account")) {
             User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
             if (user == null) {
                 throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
             }
-            loginId = user.getUserID();
-        }else if(userLoginRequestDto.getType().equals("volunteer")) {
+        /*else if(userLoginRequestDto.getType().equals("volunteer")) {
             Volunteer volunteer= volunteerRepository.findByVolunteerIdAndVolunteerPw(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
             loginId = volunteer.getVolunteerId();
         }
         //나중에 기업도 추가하셈
         if(loginId.equals("")) {
             throw new IllegalArgumentException("로그인 안됨");
-        }
-        session.setAttribute("loginId", loginId);
+        }*/
+        session.setAttribute("loginId", user.getUserID());
         return "로그인 성공";
     }
 
@@ -346,4 +343,13 @@ public class UserService {
         return list;
     }
      */
+
+    public List<VolunteerActiveHistoryResponse> volunteerActiveHistory(String userId) {
+        User user = userRepository.findByUserID(userId);
+        List<VolunteerReservation> resultList = volunteerReservationRepository.findAllByUserAndBoardStatus(
+            user, "참여완료");
+        return resultList.stream()
+            .map(x -> new VolunteerActiveHistoryResponse(x.getId(),x.getVolunteerRegister().getTitle(),x.getVolunteerRegister().getLocalDateTime()))
+            .toList();
+    }
 }
