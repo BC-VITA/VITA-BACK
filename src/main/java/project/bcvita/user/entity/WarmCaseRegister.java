@@ -11,7 +11,6 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class WarmCaseRegister {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

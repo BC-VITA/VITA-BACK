@@ -54,7 +54,7 @@ public class VolunteerService {
     @Transactional
     public String volunteerCreate(HttpSession session, VolunteerRequestDto requestDto) {
         String volunteerLoginId = (String) session.getAttribute("loginId");
-        Volunteer volunteer = volunteerRepository.findByVolunteerId(volunteerLoginId);
+        //Volunteer volunteer = volunteerRepository.findByVolunteerId(volunteerLoginId);
 
 
         VolunteerRegister volunteerRegister = new VolunteerRegister();
@@ -92,9 +92,9 @@ public class VolunteerService {
             volunteerRegister.setManagerEmail(requestDto.getManagerEmail());
             volunteerRegister.setTitle(requestDto.getTitle());
             volunteerRegister.setContent(requestDto.getContent());
-            volunteerRegister.setVolunteer(volunteer);
+            //volunteerRegister.setVolunteer(volunteer);
         }
-        volunteerRegister.setVolunteer(volunteer);
+        //volunteerRegister.setVolunteer(volunteer);
         volunteerRegisterRepository.save(volunteerRegister);
         return "게시글 작성 완료";
     }

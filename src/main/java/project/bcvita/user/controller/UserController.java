@@ -94,10 +94,11 @@ public class UserController {
     }
 
 
-    @GetMapping("/logout")
+    /*GetMapping("/logout")
     public String logoutGet(HttpSession session) {
         return userService.logout(session);
     }
+     */
 
 
     //좋아요 / 좋아요 취소 API

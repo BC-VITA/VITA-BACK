@@ -54,8 +54,8 @@ public class ChatService {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId).get();
         List<ChattingMessage> messageList = chatMessageRepository.findAllByChatRoom(chatRoom);
         List<ChatMessageResponse> chatMessageInfoList = messageList.stream().map(x ->
-                new ChatMessageResponse(x.getSender().getUserNumber(),
-                        x.getSender().getUserName(),x.getReceiver().getUserNumber(),
+                new ChatMessageResponse(x.getSender().getUserID(),
+                        x.getSender().getUserName(),x.getReceiver().getUserID(),
                         x.getReceiver().getUserName(),x.getMessage(),x.getSendTime()))
                 .collect(Collectors.toList());
 
@@ -71,8 +71,8 @@ public class ChatService {
     public ChatMessageResponse chatSend(ChatMessageRequest chatMessageRequest) {
         //1. 메시지를 보냈을때 해당 채팅방이 없을 경우 생성
         ChatRoom chatRoom = chatRoomRepository.findById(chatMessageRequest.getRoomId()).orElse(null);
-        User  sender =  userRepository.findById(chatMessageRequest.getSenderId()).orElse(null);
-        User recevier =  userRepository.findById(chatMessageRequest.getReceiverId()).orElse(null);
+        User  sender =  userRepository.findByUserID(chatMessageRequest.getSenderId());
+        User recevier =  userRepository.findByUserID(chatMessageRequest.getReceiverId());
         DesignatedBloodWriteUser designatedBloodWriteUser = bloodWriteUserRepository.findById(chatMessageRequest.getBoardId()).orElse(null);
         if(chatRoom == null) {
             //채팅방 존재하지 않으면 게시글 본 사람이 senderId, 게시글 작성자가 receiverId
@@ -83,8 +83,8 @@ public class ChatService {
         //메시지 전송
         ChattingMessage chattingMessage = new ChattingMessage(chatRoom, sender, recevier, chatMessageRequest.getMessage());
         chatMessageRepository.save(chattingMessage);
-        return new ChatMessageResponse(sender.getUserNumber(),sender.getUserName()
-                ,recevier.getUserNumber(),recevier.getUserName(), chatMessageRequest.getMessage(), chattingMessage.getSendTime());
+        return new ChatMessageResponse(sender.getUserID(),sender.getUserName()
+                ,recevier.getUserID(),recevier.getUserName(), chatMessageRequest.getMessage(), chattingMessage.getSendTime());
 
     }
 

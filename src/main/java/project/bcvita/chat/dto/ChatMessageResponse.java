@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 public class ChatMessageResponse {
-    private Long senderId;// 보낸 유저의 기본키
+    private String senderId;// 보낸 유저의 기본키
     private String senderName;
-    private Long receiverId; // 받는 유저의 기본키
+    private String receiverId; // 받는 유저의 기본키
     private String receiverName;
     private String message;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

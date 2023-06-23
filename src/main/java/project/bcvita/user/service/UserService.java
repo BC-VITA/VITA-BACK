@@ -71,16 +71,16 @@ public class UserService {
 
 
     public String login(UserLoginRequestDto userLoginRequestDto, HttpSession session) {
-        String loginId = "";
-        if(userLoginRequestDto.getType().equals("account")) {
+        /*String loginId = "";
+        //if(userLoginRequestDto.getType().equals("account")) {
             User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
             if (user == null) {
                 throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
             }
             loginId = user.getUserID();
-        }else if(userLoginRequestDto.getType().equals("volunteer")) {
-            Volunteer volunteer= volunteerRepository.findByVolunteerIdAndVolunteerPw(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
-            loginId = volunteer.getVolunteerId();
+        }//else if(userLoginRequestDto.getType().equals("volunteer")) {
+            //Volunteer volunteer= volunteerRepository.findByVolunteerIdAndVolunteerPw(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
+            //loginId = volunteer.getVolunteerId();
         }
         //나중에 기업도 추가하셈
         if(loginId.equals("")) {
@@ -95,7 +95,18 @@ public class UserService {
             session.invalidate();
         }
         return "로그아웃 성공";
-    }
+    }*/
+
+        String loginId = "";
+        User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
+        if (user == null) {
+            throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
+        }
+        loginId = user.getUserID();
+        session.setAttribute("loginId", loginId);
+        return "로그인 성공";
+
+}
 
 
 
@@ -111,15 +122,15 @@ public class UserService {
     }*/
 
     //***마이페이지 api 하나로 합친것***
-    public MyPageResponse myPage(HttpSession session,String reviewType) {
+    public MyPageResponse myPage(HttpSession session, String reviewType) {
         String loginId = (String) session.getAttribute("loginId");
         if (loginId == null) {
            throw new IllegalArgumentException("로그인안됨");
         }
         User user = userRepository.findByUserID(loginId);
-        if(reviewType == null) {
-            reviewType = "designatedBlood";
-        }
+//        if(reviewType == null) {
+//            reviewType = "designatedBlood";
+//        }
 
         MyPageUserInfoResponse myPageUserInfoResponse = new MyPageUserInfoResponse(user.getUserID(), user.getUserName(), user.getUserPhoneNumber(), user.getUserEmail(),
                 user.getUserBirth(), user.getUserBlood(), user.getSex(), user.getIsRH(), user.getBloodHistory(), user.getUserPoint());
