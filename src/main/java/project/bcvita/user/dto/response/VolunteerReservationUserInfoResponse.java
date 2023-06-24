@@ -8,4 +8,5 @@ import lombok.Getter;
 public class VolunteerReservationUserInfoResponse {
     private String userName;
     private String phone;
+    private String email;
 }

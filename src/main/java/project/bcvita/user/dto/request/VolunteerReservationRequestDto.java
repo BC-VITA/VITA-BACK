@@ -15,7 +15,7 @@ public class VolunteerReservationRequestDto {
     private String volunteerDate;
     
     //개인정보수집동의
-    private boolean informationAgree;
+    //private boolean informationAgree;
 
     //봉사게시글번호
     private Long volunteerBoardId;

@@ -21,5 +21,7 @@ public class VolunteerReservationSaveResponseDto {
     private String volunteerType;
     private String name;
     private String phone;
+
+    private Long boardId;
 }
 

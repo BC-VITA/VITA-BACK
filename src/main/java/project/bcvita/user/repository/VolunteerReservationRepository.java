@@ -18,4 +18,6 @@ public interface VolunteerReservationRepository extends JpaRepository<VolunteerR
 
     List<VolunteerReservation> findAllByUserAndBoardStatus(User user, String status);
 
+    List<VolunteerReservation> findById(String boardId);
+
 }
