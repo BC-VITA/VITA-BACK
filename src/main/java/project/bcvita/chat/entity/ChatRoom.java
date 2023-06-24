@@ -40,4 +40,8 @@ public class ChatRoom {
         this.boardSeeUser = boardSeeUser;
         this.designatedBloodWriteUser = designatedBloodWriteUser;
     }
+
+    public void updateIsAgree(Boolean isAgree) {
+        this.isAgree = isAgree;
+    }
 }

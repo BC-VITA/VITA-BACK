@@ -3,20 +3,15 @@ package project.bcvita.chat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.bcvita.chat.dto.ChatListResponse;
-import project.bcvita.chat.dto.ChatMessageInfoResponse;
-import project.bcvita.chat.dto.ChatMessageRequest;
-import project.bcvita.chat.dto.ChatMessageResponse;
+import project.bcvita.chat.dto.*;
 import project.bcvita.chat.entity.ChatRoom;
 import project.bcvita.chat.entity.ChattingMessage;
 import project.bcvita.user.entity.DesignatedBloodWriteUser;
 import project.bcvita.user.entity.User;
-import project.bcvita.user.repository.DesignatedBloodWriteRepository;
 import project.bcvita.user.repository.DesignatedBloodWriteUserRepository;
 import project.bcvita.user.repository.UserRepository;
 import project.bcvita.user.service.UserService;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -85,6 +80,15 @@ public class ChatService {
         return new ChatMessageResponse(sender.getUserID(),sender.getUserName()
                 ,recevier.getUserID(),recevier.getUserName(), chatMessageRequest.getMessage(), chattingMessage.getSendTime());
 
+    }
+
+
+    @Transactional
+    public String agreeOrCancel(ChatApproveOrCancelRequest chatApproveOrCancelRequest) {
+        User user = userRepository.findByUserID(chatApproveOrCancelRequest.getUserId());
+        ChatRoom findRoom = chatRoomRepository.findByIdAndBoardSeeUser(chatApproveOrCancelRequest.getRoomId(), user);
+        findRoom.updateIsAgree(chatApproveOrCancelRequest.getIsAgree());
+        return findRoom.getIsAgree() == true ? "수락됨" : "취소됨";
     }
 
 
