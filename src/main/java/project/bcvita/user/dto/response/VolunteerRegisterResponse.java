@@ -8,8 +8,6 @@ import project.bcvita.user.entity.Volunteer;
 @Getter
 public class VolunteerRegisterResponse {
 
-    private Long boardId;
-
     private Long volunteerId;
 
     //봉사 타입 (봉사 종류)

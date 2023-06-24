@@ -8,9 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.donate.dto.request.DonateBoardRequest;
 import project.bcvita.donate.dto.request.DonatePointRequest;
-import project.bcvita.donate.dto.response.DonateBoardResponse;
-import project.bcvita.donate.dto.response.DonateDetail;
-import project.bcvita.donate.dto.response.DonatePointResponse;
+import project.bcvita.donate.dto.response.*;
 import project.bcvita.donate.enttiy.Donate;
 import project.bcvita.donate.enttiy.DonateBoard;
 import project.bcvita.user.entity.User;
@@ -20,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -187,6 +186,21 @@ public class DonateService {
                 );
     }
      */
+
+
+    public List<DonateHistoryResponse> myPageDonateHistory(String  userId) {
+        User user = userRepository.findByUserID(userId);
+        List<Donate> donateHistoryList = donatePointRepository.findAllByUser(user);
+        return donateHistoryList.stream().map(x ->
+                new DonateHistoryResponse(x.getDonateBoard().getTitle(),x.getUsePoint(),x.getLocalDateTime())).collect(Collectors.toList());
+    }
+
+    public DonatePdfResponse pdfContent(String  userId, Long donateId) {
+        User user = userRepository.findByUserID(userId);
+        Donate donate = donatePointRepository.findById(donateId).get();
+        return new DonatePdfResponse(user.getUserName(),donate.getUsePoint(),donate.getLocalDateTime().toLocalDate());
+    }
+
 
 
 }

@@ -13,6 +13,8 @@ import project.bcvita.donate.dto.request.DonateBoardRequest;
 import project.bcvita.donate.dto.request.DonatePointRequest;
 import project.bcvita.donate.dto.response.DonateBoardResponse;
 import project.bcvita.donate.dto.response.DonateDetail;
+import project.bcvita.donate.dto.response.DonateHistoryResponse;
+import project.bcvita.donate.dto.response.DonatePdfResponse;
 import project.bcvita.user.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -92,5 +94,59 @@ public class DonateController {
     public List<DonateBoardResponse> donateBoardResponse() {
         return donateService.donatePointResponses();
     }
+
+
+    @GetMapping("/mypage/history")
+    public List<DonateHistoryResponse> myPageDonateHistory(String  userId) {
+        return donateService.myPageDonateHistory(userId);
+    }
+    //pdf에 들어가 내용
+    @GetMapping("/pdf")
+    public DonatePdfResponse pdfContent(String  userId, Long donateId) {
+        return donateService.pdfContent(userId,donateId);
+    }
+
+
+/* pdf다운받는건데 혹시 몰라서 남겨놓음
+    @PostMapping("/donate-pdf")
+    public void donatePdfDownload(HttpSession session) throws Exception {
+        User user = userRepository.findByUserID(userService.loginId(session));
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("기부.pdf"));
+        document.open(); // 웹페이지에 접근하는 객체를 연다
+
+        // 6) 준비한 설정값들을 활용해 Font 객체를 생성해줍니다. 생성자에 들어가는 인자는 BaseFont 와 사이즈 입니다.
+        BaseFont baseFont = BaseFont.createFont("NanumGothic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        Font donateTitleFont = new Font(baseFont, 30);
+
+        Paragraph donateTitle = new Paragraph("기부증서", donateTitleFont);
+        donateTitle.setAlignment(Element.ALIGN_CENTER);
+        document.add(donateTitle);
+        document.add(Chunk.NEWLINE);
+
+        Font donateUserFont = new Font(baseFont, 15);
+        Paragraph donateUser = new Paragraph("기부자 : " + user.getUserName(), donateUserFont);
+        donateUser.setAlignment(Element.ALIGN_RIGHT);
+        document.add(donateUser);
+        document.add(Chunk.NEWLINE);
+
+        Font contentFont = new Font(baseFont, 20);
+        Paragraph content = new Paragraph("이 기부는 어려운 이웃을 위해 따뜻한 사랑과 \n" +
+                "마음으로 헌혈과 봉사로 모은 포인트로 기부를 \n" +
+                "해주셨기에 감사드리며 이 증서를 드립니다.", contentFont);
+        content.setAlignment(Element.ALIGN_CENTER);
+        document.add(content);
+
+
+
+
+        document.close(); // 저장이 끝났으면 document객체를 닫는다.
+
+
+    }
+*/
+
+
+
 }
 

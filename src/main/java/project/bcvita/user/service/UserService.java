@@ -121,12 +121,9 @@ public class UserService {
     }*/
 
     //***마이페이지 api 하나로 합친것***
-    public MyPageResponse myPage(HttpSession session, String reviewType) {
-        String loginId = (String) session.getAttribute("loginId");
-        if (loginId == null) {
-           throw new IllegalArgumentException("로그인안됨");
-        }
-        User user = userRepository.findByUserID(loginId);
+    public MyPageResponse myPage(String userId, String reviewType) {
+
+        User user = userRepository.findByUserID(userId);
 //        if(reviewType == null) {
 //            reviewType = "designatedBlood";
 //        }
@@ -163,13 +160,13 @@ public class UserService {
 
 
     @Transactional
-    public MyPageUserInfoResponse updateMyPage(HttpSession session, MyPageRequest request) {
+    public MyPageUserInfoResponse updateMyPage(String userId, MyPageRequest request) {
         /*String loginId = (String) session.getAttribute("loginId");
 
         if(loginId == null) {
             return null;
         }*/
-        User user = userRepository.findByUserID(request.getUserId());
+        User user = userRepository.findByUserID(userId);
         String password = user.getUserPW();
         if ((request.getPassword() != null && request.getConfirmPassword() == null) || (request.getPassword() == null && request.getConfirmPassword() != null)) {
             throw new RuntimeException("비밀번호와 비밀번호 재확인이 일치하지 않습니다.");

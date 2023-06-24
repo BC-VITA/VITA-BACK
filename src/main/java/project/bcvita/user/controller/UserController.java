@@ -94,11 +94,11 @@ public class UserController {
     }
 
 
-    @GetMapping("/logout")
-    public String logoutGet(HttpSession session) {
-        System.out.println("userService.loginId(session) = " + userService.loginId(session));
-        return userService.logout(session);
-    }
+//    @GetMapping("/logout")
+//    public String logoutGet(HttpSession session) {
+//        System.out.println("userService.loginId(session) = " + userService.loginId(session));
+//        return userService.logout(session);
+//    }
 
 
     //좋아요 / 좋아요 취소 API
