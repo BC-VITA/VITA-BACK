@@ -28,9 +28,6 @@ public class UserService {
     private final BloodHouseReservationRepository bloodHouseReservationRepository;
 
     private final ReviewRegisterRepository reviewRegisterRepository;
-    private final VolunteerRepository volunteerRepository;
-
-    private final VolunteerReservationRepository volunteerReservationRepository;
 
     @Transactional
     public String join(UserRequest request) {
@@ -71,41 +68,22 @@ public class UserService {
 
 
     public String login(UserLoginRequestDto userLoginRequestDto, HttpSession session) {
-        /*String loginId = "";
-        //if(userLoginRequestDto.getType().equals("account")) {
-            User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
-            if (user == null) {
-                throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
-            }
-            loginId = user.getUserID();
-        }//else if(userLoginRequestDto.getType().equals("volunteer")) {
-            //Volunteer volunteer= volunteerRepository.findByVolunteerIdAndVolunteerPw(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
-            //loginId = volunteer.getVolunteerId();
-        }
-        //나중에 기업도 추가하셈
-        if(loginId.equals("")) {
-            throw new IllegalArgumentException("로그인 안됨");
-        }*/
-//        session.setAttribute("loginId", user.getUserID());
-//        return "로그인 성공";
-    //}
-
-//    public String logout(HttpSession session) {
-//        if (session != null) {
-//            session.invalidate();
-//        }
-//        return "로그아웃 성공";
-    //}
-
-        String loginId = "";
         User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
         if (user == null) {
             throw new IllegalArgumentException("회원가입을 진행해주세요."); // 예외처리
+        } else {
+            session.setAttribute("loginId", user.getUserID());
         }
-        loginId = user.getUserID();
-        session.setAttribute("loginId", loginId);
+        System.out.println("user = " + user.getUserID());
         return "로그인 성공";
-}
+    }
+
+    public String logout(HttpSession session) {
+        if (session != null) {
+            session.invalidate();
+        }
+        return "로그아웃 성공";
+    }
 
 
 
@@ -120,13 +98,12 @@ public class UserService {
         return new UserInfo(user.getUserID(),user.getUserName());
     }*/
 
-    //***마이페이지 api 하나로 합친것***
-    public MyPageResponse myPage(HttpSession session, String reviewType) {
-        String loginId = (String) session.getAttribute("loginId");
-        if (loginId == null) {
-           throw new IllegalArgumentException("로그인안됨");
-        }
-        User user = userRepository.findByUserID(loginId);
+    public MyPageResponse myPage(String userId,String reviewType) {
+//        String loginId = (String) session.getAttribute("loginId");
+//        if (loginId == null) {
+//           throw new IllegalArgumentException("로그인안됨");
+//        }
+        User user = userRepository.findByUserID(userId);
 //        if(reviewType == null) {
 //            reviewType = "designatedBlood";
 //        }
@@ -163,7 +140,7 @@ public class UserService {
 
 
     @Transactional
-    public MyPageUserInfoResponse updateMyPage(HttpSession session, MyPageRequest request) {
+    public MyPageUserInfoResponse updateMyPage(String userId, MyPageRequest request) {
         /*String loginId = (String) session.getAttribute("loginId");
 
         if(loginId == null) {
@@ -198,9 +175,8 @@ public class UserService {
     }
 
     public String loginId(HttpSession httpSession) {
-        return (String) httpSession.getAttribute("loginId");
+        return (String) httpSession.getAttribute("userId");
     }
-
 
     //마이페이지 지정헌혈 작성한 게시물 api
     public List<MyPageDesignatedBloodBoardResponse> myPage(HttpSession session) {
@@ -283,7 +259,7 @@ public class UserService {
         List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByUserAndReviewType(user,reviewType);
         List<MyPageDesignatedBloodReviewResponse> list = new ArrayList<>();
         for (ReviewRegister reviewRegister1 : reviewRegisters) {
-                    list.add(new MyPageDesignatedBloodReviewResponse(user.getUserName(), user.getDesignatedNumber(), reviewRegister1.getTitle(), reviewRegister1.getLocalDateTime()));
+            list.add(new MyPageDesignatedBloodReviewResponse(user.getUserName(), user.getDesignatedNumber(), reviewRegister1.getTitle(), reviewRegister1.getLocalDateTime()));
         }
         return list;
     }
@@ -317,55 +293,4 @@ public class UserService {
         }
         return "취소완료";
     }
-
-
-    //마이페이지 봉사 내역 api
-    @Transactional
-    public MyPageVolunteerInfo myPageVolunteerReservationResponses(String userId) {
-        User user = userRepository.findByUserID(userId);
-        List<VolunteerReservation> reservations = volunteerReservationRepository.findAllByUser(user);
-        List<MyPageVolunteerReservationResponse> list = new ArrayList<>();
-        int totalVolunteerTime = 0;
-        for(VolunteerReservation volunteerReservation : reservations) {
-            String startTime[] = volunteerReservation.getVolunteerRegister().getVolunteerStartTime().split(":");
-            String endTime[] = volunteerReservation.getVolunteerRegister().getVolunteerEndTime().split(":");
-             totalVolunteerTime += (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
-             int volunteerTime = (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
-            list.add(new MyPageVolunteerReservationResponse(user.getUserName(),  volunteerReservation.getVolunteerRegister().getVolunteer().getVolunteerGroupName()
-                    ,volunteerTime
-                  ,volunteerReservation.getVolunteerRegister().getTitle(),
-                    volunteerReservation.getVolunteerRegister().getVolunteerType(),volunteerReservation.getVolunteerRegister().getLocalDateTime()));
-        }
-
-        return new MyPageVolunteerInfo(totalVolunteerTime, list);
-    }
-
-
-    /*
-    //마이페이지 헌혈 예약 내역 api
-    @Transactional
-    public List<MyPageBloodReservationHistoryResponse> mypageBloodReservationHistory(HttpSession session){
-        String loginId = (String)session.getAttribute("loginId");
-        User user = userRepository.findByUserID(loginId);
-        //BloodHouseReservation reservation = bloodHouseReservationRepository.findById(request.getBloodReservationId()).get();
-        List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
-        List<MyPageBloodReservationHistoryResponse> list = new ArrayList<>();
-        for (BloodHouseReservation bloodHouseReservation : reservations) {
-            list.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate()));
-        }
-        return list;
-    }
-     */
-
-    public List<VolunteerActiveHistoryResponse> volunteerActiveHistory(String userId) {
-        User user = userRepository.findByUserID(userId);
-        List<VolunteerReservation> resultList = volunteerReservationRepository.findAllByUserAndBoardStatus(
-            user, "참여완료");
-        return resultList.stream()
-            .map(x -> new VolunteerActiveHistoryResponse(x.getId(),x.getVolunteerRegister().getTitle(),x.getVolunteerRegister().getLocalDateTime()))
-            .toList();
-    }
-
-
-
 }

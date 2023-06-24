@@ -33,9 +33,8 @@ public class ChatService {
     private final DesignatedBloodWriteUserRepository bloodWriteUserRepository;
 
     //채티방 list
-    public List<ChatListResponse> chatList(HttpSession session) {
-        String loginId = userService.loginId(session);
-        User user = userRepository.findByUserID(loginId);
+    public List<ChatListResponse> chatList(String userId) {
+        User user = userRepository.findByUserID(userId);
         List<ChatRoom> boardWriterList = chatRoomRepository.findAllByBoardWriter(user);
         List<ChatRoom> boardSeeUserList = chatRoomRepository.findAllByBoardSeeUser(user);
         List<ChatListResponse> list = new ArrayList<>();
@@ -54,9 +53,9 @@ public class ChatService {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId).get();
         List<ChattingMessage> messageList = chatMessageRepository.findAllByChatRoom(chatRoom);
         List<ChatMessageResponse> chatMessageInfoList = messageList.stream().map(x ->
-                new ChatMessageResponse(x.getSender().getUserID(),
-                        x.getSender().getUserName(),x.getReceiver().getUserID(),
-                        x.getReceiver().getUserName(),x.getMessage(),x.getSendTime()))
+                        new ChatMessageResponse(x.getSender().getUserID(),
+                                x.getSender().getUserName(),x.getReceiver().getUserID(),
+                                x.getReceiver().getUserName(),x.getMessage(),x.getSendTime()))
                 .collect(Collectors.toList());
 
         return new ChatMessageInfoResponse(chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),

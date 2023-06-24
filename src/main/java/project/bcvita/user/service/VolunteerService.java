@@ -118,16 +118,24 @@ public class VolunteerService {
         User user = userRepository.findByUserID(loginId);
 
         List<VolunteerRegister>  volunteerRegisters = volunteerRegisterRepository.findAllByVolunteerType(volunteerType);
+
+
         List<VolunteerRegisterResponse> volunteerRegisterResponses = new ArrayList<>();
         for(VolunteerRegister volunteerRegister : volunteerRegisters) {
+
+            VolunteerRegister volunteerRegister1 = volunteerRegisterRepository.findById(volunteerRegister.getId()).orElse(null);
             boolean isWishList = false;
+
+            if (volunteerRegister1 == null) {
+                continue;
+            }
             if(user != null) {
                 WishList wishList = wishListRepository.findByUserAndVolunteerRegister(user, volunteerRegister).orElse(null);
                 if(wishList != null) {
                     isWishList = true;
                 }
             }
-            volunteerRegisterResponses.add(new VolunteerRegisterResponse(volunteerRegister.getVolunteerType(), volunteerRegister.getContent(), volunteerRegister.getTitle(),
+            volunteerRegisterResponses.add(new VolunteerRegisterResponse(volunteerRegister1.getId(),volunteerRegister.getVolunteerType(), volunteerRegister.getContent(), volunteerRegister.getTitle(),
                     volunteerRegister.getVolunteerStartDate(), volunteerRegister.getVolunteerEndDate(), volunteerRegister.getVolunteerStartTime(), volunteerRegister.getVolunteerEndTime(), volunteerRegister.getNeedVolunteerNumber(), volunteerRegister.getVolunteerArea(),
                     volunteerRegister.getActivitySection(), volunteerRegister.getVolunteerField(), volunteerRegister.getVolunteerSeekStartDate(), volunteerRegister.getVolunteerSeekEndDate(), volunteerRegister.getVolunteerAddress(),
                     volunteerRegister.getVolunteerTarget(), volunteerRegister.getVolunteerPlace(), volunteerRegister.getLatitude(), volunteerRegister.getLongitude(), volunteerRegister.getVolunteerActivityWeek(), volunteerRegister.getQualification(), volunteerRegister.getVolunteerPersonType(),
@@ -145,7 +153,7 @@ public class VolunteerService {
         volunteerReservation.setVolunteerDate(volunteerReservationRequestDto.getVolunteerDate());
         volunteerReservation.setVolunteerType(volunteerReservationRequestDto.getVolunteerKind());
         volunteerReservation.setUser(byUserID);
-        volunteerReservation.setInformationAgree(volunteerReservationRequestDto.isInformationAgree());
+        //volunteerReservation.setInformationAgree(volunteerReservationRequestDto.isInformationAgree());
         volunteerReservation.setBoardStatus(volunteerReservationRequestDto.getVolunteerStatus());
         volunteerReservation.setVolunteerRegister(volunteerRegister);
         volunteerReservation.setBoardStatus("접수");
@@ -162,7 +170,7 @@ public class VolunteerService {
     // 봉사 신청할때 신청자 정보 뿌려주는 기능
     public VolunteerReservationUserInfoResponse volunteerReservationUserInfo(String userId) {
         User byUserID = userRepository.findByUserID(userId);
-        return new VolunteerReservationUserInfoResponse(byUserID.getUserName(),byUserID.getUserPhoneNumber());
+        return new VolunteerReservationUserInfoResponse(byUserID.getUserName(),byUserID.getUserPhoneNumber(), byUserID.getUserEmail());
     }
 
     //봉사 예약 내역
