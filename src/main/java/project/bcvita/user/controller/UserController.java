@@ -94,11 +94,11 @@ public class UserController {
     }
 
 
-    /*GetMapping("/logout")
+    @GetMapping("/logout")
     public String logoutGet(HttpSession session) {
+        System.out.println("userService.loginId(session) = " + userService.loginId(session));
         return userService.logout(session);
     }
-     */
 
 
     //좋아요 / 좋아요 취소 API
@@ -120,12 +120,12 @@ public class UserController {
     }*/
 
     @GetMapping("/mypage")
-    public MyPageResponse myPage(HttpSession session,@RequestParam(required = false) String reviewType) {
-        return userService.myPage(session,reviewType);
+    public MyPageResponse myPage(String userId,@RequestParam(required = false) String reviewType) {
+        return userService.myPage(userId,reviewType);
     }
     @PutMapping("/mypage")
-    public MyPageUserInfoResponse updateMyPage(HttpSession session, @RequestBody MyPageRequest request) {
-        return userService.updateMyPage(session,request);
+    public MyPageUserInfoResponse updateMyPage(String userId, @RequestBody MyPageRequest request) {
+        return userService.updateMyPage(userId,request);
     }
 
     @GetMapping("/mypage-designated-write")
@@ -158,17 +158,15 @@ public class UserController {
         return userService.myPageBloodReviewResponses(session, reviewType);
     }
 
+    @GetMapping("/mypage-volunteer-active-history")
+    public List<VolunteerActiveHistoryResponse> mypageVolunteerActiveHistory(String userId) {
+        return userService.volunteerActiveHistory(userId);
+    }
+
     @GetMapping("/mypage/volunteer-history")
     public MyPageVolunteerInfo myPageVolunteerReservationResponses(String userId) {
         return userService.myPageVolunteerReservationResponses(userId);
     }
-    //마이페이지 - 봉사 참여 실적(상태가 참여완료인것들만 가져오기)
-    @GetMapping("/mypage/volunteer-active-history")
-    public List<VolunteerActiveHistoryResponse> volunteerActiveHistory(String userId) {
-        return userService.volunteerActiveHistory(userId);
-    }
-
-
 }
 
 

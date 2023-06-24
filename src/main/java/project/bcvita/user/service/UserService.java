@@ -357,7 +357,6 @@ public class UserService {
     }
      */
 
-    //마이페이지 봉사 참여 실적 api
     public List<VolunteerActiveHistoryResponse> volunteerActiveHistory(String userId) {
         User user = userRepository.findByUserID(userId);
         List<VolunteerReservation> resultList = volunteerReservationRepository.findAllByUserAndBoardStatus(

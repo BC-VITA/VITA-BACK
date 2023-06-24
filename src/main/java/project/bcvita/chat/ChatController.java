@@ -32,8 +32,8 @@ public class ChatController {
         return "message";
     }
     @GetMapping("list") //mypage chat list
-    public List<ChatListResponse> chatList(HttpSession session) {
-        return chatService.chatList(session);
+    public List<ChatListResponse> chatList(String userId) {
+        return chatService.chatList(userId);
     }
 
     @GetMapping("{roomId}") // chattingRoom into message detail

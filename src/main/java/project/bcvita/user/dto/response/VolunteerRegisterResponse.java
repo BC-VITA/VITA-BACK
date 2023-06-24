@@ -10,6 +10,8 @@ public class VolunteerRegisterResponse {
 
     private Long boardId;
 
+    private Long volunteerId;
+
     //봉사 타입 (봉사 종류)
     private String volunteerType;
 
@@ -103,6 +105,4 @@ public class VolunteerRegisterResponse {
     private int wishListCount;
 
     private boolean isWishList;
-
-
 }

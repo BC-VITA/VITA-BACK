@@ -8,18 +8,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.donate.dto.request.DonateBoardRequest;
 import project.bcvita.donate.dto.request.DonatePointRequest;
-import project.bcvita.donate.dto.response.*;
+import project.bcvita.donate.dto.response.DonateBoardResponse;
+import project.bcvita.donate.dto.response.DonateDetail;
+import project.bcvita.donate.dto.response.DonatePointResponse;
 import project.bcvita.donate.enttiy.Donate;
 import project.bcvita.donate.enttiy.DonateBoard;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.repository.UserRepository;
-import project.bcvita.user.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +28,10 @@ public class DonateService {
     private final UserRepository userRepository;
 
     private final DonatePointRepository donatePointRepository;
-    private final UserService userService;
 
     public String writeDonateBoard(HttpSession session, DonateBoardRequest donateBoardRequest, MultipartFile file) {
         try {
-            String path = "C:\\vita";
+            String path = "C:\\Users\\이민렬\\Desktop\\test\\vita\\public\\images";
             File destination = new File(path + File.separator + file.getOriginalFilename());
             file.transferTo(destination);
             User user = userRepository.findByUserID(donateBoardRequest.getUserId());
@@ -57,7 +56,7 @@ public class DonateService {
                     DonateBoardResponse donateBoardResponse = new DonateBoardResponse(board.getId(), board.getTitle(), board.getImageUrl(), board.getContent());
                     return donateBoardResponse;
                 }
-                );
+        );
     }
 
     public DonateBoardResponse boardDetail(Long id) {
@@ -93,8 +92,7 @@ public class DonateService {
 
     //기부 포인트 구현 api
     public String donatePointAdd(HttpSession session, DonatePointRequest request) {
-        String loginId = userService.loginId(session);// 일반유저
-        User byUserID = userRepository.findByUserID(loginId);
+        User byUserID = userRepository.findByUserID(request.getUserId());
         DonateBoard donateBoard = donateBoardRepository.findById(request.getDonateId()).get();
         Donate donate = new Donate();
         donate.setDonateBoard(donateBoard);
@@ -112,21 +110,6 @@ public class DonateService {
     public Integer donateUserPoint(HttpSession session, String userId) {
         User user = userRepository.findByUserID(userId);
         return user.getUserPoint();
-    }
-
-    public List<DonateHistoryResponse> myPageDonateHistory(HttpSession session) {
-        String loginId = userService.loginId(session);
-        User user = userRepository.findByUserID(loginId);
-        List<Donate> donateHistoryList = donatePointRepository.findAllByUser(user);
-        return donateHistoryList.stream().map(x ->
-                new DonateHistoryResponse(x.getDonateBoard().getTitle(),x.getUsePoint(),x.getLocalDateTime())).collect(Collectors.toList());
-    }
-
-    public DonatePdfResponse pdfContent(HttpSession session, Long donateId) {
-        String loginId = userService.loginId(session);
-        User user = userRepository.findByUserID(loginId);
-        Donate donate = donatePointRepository.findById(donateId).get();
-        return new DonatePdfResponse(user.getUserName(),donate.getUsePoint(),donate.getLocalDateTime().toLocalDate());
     }
 
 
@@ -179,6 +162,31 @@ public class DonateService {
         }
         return donateBoardResponses;
     }
+
+
+    /*
+    @Transactional
+    public List<ReviewRegisterResponse> boardListResponseList(String reviewType) {
+        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByReviewType(reviewType);
+        List<ReviewRegisterResponse> reviewRegisterResponses = new ArrayList<>();
+        for(ReviewRegister reviewRegister : reviewRegisters) {
+            reviewRegisterResponses.add(new ReviewRegisterResponse(reviewRegister.getReviewType(), reviewRegister.getImg(), reviewRegister.getContent(), reviewRegister.getTitle()));
+        }
+        return reviewRegisterResponses;
+    }
+     */
+
+    /*
+    public Page<DonateBoardResponse> boardList(Pageable pageable) {
+        Page<DonateBoard> donateBoard = donateBoardRepository.findAll(pageable);
+        return  donateBoard.map(board ->
+                {
+                    DonateBoardResponse donateBoardResponse = new DonateBoardResponse(board.getId(), board.getTitle(), board.getImageUrl(), board.getContent());
+                    return donateBoardResponse;
+                }
+                );
+    }
+     */
 
 
 }
