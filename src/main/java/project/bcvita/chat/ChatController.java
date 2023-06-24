@@ -1,18 +1,13 @@
 package project.bcvita.chat;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.chat.dto.*;
 import project.bcvita.user.service.UserService;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -46,6 +41,12 @@ public class ChatController {
         return chatService.deleteRoom(roomId);
     }
 
+    //수락 또는 취소 하는 api
+    @PostMapping("/agree")
+    public String approveOrCancel(@RequestBody ChatApproveOrCancelRequest chatApproveOrCancelRequest) {
+        return chatService.agreeOrCancel(chatApproveOrCancelRequest);
+
+    }
 
 
 }

@@ -134,8 +134,8 @@ public class UserController {
     }
 
     @PutMapping("/mypage-designated-write-update")
-    public MyPageDesignatedBloodHistoryResponse mypageWriteUpdate(HttpSession session, @RequestBody BoardCreateRequestDto requestDto) {
-        return userService.updateDesignatedBoardMyPage(session, requestDto);
+    public MyPageDesignatedBloodHistoryResponse mypageWriteUpdate(String userId, @RequestBody BoardCreateRequestDto requestDto) {
+        return userService.updateDesignatedBoardMyPage(userId, requestDto);
     }
 
     @DeleteMapping("/mypage-designated-write-delete/{designatedId}/{designatedUserId}")
@@ -144,8 +144,8 @@ public class UserController {
     }
 
     @GetMapping("/mypage-blood-reservation-history")
-    public List<MyPageBloodReservationHistoryResponse> myPageBloodReservationHistory(HttpSession session){
-        return userService.mypageBloodReservationHistory(session);
+    public List<MyPageBloodReservationHistoryResponse> myPageBloodReservationHistory(String userId){
+        return userService.mypageBloodReservationHistory(userId);
     }
 
     @DeleteMapping("/mypage-blood-reservation-cancel/{reservationId}")
@@ -154,8 +154,8 @@ public class UserController {
     }
 
     @GetMapping("/mypage-designated-review")
-    public List<MyPageDesignatedBloodReviewResponse> myPageDesignatedBloodReviewResponses(HttpSession session, String reviewType) {
-        return userService.myPageBloodReviewResponses(session, reviewType);
+    public List<MyPageDesignatedBloodReviewResponse> myPageDesignatedBloodReviewResponses(String userId, String reviewType) {
+        return userService.myPageBloodReviewResponses(userId, reviewType);
     }
 
     @GetMapping("/mypage-volunteer-active-history")
@@ -166,6 +166,11 @@ public class UserController {
     @GetMapping("/mypage/volunteer-history")
     public MyPageVolunteerInfo myPageVolunteerReservationResponses(String userId) {
         return userService.myPageVolunteerReservationResponses(userId);
+    }
+
+    @GetMapping("/mypage/designaged-reservation-history")
+    public List<DesignatedReservationHistoryResponse> mypageDesignatedReservationHistory(String userId) {
+        return userService.mypageDesignatedReservationHistory(userId);
     }
 }
 

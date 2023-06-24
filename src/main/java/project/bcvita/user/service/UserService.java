@@ -3,6 +3,8 @@ package project.bcvita.user.service;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
+import project.bcvita.chat.ChatRoomRepository;
+import project.bcvita.chat.entity.ChatRoom;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.*;
 import project.bcvita.user.entity.*;
@@ -31,6 +33,8 @@ public class UserService {
     private final VolunteerRepository volunteerRepository;
 
     private final VolunteerReservationRepository volunteerReservationRepository;
+
+    private final ChatRoomRepository chatRoomRepository;
 
     @Transactional
     public String join(UserRequest request) {
@@ -215,9 +219,8 @@ public class UserService {
 
     //마이페이지 지정헌혈 작성한 게시물 수정 api
     @Transactional
-    public MyPageDesignatedBloodHistoryResponse updateDesignatedBoardMyPage(HttpSession session, BoardCreateRequestDto requestDto) {
-        String loginId = (String) session.getAttribute("loginId");
-        User user = userRepository.findByUserID(loginId);
+    public MyPageDesignatedBloodHistoryResponse updateDesignatedBoardMyPage(String userId, BoardCreateRequestDto requestDto) {
+        User user = userRepository.findByUserID(userId);
         //List<DesignatedBloodWriteUser> designatedBloodWriteUser = designatedBloodWriteUserRepository.findAllByUserNumber(user);
         DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(requestDto.getUserId()).get();
         DesignatedBloodWrite designatedBloodWrite = designatedBloodWriteRepository.findDesignatedBloodWriteById(requestDto.getUserId()).get();
@@ -274,9 +277,8 @@ public class UserService {
     }
 
     //마이페이지 내가 작성한 후기 api
-    public List<MyPageDesignatedBloodReviewResponse> myPageBloodReviewResponses(HttpSession session, String reviewType) {
-        String loginId = (String) session.getAttribute("loginId");
-        User user = userRepository.findByUserID(loginId);
+    public List<MyPageDesignatedBloodReviewResponse> myPageBloodReviewResponses(String userId, String reviewType) {
+        User user = userRepository.findByUserID(userId);
         List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByUserAndReviewType(user,reviewType);
         List<MyPageDesignatedBloodReviewResponse> list = new ArrayList<>();
         for (ReviewRegister reviewRegister1 : reviewRegisters) {
@@ -289,9 +291,8 @@ public class UserService {
 
     //마이페이지 헌혈 예약 내역 api
     @Transactional
-    public List<MyPageBloodReservationHistoryResponse> mypageBloodReservationHistory(HttpSession session){
-        String loginId = (String)session.getAttribute("loginId");
-        User user = userRepository.findByUserID(loginId);
+    public List<MyPageBloodReservationHistoryResponse> mypageBloodReservationHistory(String userId){
+        User user = userRepository.findByUserID(userId);
         //BloodHouseReservation reservation = bloodHouseReservationRepository.findById(request.getBloodReservationId()).get();
         List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
         List<MyPageBloodReservationHistoryResponse> list = new ArrayList<>();
@@ -364,5 +365,18 @@ public class UserService {
     }
 
 
+
+    public List<DesignatedReservationHistoryResponse> mypageDesignatedReservationHistory(String userId) {
+        User user = userRepository.findByUserID(userId);
+        List<ChatRoom> findALlChatRoom = chatRoomRepository.findAllByBoardSeeUserAndIsAgreeIsTrue(user);
+        List<DesignatedReservationHistoryResponse> resultList = new ArrayList<>();
+        for (ChatRoom chatRoom : findALlChatRoom) {
+            resultList.add(new DesignatedReservationHistoryResponse(
+                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),
+                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getLocalDateTime()
+            ));
+        }
+        return resultList;
+    }
 
 }
