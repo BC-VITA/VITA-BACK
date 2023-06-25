@@ -21,4 +21,6 @@ public class ReviewRegisterResponse {
 
     //제목
     private String title;
+
+    private Long registerId;
 }

@@ -95,7 +95,7 @@ public class ReviewService {
         List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByReviewType(reviewType);
         List<ReviewRegisterResponse> reviewRegisterResponses = new ArrayList<>();
         for(ReviewRegister reviewRegister : reviewRegisters) {
-            reviewRegisterResponses.add(new ReviewRegisterResponse(reviewRegister.getReviewType(), reviewRegister.getImg(), reviewRegister.getContent(), reviewRegister.getTitle()));
+            reviewRegisterResponses.add(new ReviewRegisterResponse(reviewRegister.getReviewType(), reviewRegister.getImg(), reviewRegister.getContent(), reviewRegister.getTitle(), reviewRegister.getId()));
         }
         return reviewRegisterResponses;
     }
