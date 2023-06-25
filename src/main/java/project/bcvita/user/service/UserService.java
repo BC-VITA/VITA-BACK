@@ -329,9 +329,7 @@ public class UserService {
             String endTime[] = volunteerReservation.getVolunteerRegister().getVolunteerEndTime().split(":");
              totalVolunteerTime += (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
              int volunteerTime = (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
-            list.add(new MyPageVolunteerReservationResponse(user.getUserName(),  volunteerReservation.getVolunteerRegister().getVolunteer().getVolunteerGroupName()
-                    ,volunteerTime
-                  ,volunteerReservation.getVolunteerRegister().getTitle(),
+            list.add(new MyPageVolunteerReservationResponse(user.getUserName(), volunteerTime,volunteerReservation.getVolunteerRegister().getTitle(),
                     volunteerReservation.getVolunteerRegister().getVolunteerType(),volunteerReservation.getVolunteerRegister().getLocalDateTime()));
         }
 

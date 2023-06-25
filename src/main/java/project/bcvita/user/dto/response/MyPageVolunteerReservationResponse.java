@@ -13,7 +13,7 @@ public class MyPageVolunteerReservationResponse {
     private String userName;
 
     //봉사단체 리스트
-   private String volunteerName;
+   //private String volunteerName;
 
     //시간인증 봉사시간
     private int volunteerTime;
