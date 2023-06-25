@@ -48,8 +48,8 @@ public class VolunteerController {
     }
 
     @GetMapping("/board/list")
-    public List<VolunteerRegisterResponse> boardListResponseList(HttpSession session, @RequestParam String volunteerType) {
-        return volunteerService.boardListResponseList(session,volunteerType);
+    public List<VolunteerRegisterResponse> boardListResponseList(String userId, @RequestParam String volunteerType) {
+        return volunteerService.boardListResponseList(userId,volunteerType);
     }
     // 봉사 신청할때 신청자 정보 뿌려주는 api
     @GetMapping("/reservation")
