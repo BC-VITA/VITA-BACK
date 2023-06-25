@@ -112,10 +112,10 @@ public class VolunteerService {
      */
 
     @Transactional
-    public List<VolunteerRegisterResponse> boardListResponseList(HttpSession session,String volunteerType) {
+    public List<VolunteerRegisterResponse> boardListResponseList(String userId,String volunteerType) {
 
-        String loginId = userService.loginId(session);
-        User user = userRepository.findByUserID(loginId);
+        //String loginId = userService.loginId(session);
+        User user = userRepository.findByUserID(userId);
 
         List<VolunteerRegister>  volunteerRegisters = volunteerRegisterRepository.findAllByVolunteerType(volunteerType);
 
