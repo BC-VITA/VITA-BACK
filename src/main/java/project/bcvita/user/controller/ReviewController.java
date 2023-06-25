@@ -37,8 +37,8 @@ public class ReviewController {
 
     //댓글 작성 api
     @PostMapping("/comment/{registerId}")
-    public ReviewCommentResponse reviewRegisterComment(HttpSession session, @PathVariable("registerId") Long registerId, @RequestBody ReviewCommentDto reviewCommentDto){
-        return reviewService.writeComment(session,registerId,reviewCommentDto);
+    public ReviewCommentResponse reviewRegisterComment(@PathVariable("registerId") Long registerId, @RequestBody ReviewCommentDto reviewCommentDto){
+        return reviewService.writeComment(registerId,reviewCommentDto);
     }
 
     @GetMapping("/comment/{registerId}")

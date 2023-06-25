@@ -1,5 +1,8 @@
 package project.bcvita.user.controller;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,12 +13,17 @@ import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
 import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
 import project.bcvita.user.dto.response.*;
+import project.bcvita.user.entity.User;
+import project.bcvita.user.entity.VolunteerRegister;
+import project.bcvita.user.entity.VolunteerReservation;
 import project.bcvita.user.repository.VolunteerRegisterRepository;
 import project.bcvita.user.repository.VolunteerRepository;
 import project.bcvita.user.service.VolunteerService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.FileOutputStream;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -47,6 +55,7 @@ public class VolunteerController {
         return volunteerService.volunteerCreate(session, requestDto);
     }
 
+    //봉사 작성된 게시물 list api
     @GetMapping("/board/list")
     public List<VolunteerRegisterResponse> boardListResponseList(String userId, @RequestParam String volunteerType) {
         return volunteerService.boardListResponseList(userId,volunteerType);
@@ -81,6 +90,13 @@ public class VolunteerController {
     public String volunteerStatus(@PathVariable Long reservationId, String status) {
         return volunteerService.volunteerStatus(reservationId,status);
     }
+
+    @PostMapping("/pdf")
+    public void donatePdfDownload(Long  registerId) throws Exception {
+        volunteerService.pdfDownload(registerId);
+
+    }
+
 
 }
 

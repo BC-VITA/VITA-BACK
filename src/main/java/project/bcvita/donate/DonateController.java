@@ -1,5 +1,8 @@
 package project.bcvita.donate;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,9 +18,16 @@ import project.bcvita.donate.dto.response.DonateBoardResponse;
 import project.bcvita.donate.dto.response.DonateDetail;
 import project.bcvita.donate.dto.response.DonateHistoryResponse;
 import project.bcvita.donate.dto.response.DonatePdfResponse;
+import project.bcvita.user.entity.User;
+import project.bcvita.user.entity.VolunteerRegister;
+import project.bcvita.user.entity.VolunteerReservation;
+import project.bcvita.user.repository.VolunteerRegisterRepository;
+import project.bcvita.user.repository.VolunteerReservationRepository;
 import project.bcvita.user.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import java.io.FileOutputStream;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -27,6 +37,8 @@ public class DonateController {
 
     private final DonateService donateService;
     private final UserService userService;
+    private final VolunteerReservationRepository volunteerReservationRepository;
+    private final VolunteerRegisterRepository volunteerRegisterRepository;
 
     /*@Autowired
     public DonateController(DonateService donateService) {
@@ -107,44 +119,96 @@ public class DonateController {
     }
 
 
-/* pdf다운받는건데 혹시 몰라서 남겨놓음
-    @PostMapping("/donate-pdf")
-    public void donatePdfDownload(HttpSession session) throws Exception {
-        User user = userRepository.findByUserID(userService.loginId(session));
-        Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("기부.pdf"));
-        document.open(); // 웹페이지에 접근하는 객체를 연다
+//    @PostMapping("/pdf")
+//    public void donatePdfDownload(Long  registerId) throws Exception {
+//        // 1. 다운로드받은날짜_자원봉사한타이틀_확인서
+//        // 2. 자원봉사한타이틀_확인서
+//        VolunteerReservation volunteerReservation = volunteerReservationRepository.findById(
+//                registerId).get();
+//        User user = volunteerReservation.getUser();
+//        VolunteerRegister volunteerRegister = volunteerReservation.getVolunteerRegister();
+//        String title = volunteerRegister.getTitle();
+//        Document document = new Document();
+//        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:\\pdf\\" +title+"_확인서.pdf" ));
+//
+//        document.open(); // 웹페이지에 접근하는 객체를 연다
+//
+//        // 6) 준비한 설정값들을 활용해 Font 객체를 생성해줍니다. 생성자에 들어가는 인자는 BaseFont 와 사이즈 입니다.
+//        BaseFont baseFont = BaseFont.createFont("NanumGothic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+//        Font donateTitleFont = new Font(baseFont, 30);
+//
+//        Paragraph donateTitle = new Paragraph("자원봉사활동 확인서", donateTitleFont);
+//        donateTitle.setAlignment(Element.ALIGN_CENTER);
+//        document.add(donateTitle);
+//        document.add(Chunk.NEWLINE);
+//
+//        Font donateUserFont = new Font(baseFont, 15);
+//        Paragraph donateUser = new Paragraph("기부자 : " + user.getUserName(), donateUserFont);
+//        donateUser.setAlignment(Element.ALIGN_LEFT);
+//        document.add(donateUser);
+//        document.add(Chunk.NEWLINE);
+//        String year = user.getUserBirth().substring(0,4);
+//        String month = user.getUserBirth().substring(4,6);
+//        String day = user.getUserBirth().substring(6);
+//        Paragraph birthInfo = new Paragraph("생년월일 : " + year +"년 " + month +"월 " + day +"일"   , donateUserFont);
+//        birthInfo.setAlignment(Element.ALIGN_LEFT);
+//        document.add(birthInfo);
+//        document.add(Chunk.NEWLINE);
+//
+//        Paragraph phoneInfo = new Paragraph("전화번호 : " + user.getUserPhoneNumber(), donateUserFont);
+//        phoneInfo.setAlignment(Element.ALIGN_LEFT);
+//        document.add(phoneInfo);
+//        document.add(Chunk.NEWLINE);
+//        document.add(Chunk.NEWLINE);
+//
+//
+//        int totalTime = Integer.parseInt(volunteerRegister.getVolunteerEndTime().split(":")[0]) - Integer.parseInt(volunteerRegister.getVolunteerStartTime().split(":")[0]);
+//
+//        Paragraph volunteerActiveTimeInfo = new Paragraph("활동시간 : 총 " + totalTime +"시간"  , donateUserFont);
+//        volunteerActiveTimeInfo.setAlignment(Element.ALIGN_CENTER);
+//        document.add(volunteerActiveTimeInfo);
+//        document.add(Chunk.NEWLINE);
+//
+//
+//        Paragraph volunteerTitleInfo = new Paragraph("봉사활동 내용 : " + title, donateUserFont);
+//        volunteerTitleInfo.setAlignment(Element.ALIGN_CENTER);
+//        document.add(volunteerTitleInfo);
+//        document.add(Chunk.NEWLINE);
+//
+//        Paragraph volunteerActiveDateInfo = new Paragraph("자원봉사 활동기간 : " + volunteerRegister.getVolunteerStartDate() + " ~ " +volunteerRegister.getVolunteerEndDate() , donateUserFont);
+//        volunteerActiveDateInfo.setAlignment(Element.ALIGN_CENTER);
+//        document.add(volunteerActiveDateInfo);
+//        document.add(Chunk.NEWLINE);
+//        document.add(Chunk.NEWLINE);
+//        document.add(Chunk.NEWLINE);
+//
+//
+//
+//        Font contentFont = new Font(baseFont, 20);
+//        Paragraph content = new Paragraph("위와 같은 자원봉사 활동에 참여하였음을 확인함.", contentFont);
+//        content.setAlignment(Element.ALIGN_CENTER);
+//        document.add(content);
+//        document.add(Chunk.NEWLINE);
+//        LocalDate currentDate = LocalDate.now();
+//        Paragraph date = new Paragraph(currentDate.getYear() + "년 " + currentDate.getMonthValue() + "월" + currentDate.getDayOfMonth() +"일", contentFont);
+//        date.setAlignment(Element.ALIGN_CENTER);
+//        document.add(date);
+//        document.add(Chunk.NEWLINE);
+//
+//        Font infoFont = new Font(baseFont, 12);
+//
+//        Paragraph info = new Paragraph("본 증명서는 인터넷으로 발급되었으며, 자원봉사 포탈시스템(www.1365.go.kr) 의" +
+//                "확인서 조회 메뉴를 통해 문서발급 번호 입력으로 내용의 위변조 여부를 확인해 주십시오. " +
+//                "다만 문서 확인 번호를 통한 확인은 발급일로부터 90일까지 가능합니다.\n " +
+//                "* 발급확인서에 표시된 유관기관의 자원봉사 실적은 자원봉사 포탈 시스템과 연계를 통해 " +
+//                "취합된 실적 정보 입니다", infoFont);
+//        document.add(info);
+//        document.add(Chunk.NEWLINE);
+//
+//        document.close(); // 저장이 끝났으면 document객체를 닫는다.
+//
+//    }
 
-        // 6) 준비한 설정값들을 활용해 Font 객체를 생성해줍니다. 생성자에 들어가는 인자는 BaseFont 와 사이즈 입니다.
-        BaseFont baseFont = BaseFont.createFont("NanumGothic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        Font donateTitleFont = new Font(baseFont, 30);
-
-        Paragraph donateTitle = new Paragraph("기부증서", donateTitleFont);
-        donateTitle.setAlignment(Element.ALIGN_CENTER);
-        document.add(donateTitle);
-        document.add(Chunk.NEWLINE);
-
-        Font donateUserFont = new Font(baseFont, 15);
-        Paragraph donateUser = new Paragraph("기부자 : " + user.getUserName(), donateUserFont);
-        donateUser.setAlignment(Element.ALIGN_RIGHT);
-        document.add(donateUser);
-        document.add(Chunk.NEWLINE);
-
-        Font contentFont = new Font(baseFont, 20);
-        Paragraph content = new Paragraph("이 기부는 어려운 이웃을 위해 따뜻한 사랑과 \n" +
-                "마음으로 헌혈과 봉사로 모은 포인트로 기부를 \n" +
-                "해주셨기에 감사드리며 이 증서를 드립니다.", contentFont);
-        content.setAlignment(Element.ALIGN_CENTER);
-        document.add(content);
-
-
-
-
-        document.close(); // 저장이 끝났으면 document객체를 닫는다.
-
-
-    }
-*/
 
 
 
