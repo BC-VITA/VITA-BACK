@@ -103,7 +103,7 @@ public class ReviewService {
 
     //댓글 작성하기
     @Transactional
-    public ReviewCommentResponse writeComment(HttpSession session,Long registerId,ReviewCommentDto reviewCommentDto){
+    public ReviewCommentResponse writeComment(Long registerId,ReviewCommentDto reviewCommentDto){
         ReviewRegister reviewRegister = reviewRegisterRepository.findById(registerId)
                 .orElseThrow(() ->
                         new IllegalArgumentException("게시판을 찾을 수 없습니다.")
@@ -113,8 +113,8 @@ public class ReviewService {
         reviewComment.setComment(reviewCommentDto.getComment());
 
         //게시판 번호로 게시글 찾기
-        String loginId = (String) session.getAttribute("loginId");
-        User user = userRepository.findByUserID(loginId);
+        //String loginId = (String) session.getAttribute("loginId");
+        User user = userRepository.findByUserID(reviewCommentDto.getUserId());
         reviewComment.setUser(user);
         reviewComment.setReviewRegister(reviewRegister);
         ReviewComment save = reviewCommentRepository.save(reviewComment);
