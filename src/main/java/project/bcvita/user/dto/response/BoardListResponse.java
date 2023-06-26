@@ -33,4 +33,6 @@ public class BoardListResponse {
 
     private boolean isWishList;
 
+    private String registerName;
+
 }

@@ -84,8 +84,8 @@ public class UserController {
 //    }
 
     @GetMapping("/board/filter")
-    public List<BoardListResponse> boardFilter(HttpSession session,@RequestParam(required = false) String patientIsRH, @RequestParam(required = false) String requestHospitalAddress, @RequestParam(required = false) String title, @RequestParam(required = false) String content, @RequestParam(required = false) String patientBlood, @RequestParam(required = false) String hospitalName, @RequestParam(required = false) String bloodType) {
-        return boardService.filter(session,patientIsRH, requestHospitalAddress, title, content, patientBlood, hospitalName, bloodType);
+    public List<BoardListResponse> boardFilter(String registerName,@RequestParam(required = false) String patientIsRH, @RequestParam(required = false) String requestHospitalAddress, @RequestParam(required = false) String title, @RequestParam(required = false) String content, @RequestParam(required = false) String patientBlood, @RequestParam(required = false) String hospitalName, @RequestParam(required = false) String bloodType) {
+        return boardService.filter(registerName,patientIsRH, requestHospitalAddress, title, content, patientBlood, hospitalName, bloodType);
     }
 
     @PostMapping("/login")
