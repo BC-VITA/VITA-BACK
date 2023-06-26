@@ -69,7 +69,7 @@ public class BoardService {
     }
 
 
-    public List<BoardListResponse> filter(String registerName,String patientIsRH, String requestHospitalAddress, String title, String content, String hospitalName, String patientBlood, String bloodType) {
+    public List<BoardListResponse> filter(String userId,String patientIsRH, String requestHospitalAddress, String title, String content, String hospitalName, String patientBlood, String bloodType) {
         List<DesignatedBloodWrite> postList = null;
         if (patientIsRH != null) { //rh여부
             postList = designatedBloodWriteRepository.filterIsRH(patientIsRH);
@@ -116,7 +116,9 @@ public class BoardService {
         }
 
         List<BoardListResponse> resultList = new ArrayList<>();
-        User user = userRepository.findByUserID(registerName);
+
+            User user = userRepository.findByUserID(userId);
+        String loginId = null;
 
         for (DesignatedBloodWrite post : postList) {
             boolean isWishList = false;
@@ -130,9 +132,11 @@ public class BoardService {
                 if(wishList != null) {
                     isWishList = true;
                 }
+                loginId = user.getUserID();
             }
+
             BoardListResponse boardListResponse = new BoardListResponse(post.getHospitalName(), post.getTitle(), post.getContent(),
-                    post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(), designatedBloodWriteUser.getBloodNumber(),wishListRepository.countByDesignatedBloodWriteUser(designatedBloodWriteUser),isWishList, user.getUserName());
+                    post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(), designatedBloodWriteUser.getBloodNumber(),wishListRepository.countByDesignatedBloodWriteUser(designatedBloodWriteUser),isWishList, loginId);
             resultList.add(boardListResponse);
         }
 
