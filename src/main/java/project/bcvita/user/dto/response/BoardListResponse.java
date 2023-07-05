@@ -35,4 +35,6 @@ public class BoardListResponse {
 
     private String registerName;
 
+    private Long registerId;
+
 }

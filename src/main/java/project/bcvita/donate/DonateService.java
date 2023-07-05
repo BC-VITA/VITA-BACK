@@ -100,6 +100,7 @@ public class DonateService {
         donate.setUser(byUserID);
         donate.setUsePoint(request.getUsePoint());
         donateBoard.setPointHistory(donateBoard.getPointHistory() + request.getUsePoint());
+
         byUserID.setUserPoint(request.getFinalPoint());
         donatePointRepository.save(donate);
         return "기부완료";
