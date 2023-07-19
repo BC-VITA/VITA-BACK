@@ -13,7 +13,9 @@ import project.bcvita.user.repository.UserRepository;
 import project.bcvita.user.service.UserService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +28,7 @@ public class ChatService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final DesignatedBloodWriteUserRepository bloodWriteUserRepository;
+
 
     //채티방 list
     public List<ChatListResponse> chatList(String userId) {
@@ -90,6 +93,22 @@ public class ChatService {
         findRoom.updateIsAgree(chatApproveOrCancelRequest.getIsAgree());
         return findRoom.getIsAgree() == true ? "수락됨" : "취소됨";
     }
+
+
+    //채팅방 roomId api
+    public List<ChatResponse> getChatRoomId(ChatRoomIdRequest chatRoomIdRequest) {
+        User user = userRepository.findByUserID(chatRoomIdRequest.getUserId());
+        List<ChatRoom> boardWriterList = chatRoomRepository.findAllByBoardWriterOrBoardSeeUser(user);
+
+        List<ChatResponse> roomIds = new ArrayList<>();
+
+        for (ChatRoom chatRoom : boardWriterList) {
+           roomIds.add(new ChatResponse(chatRoom.getId(), chatRoom.getDesignatedBloodWriteUser().getId()));
+        }
+
+        return roomIds;
+    }
+
 
 
 }

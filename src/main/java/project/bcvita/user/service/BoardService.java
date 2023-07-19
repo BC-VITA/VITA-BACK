@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.heart.WishListRepository;
+import project.bcvita.heart.dto.MypageWishListRequest;
+import project.bcvita.heart.dto.MypageWishListResponse;
 import project.bcvita.heart.entity.WishList;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
 import project.bcvita.user.dto.request.WishListRequestDto;
@@ -206,28 +208,30 @@ public class BoardService {
 
 
 
-
+    //마이페이지 관심있는 게시물 -> 타입별
 //    @Transactional
-//    public List<WishListResponse> wishListResponseList() {
+//    public List<MypageWishListResponse> mypageWishList(String userId,MypageWishListRequest mypageWishListRequest) {
+//        User user = userRepository.findByUserID(userId);
+//        DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(mypageWishListRequest.getUserId()).get();
+//        List<WishList> wishLists = wishListRepository.findByUserAndDesignatedBloodWriteUser(user,designatedBloodWriteUser).get();
 //
 //    }
 
-//    public List<BloodHouseReservationResponse> registerReservationResponse(RequestCenterNameDto centerName) {
-//        BloodHouse blood = bloodHouseRepository.findByCenterName(centerName.getCenterName());
-//        System.out.println("centerName = " + centerName.getCenterName());
-//        if (blood == null) {
-//            throw new IllegalArgumentException("BloodHouse 값이 null");
-//        }
-//        List<BloodHouseRegister> bloodHouseRegisterList = bloodHouseRegisterRepository.findAllByBloodHouse(blood);
-//        List<BloodHouseReservationResponse> bloodHouseReservationResponses = new ArrayList<>();
-//        for (BloodHouseRegister bloodHouseRegister : bloodHouseRegisterList) {
-//            bloodHouseReservationResponses.add(new BloodHouseReservationResponse((bloodHouseRegister.getBloodHouse().getCenterName()), bloodHouseRegister.getDate(),bloodHouseRegister.getTime(),bloodHouseRegister.getWholeBlood(), bloodHouseRegister.getPlasma(), bloodHouseRegister.getPlatelet()));
-//        }
-//        return bloodHouseReservationResponses;
-//    }
 
-
-
+        /*
+         //마이페이지 헌혈 예약 내역 api
+    @Transactional
+    public List<MyPageBloodReservationHistoryResponse> mypageBloodReservationHistory(String userId){
+        User user = userRepository.findByUserID(userId);
+        //BloodHouseReservation reservation = bloodHouseReservationRepository.findById(request.getBloodReservationId()).get();
+        List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
+        List<MyPageBloodReservationHistoryResponse> list = new ArrayList<>();
+        for (BloodHouseReservation bloodHouseReservation : reservations) {
+            list.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate()));
+        }
+        return list;
+    }
+         */
 
 
 }

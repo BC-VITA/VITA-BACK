@@ -9,6 +9,7 @@ import project.bcvita.chat.dto.*;
 import project.bcvita.user.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +48,12 @@ public class ChatController {
         return chatService.agreeOrCancel(chatApproveOrCancelRequest);
 
     }
+
+    @GetMapping("/roomId")
+    public List<ChatResponse> getRoomId(@RequestBody ChatRoomIdRequest chatRoomIdRequest){
+        return chatService.getChatRoomId(chatRoomIdRequest);
+    }
+
 
 
 }
