@@ -25,8 +25,8 @@ public class ReviewController {
 
     //후기 작성 게시물 api
     @PostMapping("/reviewBoard")
-    public String reviewRegister(HttpSession session, @ModelAttribute ReviewRegisterRequestDto requestDto, @RequestPart(value = "file") MultipartFile file){
-        return reviewService.reviewRegister(session, requestDto, file);
+    public String reviewRegister(@ModelAttribute ReviewRegisterRequestDto requestDto, @RequestPart(value = "file") MultipartFile file){
+        return reviewService.reviewRegister(requestDto, file);
     }
 
     //후기 게시물 list

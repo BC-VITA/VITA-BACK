@@ -40,13 +40,13 @@ public class ReviewService {
 
 
     @Transactional
-    public String reviewRegister(HttpSession session, ReviewRegisterRequestDto requestDto, MultipartFile file) {
+    public String reviewRegister(ReviewRegisterRequestDto requestDto, MultipartFile file) {
         try{
             String path = "C:\\vita";
             File destination = new File(path + File.separator + file.getOriginalFilename());
             file.transferTo(destination);
             //String loginId = (String) session.getAttribute("loginId");
-            User byUserID = userRepository.findByUserID(userService.loginId(session));
+            User byUserID = userRepository.findByUserID(requestDto.getUserId());
             ReviewRegister reviewRegister = new ReviewRegister();
             reviewRegister.setImg(destination.getAbsolutePath());
             reviewRegister.setContent(requestDto.getContent());
