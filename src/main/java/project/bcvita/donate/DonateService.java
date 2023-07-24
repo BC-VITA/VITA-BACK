@@ -99,7 +99,8 @@ public class DonateService {
         donate.setLocalDateTime(request.getLocalDateTime().now());
         donate.setUser(byUserID);
         donate.setUsePoint(request.getUsePoint());
-        donateBoard.setPointHistory(donateBoard.getPointHistory() + request.getUsePoint());
+        //donateBoard.setPointHistory(donateBoard.getPointHistory() + request.getUsePoint());
+        donateBoard.setPointHistory((donateBoard.getPointHistory() != null ? donateBoard.getPointHistory() : 0) + request.getUsePoint());
 
         byUserID.setUserPoint(request.getFinalPoint());
         donatePointRepository.save(donate);
