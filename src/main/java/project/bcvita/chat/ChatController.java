@@ -50,7 +50,7 @@ public class ChatController {
     }
 
     @GetMapping("/roomId")
-    public List<ChatResponse> getRoomId(@RequestBody ChatRoomIdRequest chatRoomIdRequest){
+    public List<ChatResponse> getRoomId(ChatRoomIdRequest chatRoomIdRequest){
         return chatService.getChatRoomId(chatRoomIdRequest);
     }
 

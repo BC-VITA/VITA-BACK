@@ -8,4 +8,6 @@ import lombok.Getter;
 public class ChatResponse {
     private Long roomId;
     private Long boardId;
+    private String receiverName;
+    private String senderName;
 }

@@ -68,7 +68,7 @@ public class ChatService {
     public ChatMessageResponse chatSend(ChatMessageRequest chatMessageRequest) {
         //1. 메시지를 보냈을때 해당 채팅방이 없을 경우 생성
         ChatRoom chatRoom = chatRoomRepository.findById(chatMessageRequest.getRoomId()).orElse(null);
-        User  sender =  userRepository.findByUserID(chatMessageRequest.getSenderId());
+        User sender =  userRepository.findByUserID(chatMessageRequest.getSenderId());
         User recevier =  userRepository.findByUserID(chatMessageRequest.getReceiverId());
         DesignatedBloodWriteUser designatedBloodWriteUser = bloodWriteUserRepository.findById(chatMessageRequest.getBoardId()).orElse(null);
         if(chatRoom == null) {
@@ -99,11 +99,13 @@ public class ChatService {
     public List<ChatResponse> getChatRoomId(ChatRoomIdRequest chatRoomIdRequest) {
         User user = userRepository.findByUserID(chatRoomIdRequest.getUserId());
         List<ChatRoom> boardWriterList = chatRoomRepository.findAllByBoardWriterOrBoardSeeUser(user);
+        boardWriterList = chatRoomRepository.findAllByBoardWriter(user);
+        boardWriterList = chatRoomRepository.findAllByBoardSeeUser(user);
 
         List<ChatResponse> roomIds = new ArrayList<>();
 
         for (ChatRoom chatRoom : boardWriterList) {
-           roomIds.add(new ChatResponse(chatRoom.getId(), chatRoom.getDesignatedBloodWriteUser().getId()));
+           roomIds.add(new ChatResponse(chatRoom.getId(), chatRoom.getDesignatedBloodWriteUser().getId(), chatRoom.getBoardWriter().getUserID(), chatRoom.getBoardSeeUser().getUserID()));
         }
 
         return roomIds;

@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ChatRoomIdRequest {
 
-   private Long boardId;
+   //private Long boardId;
    private String userId;
 }
