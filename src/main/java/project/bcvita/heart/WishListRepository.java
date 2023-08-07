@@ -7,6 +7,7 @@ import project.bcvita.user.entity.User;
 import project.bcvita.user.entity.Volunteer;
 import project.bcvita.user.entity.VolunteerRegister;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface WishListRepository extends JpaRepository<WishList, Long> {
@@ -17,4 +18,6 @@ public interface WishListRepository extends JpaRepository<WishList, Long> {
     int countByVolunteerRegister(VolunteerRegister volunteerRegister);
 
     int countByDesignatedBloodWriteUser(DesignatedBloodWriteUser designatedBloodWriteUser);
+
+    List<WishList> findByUser(User user);
 }

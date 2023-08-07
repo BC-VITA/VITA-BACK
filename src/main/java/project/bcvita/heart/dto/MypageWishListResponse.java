@@ -3,6 +3,8 @@ package project.bcvita.heart.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Getter
 public class MypageWishListResponse {
@@ -25,7 +27,7 @@ public class MypageWishListResponse {
     private String boardContent;
 
     //게시물 작성 날짜
-    private String boardDate;
+    private LocalDateTime boardDate;
 
     //필요한 혈액형
     private String needBlood;

@@ -5,6 +5,10 @@ import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
 import project.bcvita.chat.ChatRoomRepository;
 import project.bcvita.chat.entity.ChatRoom;
+import project.bcvita.heart.WishListRepository;
+import project.bcvita.heart.dto.MypageWishListRequest;
+import project.bcvita.heart.dto.MypageWishListResponse;
+import project.bcvita.heart.entity.WishList;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.*;
 import project.bcvita.user.entity.*;
@@ -35,6 +39,10 @@ public class UserService {
     private final VolunteerReservationRepository volunteerReservationRepository;
 
     private final ChatRoomRepository chatRoomRepository;
+
+    private final WishListRepository wishListRepository;
+
+    private final VolunteerRegisterRepository volunteerRegisterRepository;
 
     @Transactional
     public String join(UserRequest request) {
@@ -375,6 +383,27 @@ public class UserService {
             ));
         }
         return resultList;
+    }
+
+    //마이페이지 지정헌혈 관심목록 api
+    @Transactional
+    public List<MypageWishListResponse> mypageWishList(MypageWishListRequest mypageWishListRequest) {
+        User user = userRepository.findByUserID(mypageWishListRequest.getUserId());
+        List<DesignatedBloodWriteUser> designatedBloodWriteUsers = designatedBloodWriteUserRepository.findAllByUserNumber(user);
+        List<WishList> wishLists = wishListRepository.findByUser(user);
+
+        List<MypageWishListResponse> wishListResponses = new ArrayList<>();
+        for (WishList wishList : wishLists) {
+            if (wishList.getBoardType().equals("designatedBlood")) {
+                DesignatedBloodWriteUser designatedBloodWriteUser = wishList.getDesignatedBloodWriteUser();
+                wishListResponses.add(new MypageWishListResponse(
+                        user.getUserID(), designatedBloodWriteUser.getId(), wishList.getBoardType(), wishList.isWishList(), wishList.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),
+                        wishList.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getContent(), wishList.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getLocalDateTime(),
+                        wishList.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getNeedBloodSystem(), wishList.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getBloodType(), wishList.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getHospitalName()
+                ));
+            }
+        }
+        return wishListResponses;
     }
 
 }
