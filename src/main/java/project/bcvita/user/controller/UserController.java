@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.bcvita.heart.dto.MypageWishListRequest;
+import project.bcvita.heart.dto.MypageWishListResponse;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.*;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
@@ -171,6 +173,12 @@ public class UserController {
     @GetMapping("/mypage/designaged-reservation-history")
     public List<DesignatedReservationHistoryResponse> mypageDesignatedReservationHistory(String userId) {
         return userService.mypageDesignatedReservationHistory(userId);
+    }
+
+    //마이페이지 관심목록 api
+    @GetMapping("/mypage-wishList")
+    public List<MypageWishListResponse> mypageWishListResponses(MypageWishListRequest mypageWishListRequest) {
+        return userService.mypageWishList(mypageWishListRequest);
     }
 }
 
