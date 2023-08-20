@@ -264,7 +264,7 @@ public class BoardService {
                     wishList.getBoardType(),
                     wishList.isWishList(),
                     designatedBloodWriteUserId,
-                    userId,
+                    wishList.getUser().getUserID(),
                     volunteerRegisterId
             ));
         }

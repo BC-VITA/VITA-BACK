@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.bcvita.heart.dto.MypageWishListRequest;
-import project.bcvita.heart.dto.MypageWishListResponse;
-import project.bcvita.heart.dto.WishListTableResponse;
+import project.bcvita.heart.dto.*;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.*;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
@@ -186,6 +184,11 @@ public class UserController {
     @GetMapping("/wishListTable")
     public List<WishListTableResponse> wishListTableResponses() {
         return boardService.wishListTableResponses();
+    }
+
+    @GetMapping("/mypage-wishList-volunteer")
+    public List<MypageVolunteerResponse> mypageVolunteerResponses(MypageVolunteerRequest mypageVolunteerRequest) {
+        return userService.mypageVolunteerResponseList(mypageVolunteerRequest);
     }
 }
 

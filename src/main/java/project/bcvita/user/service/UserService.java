@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import project.bcvita.chat.ChatRoomRepository;
 import project.bcvita.chat.entity.ChatRoom;
 import project.bcvita.heart.WishListRepository;
+import project.bcvita.heart.dto.MypageVolunteerRequest;
+import project.bcvita.heart.dto.MypageVolunteerResponse;
 import project.bcvita.heart.dto.MypageWishListRequest;
 import project.bcvita.heart.dto.MypageWishListResponse;
 import project.bcvita.heart.entity.WishList;
@@ -404,6 +406,26 @@ public class UserService {
             }
         }
         return wishListResponses;
+    }
+
+    //마이페이지 봉사 관심목록 api
+    @Transactional
+    public List<MypageVolunteerResponse> mypageVolunteerResponseList(MypageVolunteerRequest mypageVolunteerRequest){
+        User user = userRepository.findByUserID(mypageVolunteerRequest.getUserId());
+        List<WishList> wishLists = wishListRepository.findByUser(user);
+
+        List<MypageVolunteerResponse> mypageWishListResponses = new ArrayList<>();
+        for (WishList wishList : wishLists) {
+            if (wishList.getBoardType().equals("volunteer")){
+                //Volunteer volunteer = wishList.getVolunteerRegister().getVolunteer();
+                mypageWishListResponses.add(new MypageVolunteerResponse(
+                        wishList.getVolunteerRegister().getId(), user.getUserID(), wishList.getVolunteerRegister().getVolunteerType(), wishList.getVolunteerRegister().getContent(),
+                        wishList.getVolunteerRegister().getTitle(), wishList.getVolunteerRegister().getVolunteerStartDate(), wishList.getVolunteerRegister().getVolunteerEndDate(), wishList.getVolunteerRegister().getNeedVolunteerNumber(),
+                        wishList.getVolunteerRegister().getActivitySection(), wishList.getVolunteerRegister().getVolunteerAddress(), wishList.getVolunteerRegister().getVolunteerPlace()
+                ));
+            }
+        }
+        return mypageWishListResponses;
     }
 
 }
