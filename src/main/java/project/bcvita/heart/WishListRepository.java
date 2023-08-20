@@ -1,5 +1,6 @@
 package project.bcvita.heart;
 
+import org.hibernate.engine.transaction.jta.platform.internal.WildFlyStandAloneJtaPlatform;
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.bcvita.heart.entity.WishList;
 import project.bcvita.user.entity.DesignatedBloodWriteUser;
@@ -20,4 +21,7 @@ public interface WishListRepository extends JpaRepository<WishList, Long> {
     int countByDesignatedBloodWriteUser(DesignatedBloodWriteUser designatedBloodWriteUser);
 
     List<WishList> findByUser(User user);
+
+    Optional<WishList> findAllBy();
+
 }

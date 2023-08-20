@@ -2,6 +2,7 @@ package project.bcvita.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import project.bcvita.heart.entity.WishList;
 import project.bcvita.user.entity.DesignatedBloodWrite;
 import project.bcvita.user.entity.DesignatedBloodWriteUser;
 import project.bcvita.user.entity.User;
@@ -23,6 +24,8 @@ public interface DesignatedBloodWriteUserRepository extends JpaRepository<Design
     DesignatedBloodWriteUser findById(String designatedUserId);
 
     List<DesignatedBloodWriteUser> findAllByUserNumber(User user);
+
+    Optional<DesignatedBloodWriteUser> findAllBy();
 
 
 

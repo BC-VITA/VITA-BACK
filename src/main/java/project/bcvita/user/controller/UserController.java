@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.bcvita.heart.dto.MypageWishListRequest;
 import project.bcvita.heart.dto.MypageWishListResponse;
+import project.bcvita.heart.dto.WishListTableResponse;
 import project.bcvita.user.dto.request.*;
 import project.bcvita.user.dto.response.*;
 import project.bcvita.user.repository.DesignatedBloodWriteRepository;
@@ -179,6 +180,12 @@ public class UserController {
     @GetMapping("/mypage-wishList")
     public List<MypageWishListResponse> mypageWishListResponses(MypageWishListRequest mypageWishListRequest) {
         return userService.mypageWishList(mypageWishListRequest);
+    }
+
+    //wishList테이블을 볼수있는 api
+    @GetMapping("/wishListTable")
+    public List<WishListTableResponse> wishListTableResponses() {
+        return boardService.wishListTableResponses();
     }
 }
 

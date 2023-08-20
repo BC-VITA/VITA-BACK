@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.heart.WishListRepository;
 import project.bcvita.heart.dto.MypageWishListRequest;
 import project.bcvita.heart.dto.MypageWishListResponse;
+import project.bcvita.heart.dto.WishListTableResponse;
 import project.bcvita.heart.entity.WishList;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
 import project.bcvita.user.dto.request.WishListRequestDto;
@@ -17,6 +18,7 @@ import project.bcvita.user.repository.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -233,5 +235,40 @@ public class BoardService {
     }
          */
 
+    //wishList테이블을 볼수있는 api
+//    @Transactional
+//    public List<WishListTableResponse> wishListTableResponses() {
+//        List<WishList> wishLists = wishListRepository.findAll();
+//        //WishList wishLists = wishListRepository.findAllBy().orElse(null);
+//        List<WishListTableResponse> wishListTableResponses = new ArrayList<>();
+//        for (WishList wishList : wishLists){
+//            wishListTableResponses.add(new WishListTableResponse(wishList.getId(), wishList.getBoardType(), wishList.isWishList(), wishList.getDesignatedBloodWriteUser().getId(), wishList.getUser().getUserID(), wishList.getVolunteerRegister().getId()));
+//        }
+//        return wishListTableResponses;
+//    }
+    
 
+    //wishList 테이블 볼수있는 api 최종
+    @Transactional
+    public List<WishListTableResponse> wishListTableResponses() {
+        List<WishList> wishLists = wishListRepository.findAll();
+        List<WishListTableResponse> wishListTableResponses = new ArrayList<>();
+
+        for (WishList wishList : wishLists) {
+            Long designatedBloodWriteUserId = wishList.getDesignatedBloodWriteUser() != null ? wishList.getDesignatedBloodWriteUser().getId() : null;
+            String userId = wishList.getUser() != null ? wishList.getUser().getUserID() : null;
+            Long volunteerRegisterId = wishList.getVolunteerRegister() != null ? wishList.getVolunteerRegister().getId() : null;
+
+            wishListTableResponses.add(new WishListTableResponse(
+                    wishList.getId(),
+                    wishList.getBoardType(),
+                    wishList.isWishList(),
+                    designatedBloodWriteUserId,
+                    userId,
+                    volunteerRegisterId
+            ));
+        }
+
+        return wishListTableResponses;
+    }
 }
