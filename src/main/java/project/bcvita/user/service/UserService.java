@@ -214,9 +214,9 @@ public class UserService {
 
 
     //마이페이지 지정헌혈 작성한 게시물 api
-    public List<MyPageDesignatedBloodBoardResponse> myPage(HttpSession session) {
-        String loginId = (String) session.getAttribute("loginId");
-        User user = userRepository.findByUserID(loginId);
+    public List<MyPageDesignatedBloodBoardResponse> myPage(String userId) {
+        //ßString loginId = (String) session.getAttribute("loginId");
+        User user = userRepository.findByUserID(userId);
         List<DesignatedBloodWriteUser> designatedBloodWriteUsers = designatedBloodWriteUserRepository.findAllByUserNumber(user);
         // System.out.println("designatedBloodWrite = " + designatedBloodWrite.getLocalDateTime());
         List<MyPageDesignatedBloodBoardResponse> list = new ArrayList<>();

@@ -130,8 +130,8 @@ public class UserController {
     }
 
     @GetMapping("/mypage-designated-write")
-    public List<MyPageDesignatedBloodBoardResponse> mypageWrite(HttpSession session){
-        return userService.myPage(session);
+    public List<MyPageDesignatedBloodBoardResponse> mypageWrite(String userId){
+        return userService.myPage(userId);
     }
 
     @PutMapping("/mypage-designated-write-update")
