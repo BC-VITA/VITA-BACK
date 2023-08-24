@@ -123,15 +123,12 @@ public class BoardService {
 //        List<BoardListResponse> resultList = new ArrayList<>();
 //
 //        //User user = userRepository.findByUserID(userId);
-//        List<User> userList = userRepository.findAll();
 //        List<DesignatedBloodWriteUser> designatedBloodWriteUserList = designatedBloodWriteUserRepository.findAll();
 //        String loginId = null;
 //
 //        for (DesignatedBloodWrite post : postList) {
 //            boolean isWishList = false;
 //
-//            for (DesignatedBloodWriteUser designatedBloodWriteUser1 : designatedBloodWriteUserList) {
-//                for (User user : userList) {
 //                    DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWrite(post).orElse(null);
 //                    if (designatedBloodWriteUser == null) {
 //                        continue;
@@ -149,8 +146,6 @@ public class BoardService {
 //                            post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(), designatedBloodWriteUser.getBloodNumber(), wishListRepository.countByDesignatedBloodWriteUser(designatedBloodWriteUser), isWishList,designatedBloodWriteUser1.getUserNumber().getUserID(), post.getId());
 //                    resultList.add(boardListResponse);
 //                }
-//            }
-//        }
 //
 //            return resultList;
 //        }
