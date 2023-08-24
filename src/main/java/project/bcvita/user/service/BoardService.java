@@ -73,8 +73,8 @@ public class BoardService {
     }
 
 
-    public List<BoardListResponse> filter(String userId, Long registerId) {
-        List<DesignatedBloodWrite> postList = null;
+//    public List<BoardListResponse> filter() {
+//        List<DesignatedBloodWrite> postList = null;
 
         /*if (patientIsRH != null) { //rh여부
             postList = designatedBloodWriteRepository.filterIsRH(patientIsRH);
@@ -119,11 +119,46 @@ public class BoardService {
         } else {
             postList = designatedBloodWriteRepository.findAll();
         }*/
-        postList = designatedBloodWriteRepository.findAll();
-        List<BoardListResponse> resultList = new ArrayList<>();
+//        postList = designatedBloodWriteRepository.findAll();
+//        List<BoardListResponse> resultList = new ArrayList<>();
+//
+//        //User user = userRepository.findByUserID(userId);
+//        List<User> userList = userRepository.findAll();
+//        List<DesignatedBloodWriteUser> designatedBloodWriteUserList = designatedBloodWriteUserRepository.findAll();
+//        String loginId = null;
+//
+//        for (DesignatedBloodWrite post : postList) {
+//            boolean isWishList = false;
+//
+//            for (DesignatedBloodWriteUser designatedBloodWriteUser1 : designatedBloodWriteUserList) {
+//                for (User user : userList) {
+//                    DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWrite(post).orElse(null);
+//                    if (designatedBloodWriteUser == null) {
+//                        continue;
+//                    }
+//
+//                    if (user != null) {
+//                        WishList wishList = wishListRepository.findByUserAndDesignatedBloodWriteUser(user, designatedBloodWriteUser).orElse(null);
+//                        if (wishList != null) {
+//                            isWishList = true;
+//                        }
+//                        loginId = user.getUserID();
+//                    }
+//
+//                    BoardListResponse boardListResponse = new BoardListResponse(post.getHospitalName(), post.getTitle(), post.getContent(),
+//                            post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(), designatedBloodWriteUser.getBloodNumber(), wishListRepository.countByDesignatedBloodWriteUser(designatedBloodWriteUser), isWishList,designatedBloodWriteUser1.getUserNumber().getUserID(), post.getId());
+//                    resultList.add(boardListResponse);
+//                }
+//            }
+//        }
+//
+//            return resultList;
+//        }
 
-            User user = userRepository.findByUserID(userId);
-        String loginId = null;
+
+    public List<BoardListResponse> filter() {
+        List<DesignatedBloodWrite> postList = designatedBloodWriteRepository.findAll();
+        List<BoardListResponse> resultList = new ArrayList<>();
 
         for (DesignatedBloodWrite post : postList) {
             boolean isWishList = false;
@@ -132,17 +167,24 @@ public class BoardService {
             if (designatedBloodWriteUser == null) {
                 continue;
             }
-            if(user != null) {
+
+            User user = designatedBloodWriteUser.getUserNumber();
+            if (user != null) {
                 WishList wishList = wishListRepository.findByUserAndDesignatedBloodWriteUser(user, designatedBloodWriteUser).orElse(null);
-                if(wishList != null) {
+                if (wishList != null) {
                     isWishList = true;
                 }
-                loginId = user.getUserID();
-            }
 
-            BoardListResponse boardListResponse = new BoardListResponse(post.getHospitalName(), post.getTitle(), post.getContent(),
-                    post.getPatientBlood(), post.getBloodType(), post.getStartDate(), post.getId(), designatedBloodWriteUser.getBloodNumber(),wishListRepository.countByDesignatedBloodWriteUser(designatedBloodWriteUser),isWishList, loginId, post.getId());
-            resultList.add(boardListResponse);
+                BoardListResponse boardListResponse = new BoardListResponse(
+                        post.getHospitalName(), post.getTitle(), post.getContent(),
+                        post.getPatientBlood(), post.getBloodType(), post.getStartDate(),
+                        post.getId(), designatedBloodWriteUser.getBloodNumber(),
+                        wishListRepository.countByDesignatedBloodWriteUser(designatedBloodWriteUser),
+                        isWishList, user.getUserID(), post.getId()
+                );
+
+                resultList.add(boardListResponse);
+            }
         }
 
         return resultList;

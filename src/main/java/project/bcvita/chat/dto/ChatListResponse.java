@@ -10,11 +10,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ChatListResponse {
     private Long roomId;
-    private Long loginUserId;
-    private Long otherUserId;
+    private String loginUserId;
+    private String otherUserId;
 
     private String title;
 
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime boardCreatedAt;
+
+    private Long boardId;
 }

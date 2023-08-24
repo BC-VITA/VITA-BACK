@@ -37,15 +37,21 @@ public class ChatService {
         List<ChatRoom> boardSeeUserList = chatRoomRepository.findAllByBoardSeeUser(user);
         List<ChatListResponse> list = new ArrayList<>();
         for (ChatRoom chatRoom : boardWriterList) {
-            list.add(new ChatListResponse(chatRoom.getId(),chatRoom.getBoardWriter().getUserNumber(), chatRoom.getBoardSeeUser().getUserNumber()
-                    ,chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),chatRoom.getDesignatedBloodWriteUser().getCreatedAt()));
+            list.add(new ChatListResponse(chatRoom.getId(),chatRoom.getBoardWriter().getUserID(), chatRoom.getBoardSeeUser().getUserID()
+                    ,chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),chatRoom.getDesignatedBloodWriteUser().getCreatedAt(), chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getId()));
         }
         for (ChatRoom chatRoom : boardSeeUserList) {
-            list.add(new ChatListResponse(chatRoom.getId(),chatRoom.getBoardWriter().getUserNumber(), chatRoom.getBoardSeeUser().getUserNumber(),
-                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(), chatRoom.getDesignatedBloodWriteUser().getCreatedAt()));
+            list.add(new ChatListResponse(chatRoom.getId(),chatRoom.getBoardWriter().getUserID(), chatRoom.getBoardSeeUser().getUserID(),
+                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(), chatRoom.getDesignatedBloodWriteUser().getCreatedAt(), chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getId()));
         }
         return list;
     }
+
+
+
+
+
+
 
     public ChatMessageInfoResponse detailRoom(Long roomId) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId).get();

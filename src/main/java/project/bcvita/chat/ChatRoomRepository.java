@@ -9,6 +9,7 @@ import project.bcvita.user.entity.DesignatedBloodWriteUser;
 import project.bcvita.user.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
