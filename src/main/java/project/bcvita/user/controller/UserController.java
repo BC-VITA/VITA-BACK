@@ -85,8 +85,8 @@ public class UserController {
 //    }
 
     @GetMapping("/board/filter")
-    public List<BoardListResponse> boardFilter(String userId, Long registerId) {
-        return boardService.filter(userId,registerId);
+    public List<BoardListResponse> boardFilter() {
+        return boardService.filter();
     }
 
     @PostMapping("/login")

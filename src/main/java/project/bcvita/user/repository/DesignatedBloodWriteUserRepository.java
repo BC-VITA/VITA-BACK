@@ -30,4 +30,6 @@ public interface DesignatedBloodWriteUserRepository extends JpaRepository<Design
 
 
 
+
+
 }
