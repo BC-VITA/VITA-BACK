@@ -208,9 +208,9 @@ public class BoardService {
 
     //좋아요 여부
     @Transactional
-    public String wishListUpdate(HttpSession session,WishListRequestDto wishListRequestDto) {
+    public String wishListUpdate(WishListRequestDto wishListRequestDto) {
         //User user = userRepository.findByUserID(wishListRequestDto.getLoginId());
-        User user = userRepository.findByUserID(userService.loginId(session));
+        User user = userRepository.findByUserID(wishListRequestDto.getUserId());
         Long boardId = wishListRequestDto.getBoardId();
         if (wishListRequestDto.getBoardType().equals("designatedBlood")) {
             DesignatedBloodWriteUser designatedBloodWriteUser = designatedBloodWriteUserRepository.findByDesignatedBloodWriteId(boardId).orElse(null);

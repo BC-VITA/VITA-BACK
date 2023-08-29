@@ -106,8 +106,8 @@ public class UserController {
     // 좋아요 처음 클릭시 좋아요 됨
     // 좋아요 된 상태에서 좋아요 클릭하면 좋아요 해제됨
     @PostMapping("/wishList/wishListUpdate")
-    public String wishListUpdate(HttpSession session,@RequestBody WishListRequestDto wishListRequestDto) {
-        return boardService.wishListUpdate(session,wishListRequestDto);
+    public String wishListUpdate(@RequestBody WishListRequestDto wishListRequestDto) {
+        return boardService.wishListUpdate(wishListRequestDto);
     }
 
 
