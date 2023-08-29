@@ -13,4 +13,6 @@ public class WishListRequestDto {
     private String boardType;
 
     private boolean isHeart;
+
+    private String userId;
 }
