@@ -1,7 +1,6 @@
 package project.bcvita.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
 import project.bcvita.chat.ChatRoomRepository;
 import project.bcvita.chat.entity.ChatRoom;
@@ -427,6 +426,7 @@ public class UserService {
         }
         return mypageWishListResponses;
     }
+
 
 
     

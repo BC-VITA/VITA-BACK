@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.heart.WishListRepository;
-import project.bcvita.heart.dto.MypageWishListRequest;
-import project.bcvita.heart.dto.MypageWishListResponse;
 import project.bcvita.heart.dto.WishListTableResponse;
 import project.bcvita.heart.entity.WishList;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
@@ -18,7 +16,6 @@ import project.bcvita.user.repository.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

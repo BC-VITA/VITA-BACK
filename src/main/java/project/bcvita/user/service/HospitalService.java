@@ -36,7 +36,7 @@ public class HospitalService {
         return "Success";
     }
 
-    //병원 회원가입 list api
+    //병원 회원가입 list api-> 관리자 병원 회원가입 승인 api
     public List<HospitalResponse> hospitalResponseList() {
         List<Hospital> hospitalList = hospitalRepository.findAll();
         List<HospitalResponse> hospitalResponseList = new ArrayList<>();
@@ -73,4 +73,6 @@ public class HospitalService {
         }
         return "로그아웃 성공";
     }
+
+
 }

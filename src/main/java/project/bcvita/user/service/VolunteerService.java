@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.heart.WishListRepository;
 import project.bcvita.heart.entity.WishList;
-import project.bcvita.user.dto.request.UserRequest;
 import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
 import project.bcvita.user.dto.request.VolunteerRequestDto;
 import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
