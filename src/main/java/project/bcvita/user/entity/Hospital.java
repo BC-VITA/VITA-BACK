@@ -29,4 +29,10 @@ public class Hospital {
     private String hospitalAddress;
 
     private boolean isAdmin;
+
+    private Boolean isAdminJoinAccept;
+
+    public void updateIsAccept(Boolean isAdminJoinAccept) {
+        this.isAdminJoinAccept = isAdminJoinAccept;
+    }
 }
