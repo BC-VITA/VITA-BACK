@@ -30,7 +30,7 @@ public class DonateService {
 
     public String writeDonateBoard(HttpSession session, DonateBoardRequest donateBoardRequest, MultipartFile file) {
         try {
-            String path = "C:\\Users\\이민렬\\Desktop\\test\\vita\\public\\images";
+            String path = "/Users/minji/GitHub/vita";
             File destination = new File(path + File.separator + file.getOriginalFilename());
             file.transferTo(destination);
             User user = userRepository.findByUserID(donateBoardRequest.getUserId());
@@ -38,14 +38,16 @@ public class DonateService {
                 return "관리자가 아니므로 저장 안됨";
             }
             DonateBoard donateBoard = new DonateBoard();
-            donateBoard.create(donateBoardRequest.getTitle(), donateBoardRequest.getContent(), destination.getAbsolutePath(), user);
-            donateBoardRepository.save(donateBoard);
-        }catch (Exception e) {
-            e.printStackTrace();
+                donateBoard.create(donateBoardRequest.getTitle(), donateBoardRequest.getContent(), destination.getAbsolutePath(), user);
+                donateBoardRepository.save(donateBoard);
+        }
+        catch(Exception e){
+                e.printStackTrace();
+            }
+            return "기부 게시글 저장";
         }
 
-        return "기부 게시글 저장";
-    }
+
 
     //기부 게시판 list api
     public Page<DonateBoardResponse> boardList(Pageable pageable) {
@@ -204,5 +206,47 @@ public class DonateService {
     }
 
 
+    //관리자 기부 게시물 통계
+    public List<DonateBoardStatisticsResponse> adminDonateStatistics(){
+        List<DonateBoard> donateBoardList = donateBoardRepository.findAllBy();
+        List<DonateBoardInterface> pointHistory = donateBoardRepository.findByPointHistory();
+        List<DonateBoardStatisticsResponse> boardStatisticsResponseList = new ArrayList<>();
+        for (DonateBoard donateBoard : donateBoardList) {
+            boardStatisticsResponseList.add(new DonateBoardStatisticsResponse(
+                donateBoard.getId(), donateBoard.getTitle(), donateBoard.getContent(), donateBoard.getLocalDateTime(), donateBoard.getPointHistory(), getSumByTitle(pointHistory, donateBoard.getTitle()
+            )));
+        }
+        return boardStatisticsResponseList;
+    }
+
+
+    private DonateBoardInterface getSumByTitle(List<DonateBoardInterface> pointHistoryList, String title) {
+        for (DonateBoardInterface pointHistory : pointHistoryList) {
+            if (pointHistory.getTitle().equals(title)) {
+                return pointHistory;
+            }
+        }
+        return null; // 해당 제목을 찾지 못한 경우 null 반환
+    }
+
+    /*
+    public List<DesignatedReservationHistoryResponse> mypageDesignatedReservationHistory(String userId) {
+        User user = userRepository.findByUserID(userId);
+        List<ChatRoom> findALlChatRoom = chatRoomRepository.findAllByBoardSeeUserAndIsAgreeIsTrue(user);
+        List<DesignatedReservationHistoryResponse> resultList = new ArrayList<>();
+        for (ChatRoom chatRoom : findALlChatRoom) {
+            resultList.add(new DesignatedReservationHistoryResponse(
+                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),
+                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getLocalDateTime()
+            ));
+        }
+        return resultList;
+    }
+
+
+    List<DesignatedBloodWrite> postList = null;
+    if (patientIsRH != null) { //rh여부
+            postList = designatedBloodWriteRepository.filterIsRH(patientIsRH);
+     */
 
 }

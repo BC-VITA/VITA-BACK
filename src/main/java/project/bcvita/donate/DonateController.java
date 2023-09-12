@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.donate.dto.request.DonateBoardRequest;
 import project.bcvita.donate.dto.request.DonatePointRequest;
-import project.bcvita.donate.dto.response.DonateBoardResponse;
-import project.bcvita.donate.dto.response.DonateDetail;
-import project.bcvita.donate.dto.response.DonateHistoryResponse;
-import project.bcvita.donate.dto.response.DonatePdfResponse;
+import project.bcvita.donate.dto.response.*;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.entity.VolunteerRegister;
 import project.bcvita.user.entity.VolunteerReservation;
@@ -208,6 +205,12 @@ public class DonateController {
 //        document.close(); // 저장이 끝났으면 document객체를 닫는다.
 //
 //    }
+
+    //관리자 기부 게시물 통계 api
+    @GetMapping("/donate-board-statistics")
+    public List<DonateBoardStatisticsResponse> adminDonateStatistics() {
+        return donateService.adminDonateStatistics();
+    }
 
 
 

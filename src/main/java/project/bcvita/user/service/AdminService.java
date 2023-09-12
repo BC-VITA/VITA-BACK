@@ -51,6 +51,7 @@ public class AdminService {
         return "따뜻한 게시글 작성완료";
 }
 
+    //관리자 회원가입 승인 수락/거절 api
     @Transactional
     public String adminJoinAcceptOrCancel(AdminJoinAccpetRequest adminJoinAccpetRequest) {
         Long hospitalId = adminJoinAccpetRequest.getHospitalId();
@@ -59,5 +60,5 @@ public class AdminService {
             return hospital.getIsAdminJoinAccept() == true ? "수락됨" : "취소됨";
         }
 
-
+    
 }
