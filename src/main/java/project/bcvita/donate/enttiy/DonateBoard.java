@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedBy;
 import project.bcvita.user.entity.User;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,6 +28,10 @@ public class DonateBoard {
     //기부 게시글마다 포인트내역
     private Integer pointHistory;
 
+    //기부 게시글 등록 날짜
+    private LocalDateTime localDateTime;
+
+
     public void create(String title, String content, String imageUrl, User user) {
         this.title =title;
         this.content = content;
@@ -37,7 +42,6 @@ public class DonateBoard {
     @OneToOne(fetch = FetchType.LAZY)
     @CreatedBy
     private User user;
-
 
 
 }
