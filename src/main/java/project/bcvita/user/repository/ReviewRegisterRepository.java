@@ -13,11 +13,13 @@ public interface ReviewRegisterRepository extends JpaRepository<ReviewRegister,L
     List<ReviewRegister> findAllByReviewType(String reviewType);
 
 
-    ReviewRegister findById(String reviewId);
+    //ReviewRegister findById(String reviewId);
 
     List<ReviewRegister> findAllByUser(User user);
 
-    List<ReviewRegister> findAllByUserAndReviewType(User user, String reviewType );
+    List<ReviewRegister> findAllByUserAndReviewType(User user, String reviewType);
+
+    List<ReviewRegister> findAll();
 
 
 

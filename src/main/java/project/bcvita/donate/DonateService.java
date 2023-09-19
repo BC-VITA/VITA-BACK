@@ -11,7 +11,10 @@ import project.bcvita.donate.dto.request.DonatePointRequest;
 import project.bcvita.donate.dto.response.*;
 import project.bcvita.donate.enttiy.Donate;
 import project.bcvita.donate.enttiy.DonateBoard;
+import project.bcvita.user.dto.request.DonateReviewPointHistoryRequest;
+import project.bcvita.user.entity.ReviewRegister;
 import project.bcvita.user.entity.User;
+import project.bcvita.user.repository.ReviewRegisterRepository;
 import project.bcvita.user.repository.UserRepository;
 
 import javax.servlet.http.HttpSession;
@@ -27,6 +30,8 @@ public class DonateService {
     private final UserRepository userRepository;
 
     private final DonatePointRepository donatePointRepository;
+
+    private final ReviewRegisterRepository reviewRegisterRepository;
 
     public String writeDonateBoard(HttpSession session, DonateBoardRequest donateBoardRequest, MultipartFile file) {
         try {
@@ -113,6 +118,19 @@ public class DonateService {
     public Integer donateUserPoint(HttpSession session, String userId) {
         User user = userRepository.findByUserID(userId);
         return user.getUserPoint();
+    }
+
+
+    //마이페이지 기부 포인트 조회 api(후기 작성할때 보여지는 마이페이지)
+    public List<DonateReviewPointHistoryResponse> donateReviewPointHistoryResponses(String userId) {
+        User user = userRepository.findByUserID(userId);
+        List<ReviewRegister> reviewRegister = reviewRegisterRepository.findAll();
+
+        List<DonateReviewPointHistoryResponse> donateReviewPointHistoryResponses = new ArrayList<>();
+        for (ReviewRegister reviewRegister1 : reviewRegister) {
+            donateReviewPointHistoryResponses.add(new DonateReviewPointHistoryResponse(userId, reviewRegister1.getId(), reviewRegister1.getLocalDateTime()));
+        }
+        return donateReviewPointHistoryResponses;
     }
 
 
@@ -228,25 +246,5 @@ public class DonateService {
         }
         return null; // 해당 제목을 찾지 못한 경우 null 반환
     }
-
-    /*
-    public List<DesignatedReservationHistoryResponse> mypageDesignatedReservationHistory(String userId) {
-        User user = userRepository.findByUserID(userId);
-        List<ChatRoom> findALlChatRoom = chatRoomRepository.findAllByBoardSeeUserAndIsAgreeIsTrue(user);
-        List<DesignatedReservationHistoryResponse> resultList = new ArrayList<>();
-        for (ChatRoom chatRoom : findALlChatRoom) {
-            resultList.add(new DesignatedReservationHistoryResponse(
-                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),
-                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getLocalDateTime()
-            ));
-        }
-        return resultList;
-    }
-
-
-    List<DesignatedBloodWrite> postList = null;
-    if (patientIsRH != null) { //rh여부
-            postList = designatedBloodWriteRepository.filterIsRH(patientIsRH);
-     */
 
 }
