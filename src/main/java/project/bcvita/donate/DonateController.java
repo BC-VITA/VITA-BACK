@@ -89,6 +89,12 @@ public class DonateController {
         return donateService.donateUserPoint(session, userId);
     }
 
+
+    @GetMapping("/mypage-user-review-point-history")
+    public List<DonateReviewPointHistoryResponse> donateReviewPointHistoryResponses(String userId){
+        return donateService.donateReviewPointHistoryResponses(userId);
+    }
+
 //    @GetMapping("/donate-receipt")
 //    public DonateDetail donateReceipt(String userId, Long donateId) {
 //        return donateService.donateReceipt(userId,donateId);

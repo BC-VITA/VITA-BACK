@@ -35,8 +35,8 @@ public class BoardService {
 
     @Transactional
     public String create(HttpSession session, BoardCreateRequestDto requestDto) {
-        //User user = userRepository.findById(requestDto.getUserId()).orElse(null);
-        User user = userRepository.findByUserID((String) session.getAttribute("loginId"));
+        User user = userRepository.findById(requestDto.getUserId()).orElse(null);
+        //User user = userRepository.findByUserID((String) session.getAttribute("loginId"));
 
         DesignatedBloodWrite designatedBloodWrite = new DesignatedBloodWrite();
         designatedBloodWrite.setHospitalName(requestDto.getHospitalName());
