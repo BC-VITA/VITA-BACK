@@ -60,5 +60,8 @@ public class AdminService {
             return hospital.getIsAdminJoinAccept() == true ? "수락됨" : "취소됨";
         }
 
+
+
+
     
 }

@@ -63,8 +63,8 @@ public class UserController {
 //    }
 
     @PostMapping("/board")
-    public String create(HttpSession session, @RequestBody BoardCreateRequestDto requestDto) {
-        return boardService.create(session, requestDto);
+    public String create(@RequestBody BoardCreateRequestPostDto requestDto) {
+        return boardService.create(requestDto);
     }
 
 //    @PostMapping("/board/{user-id}")
