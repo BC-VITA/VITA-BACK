@@ -8,6 +8,7 @@ import project.bcvita.heart.WishListRepository;
 import project.bcvita.heart.dto.WishListTableResponse;
 import project.bcvita.heart.entity.WishList;
 import project.bcvita.user.dto.request.BoardCreateRequestDto;
+import project.bcvita.user.dto.request.BoardCreateRequestPostDto;
 import project.bcvita.user.dto.request.WishListRequestDto;
 import project.bcvita.user.dto.response.BoardListResponse;
 import project.bcvita.user.entity.*;
@@ -34,8 +35,9 @@ public class BoardService {
 
 
     @Transactional
-    public String create(HttpSession session, BoardCreateRequestDto requestDto) {
-        User user = userRepository.findById(requestDto.getUserId()).orElse(null);
+    public String create(BoardCreateRequestPostDto requestDto) {
+        //User user = userRepository.findById(requestDto.getUserId()).orElse(null);
+        User user = userRepository.findByUserID(requestDto.getUserName());
         //User user = userRepository.findByUserID((String) session.getAttribute("loginId"));
 
         DesignatedBloodWrite designatedBloodWrite = new DesignatedBloodWrite();
