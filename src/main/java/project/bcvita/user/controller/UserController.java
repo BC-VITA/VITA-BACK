@@ -190,6 +190,12 @@ public class UserController {
     public List<MypageVolunteerResponse> mypageVolunteerResponses(MypageVolunteerRequest mypageVolunteerRequest) {
         return userService.mypageVolunteerResponseList(mypageVolunteerRequest);
     }
+
+    //지정헌혈 채팅 수락하기 누르면 나오는 팝업창 api
+    @GetMapping("/designate-blood-accept-window")
+    public DesignateBloodAcceptWindowResponse designatedBloodAcceptWindow(DesignateBloodAcceptWindowRequest designateBloodAcceptWindowRequest) {
+        return userService.designatedBloodAcceptWindow(designateBloodAcceptWindowRequest);
+    }
 }
 
 

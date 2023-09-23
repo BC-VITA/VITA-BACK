@@ -21,14 +21,16 @@ public interface DesignatedBloodWriteUserRepository extends JpaRepository<Design
 
     Optional<DesignatedBloodWriteUser> findByDesignatedBloodWrite(DesignatedBloodWrite designatedBloodWrite);
 
-    DesignatedBloodWriteUser findById(String designatedUserId);
+    //DesignatedBloodWriteUser findById(String designatedUserId);
 
     List<DesignatedBloodWriteUser> findAllByUserNumber(User user);
 
     Optional<DesignatedBloodWriteUser> findAllBy();
 
 
+    Optional<DesignatedBloodWriteUser> findById(Long id);
 
+    List<DesignatedBloodWriteUser> findById(String id);
 
 
 
