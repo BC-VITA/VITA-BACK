@@ -19,6 +19,9 @@ public interface DesignatedBloodWriteRepository extends JpaRepository<Designated
 
     DesignatedBloodWrite findById(String designatedId);
 
+    //List<DesignatedBloodWrite> findById(String id);
+
+
     //1가지 경우의 수
     @Query("select me from DesignatedBloodWrite me where me.requestHospitalAddress like %:requestHospitalAddress%")
     List<DesignatedBloodWrite> filterArea(@Param("requestHospitalAddress") String requestHospitalAddress);

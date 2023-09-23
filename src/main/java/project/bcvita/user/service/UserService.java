@@ -101,14 +101,14 @@ public class UserService {
         }*/
 //        session.setAttribute("loginId", user.getUserID());
 //        return "로그인 성공";
-    //}
+        //}
 
 //    public String logout(HttpSession session) {
 //        if (session != null) {
 //            session.invalidate();
 //        }
 //        return "로그아웃 성공";
-    //}
+        //}
 
         String loginId = "";
         User user = userRepository.findByUserIDAndUserPW(userLoginRequestDto.getUserId(), userLoginRequestDto.getUserPw());
@@ -118,7 +118,7 @@ public class UserService {
         loginId = user.getUserID();
         session.setAttribute("loginId", loginId);
         return "로그인 성공";
-}
+    }
 
 
 
@@ -150,7 +150,7 @@ public class UserService {
             myPageBloodReservationHistoryList.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate()));
         }
 
-        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByUserAndReviewType(user,reviewType);
+        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByUserAndReviewType(user, reviewType);
         List<MyPageDesignatedBloodReviewResponse> myPageDesignatedBloodReviewList = new ArrayList<>();
         for (ReviewRegister reviewRegister1 : reviewRegisters) {
             myPageDesignatedBloodReviewList.add(new MyPageDesignatedBloodReviewResponse(user.getUserName(), user.getDesignatedNumber(), reviewRegister1.getTitle(), reviewRegister1.getLocalDateTime()));
@@ -288,19 +288,18 @@ public class UserService {
     //마이페이지 내가 작성한 후기 api
     public List<MyPageDesignatedBloodReviewResponse> myPageBloodReviewResponses(String userId, String reviewType) {
         User user = userRepository.findByUserID(userId);
-        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByUserAndReviewType(user,reviewType);
+        List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByUserAndReviewType(user, reviewType);
         List<MyPageDesignatedBloodReviewResponse> list = new ArrayList<>();
         for (ReviewRegister reviewRegister1 : reviewRegisters) {
-                    list.add(new MyPageDesignatedBloodReviewResponse(user.getUserName(), user.getDesignatedNumber(), reviewRegister1.getTitle(), reviewRegister1.getLocalDateTime()));
+            list.add(new MyPageDesignatedBloodReviewResponse(user.getUserName(), user.getDesignatedNumber(), reviewRegister1.getTitle(), reviewRegister1.getLocalDateTime()));
         }
         return list;
     }
 
 
-
     //마이페이지 헌혈 예약 내역 api
     @Transactional
-    public List<MyPageBloodReservationHistoryResponse> mypageBloodReservationHistory(String userId){
+    public List<MyPageBloodReservationHistoryResponse> mypageBloodReservationHistory(String userId) {
         User user = userRepository.findByUserID(userId);
         //BloodHouseReservation reservation = bloodHouseReservationRepository.findById(request.getBloodReservationId()).get();
         List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
@@ -314,12 +313,12 @@ public class UserService {
 
     //마이페이지 헌혈 예약 내역 취소 api
     @Transactional
-    public String CancelMyPageBloodReservation(Long reservationId){
+    public String CancelMyPageBloodReservation(Long reservationId) {
         Optional<BloodHouseReservation> bloodHouseReservationOptional = bloodHouseReservationRepository.findById(reservationId);
         if (bloodHouseReservationOptional.isPresent()) {
             BloodHouseReservation bloodHouseReservation = bloodHouseReservationOptional.get();
             bloodHouseReservationRepository.delete(bloodHouseReservation);
-        }else {
+        } else {
             throw new RuntimeException("게시물을 찾을 수 없습니다.");
         }
         return "취소완료";
@@ -333,13 +332,13 @@ public class UserService {
         List<VolunteerReservation> reservations = volunteerReservationRepository.findAllByUser(user);
         List<MyPageVolunteerReservationResponse> list = new ArrayList<>();
         int totalVolunteerTime = 0;
-        for(VolunteerReservation volunteerReservation : reservations) {
+        for (VolunteerReservation volunteerReservation : reservations) {
             String startTime[] = volunteerReservation.getVolunteerRegister().getVolunteerStartTime().split(":");
             String endTime[] = volunteerReservation.getVolunteerRegister().getVolunteerEndTime().split(":");
-             totalVolunteerTime += (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
-             int volunteerTime = (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
-            list.add(new MyPageVolunteerReservationResponse(user.getUserName(), volunteerTime,volunteerReservation.getVolunteerRegister().getTitle(),
-                    volunteerReservation.getVolunteerRegister().getVolunteerType(),volunteerReservation.getVolunteerRegister().getLocalDateTime()));
+            totalVolunteerTime += (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
+            int volunteerTime = (Integer.parseInt(endTime[0]) - Integer.parseInt(startTime[0]));
+            list.add(new MyPageVolunteerReservationResponse(user.getUserName(), volunteerTime, volunteerReservation.getVolunteerRegister().getTitle(),
+                    volunteerReservation.getVolunteerRegister().getVolunteerType(), volunteerReservation.getVolunteerRegister().getLocalDateTime()));
         }
 
         return new MyPageVolunteerInfo(totalVolunteerTime, list);
@@ -365,12 +364,11 @@ public class UserService {
     public List<VolunteerActiveHistoryResponse> volunteerActiveHistory(String userId) {
         User user = userRepository.findByUserID(userId);
         List<VolunteerReservation> resultList = volunteerReservationRepository.findAllByUserAndBoardStatus(
-            user, "참여완료");
+                user, "참여완료");
         return resultList.stream()
-            .map(x -> new VolunteerActiveHistoryResponse(x.getId(),x.getVolunteerRegister().getTitle(),x.getVolunteerRegister().getLocalDateTime()))
-            .toList();
+                .map(x -> new VolunteerActiveHistoryResponse(x.getId(), x.getVolunteerRegister().getTitle(), x.getVolunteerRegister().getLocalDateTime()))
+                .toList();
     }
-
 
 
     public List<DesignatedReservationHistoryResponse> mypageDesignatedReservationHistory(String userId) {
@@ -409,13 +407,13 @@ public class UserService {
 
     //마이페이지 봉사 관심목록 api
     @Transactional
-    public List<MypageVolunteerResponse> mypageVolunteerResponseList(MypageVolunteerRequest mypageVolunteerRequest){
+    public List<MypageVolunteerResponse> mypageVolunteerResponseList(MypageVolunteerRequest mypageVolunteerRequest) {
         User user = userRepository.findByUserID(mypageVolunteerRequest.getUserId());
         List<WishList> wishLists = wishListRepository.findByUser(user);
 
         List<MypageVolunteerResponse> mypageWishListResponses = new ArrayList<>();
         for (WishList wishList : wishLists) {
-            if (wishList.getBoardType().equals("volunteer")){
+            if (wishList.getBoardType().equals("volunteer")) {
                 //Volunteer volunteer = wishList.getVolunteerRegister().getVolunteer();
                 mypageWishListResponses.add(new MypageVolunteerResponse(
                         wishList.getVolunteerRegister().getId(), user.getUserID(), wishList.getVolunteerRegister().getVolunteerType(), wishList.getVolunteerRegister().getContent(),
@@ -427,8 +425,16 @@ public class UserService {
         return mypageWishListResponses;
     }
 
+    //지정헌혈 수락하기 버튼 누르면 나오는 팝업창 api
+    @Transactional
+    public DesignateBloodAcceptWindowResponse designatedBloodAcceptWindow(DesignateBloodAcceptWindowRequest designateBloodAcceptWindowRequest) {
+        DesignatedBloodWriteUser designatedBloodWriteUsers = designatedBloodWriteUserRepository.findById(designateBloodAcceptWindowRequest.getDesignateBloodWriteUserId()).get();
+        User userNumber = designatedBloodWriteUsers.getUserNumber();
+        DesignatedBloodWrite designatedBloodWrite = designatedBloodWriteUsers.getDesignatedBloodWrite();
 
+        return new DesignateBloodAcceptWindowResponse(designatedBloodWrite.getHospitalName(), designatedBloodWrite.getHospitalPhoneNumber(), designatedBloodWrite.getRequestHospitalAddress(), designatedBloodWrite.getPatientBlood(),
+                designatedBloodWrite.getPatientIsRH(), designatedBloodWrite.getBloodType(), designatedBloodWrite.getNeedBloodSystem(), designatedBloodWriteUsers.getPatientName(), designatedBloodWriteUsers.getBloodPersonNumber(),
+                designatedBloodWriteUsers.getPatientAge(), userNumber.getUserName());
 
-    
-
+    }
 }
