@@ -28,4 +28,6 @@ public interface DonateBoardRepository extends JpaRepository<DonateBoard, Long> 
     @Query("SELECT d.title as title, SUM(d.pointHistory) as sum FROM DonateBoard d GROUP BY d.title")
     List<DonateBoardInterface> findByPointHistory();
 
+    @Query("SELECT SUM(d.pointHistory) FROM DonateBoard d")
+    Long findAllByPointHistory();
 }

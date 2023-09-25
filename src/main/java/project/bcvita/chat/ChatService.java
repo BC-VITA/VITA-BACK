@@ -28,27 +28,25 @@ public class ChatService {
     private final DesignatedBloodWriteUserRepository bloodWriteUserRepository;
 
 
-    //채티방 list
+    //채팅방 list
     public List<ChatListResponse> chatList(String userId) {
         User user = userRepository.findByUserID(userId);
         List<ChatRoom> boardWriterList = chatRoomRepository.findAllByBoardWriter(user);
         List<ChatRoom> boardSeeUserList = chatRoomRepository.findAllByBoardSeeUser(user);
         List<ChatListResponse> list = new ArrayList<>();
         for (ChatRoom chatRoom : boardWriterList) {
-            list.add(new ChatListResponse(chatRoom.getId(),chatRoom.getBoardWriter().getUserID(), chatRoom.getBoardSeeUser().getUserID()
-                    ,chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(),chatRoom.getDesignatedBloodWriteUser().getCreatedAt(), chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getId()));
+                list.add(new ChatListResponse(chatRoom.getId(), chatRoom.getBoardWriter().getUserID(), chatRoom.getBoardSeeUser().getUserID()
+                        , chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(), chatRoom.getDesignatedBloodWriteUser().getCreatedAt(),
+                        chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getId(), chatRoom.getIsAgree()));
         }
         for (ChatRoom chatRoom : boardSeeUserList) {
             list.add(new ChatListResponse(chatRoom.getId(),chatRoom.getBoardWriter().getUserID(), chatRoom.getBoardSeeUser().getUserID(),
-                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(), chatRoom.getDesignatedBloodWriteUser().getCreatedAt(), chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getId()));
+                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getTitle(), chatRoom.getDesignatedBloodWriteUser().getCreatedAt(),
+                    chatRoom.getDesignatedBloodWriteUser().getDesignatedBloodWrite().getId(), chatRoom.getIsAgree()));
         }
         return list;
+
     }
-
-
-
-
-
 
 
     public ChatMessageInfoResponse detailRoom(Long roomId) {

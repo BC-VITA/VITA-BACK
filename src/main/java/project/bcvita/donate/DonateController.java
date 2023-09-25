@@ -219,6 +219,12 @@ public class DonateController {
     }
 
 
+    //메인화면 기부금 api
+    @GetMapping("/main-donate-sum")
+    public Long mainSumDonate() {
+        return donateService.mainSumDonate();
+    }
+
 
 
 }
