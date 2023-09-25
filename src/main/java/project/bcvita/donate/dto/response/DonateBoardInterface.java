@@ -4,4 +4,8 @@ public interface DonateBoardInterface {
 
     String getTitle();
     Long getSum();
+
+
+
+
 }

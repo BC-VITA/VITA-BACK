@@ -20,4 +20,6 @@ public class ChatListResponse {
     private LocalDateTime boardCreatedAt;
 
     private Long boardId;
+
+    private Boolean isAgree;
 }

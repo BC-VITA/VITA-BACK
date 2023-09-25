@@ -43,21 +43,19 @@ public class DonateService {
                 return "관리자가 아니므로 저장 안됨";
             }
             DonateBoard donateBoard = new DonateBoard();
-                donateBoard.create(donateBoardRequest.getTitle(), donateBoardRequest.getContent(), destination.getAbsolutePath(), user);
-                donateBoardRepository.save(donateBoard);
+            donateBoard.create(donateBoardRequest.getTitle(), donateBoardRequest.getContent(), destination.getAbsolutePath(), user);
+            donateBoardRepository.save(donateBoard);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch(Exception e){
-                e.printStackTrace();
-            }
-            return "기부 게시글 저장";
-        }
-
+        return "기부 게시글 저장";
+    }
 
 
     //기부 게시판 list api
     public Page<DonateBoardResponse> boardList(Pageable pageable) {
         Page<DonateBoard> donateBoard = donateBoardRepository.findAll(pageable);
-        return  donateBoard.map(board ->
+        return donateBoard.map(board ->
                 {
                     DonateBoardResponse donateBoardResponse = new DonateBoardResponse(board.getId(), board.getTitle(), board.getImageUrl(), board.getContent());
                     return donateBoardResponse;
@@ -67,7 +65,7 @@ public class DonateService {
 
     public DonateBoardResponse boardDetail(Long id) {
         DonateBoard donateBoard = donateBoardRepository.findById(id).get();
-        return new DonateBoardResponse(donateBoard.getId(),donateBoard.getTitle(),donateBoard.getImageUrl(),donateBoard.getContent());
+        return new DonateBoardResponse(donateBoard.getId(), donateBoard.getTitle(), donateBoard.getImageUrl(), donateBoard.getContent());
     }
 
     public String uploadImage(MultipartFile imageFile) {
@@ -76,7 +74,7 @@ public class DonateService {
         return fileName;
     }
 
-    public void createDonationPost(String userId, String title, String content, String imageUrl){
+    public void createDonationPost(String userId, String title, String content, String imageUrl) {
         System.out.println("게시물 생성");
         System.out.println("유저 아이디: " + userId);
         System.out.println("제목: " + title);
@@ -90,7 +88,7 @@ public class DonateService {
             File uploadFile = new File(path);
             File destination = new File(path + File.separator + file.getOriginalFilename());
             file.transferTo(destination);
-        }catch (Exception e) {
+        } catch (Exception e) {
 
         }
         return "이미지 저장 완료";
@@ -151,7 +149,6 @@ public class DonateService {
 //    }
 
 
-
     //하나의 게시글 기부 영수증 -> 개인x, 한 게시글에 기부한 사람 다 나옴
     public DonateDetail donateReceiptPerson(Long donateId) {
         DonateBoard donateBoard = donateBoardRepository.findById(donateId).get();
@@ -160,8 +157,8 @@ public class DonateService {
         List<DonatePointResponse> donatePointResponses = new ArrayList<>();
         //List<Donate> donateList = donatePointRepository.findAllByUserAndDonateBoardOrderByLocalDateTimeAsc(user, donateBoard);
         int total = 0;
-        for(Donate donate : donateList) {
-            if(donate.getUser() == null) {
+        for (Donate donate : donateList) {
+            if (donate.getUser() == null) {
                 continue;
             }
             int donatePoint = donate.getUsePoint() == null ? 0 : donate.getUsePoint().intValue();
@@ -210,28 +207,28 @@ public class DonateService {
      */
 
 
-    public List<DonateHistoryResponse> myPageDonateHistory(String  userId) {
+    public List<DonateHistoryResponse> myPageDonateHistory(String userId) {
         User user = userRepository.findByUserID(userId);
         List<Donate> donateHistoryList = donatePointRepository.findAllByUser(user);
         return donateHistoryList.stream().map(x ->
-                new DonateHistoryResponse(x.getDonateBoard().getTitle(),x.getUsePoint(),x.getLocalDateTime())).collect(Collectors.toList());
+                new DonateHistoryResponse(x.getDonateBoard().getTitle(), x.getUsePoint(), x.getLocalDateTime())).collect(Collectors.toList());
     }
 
-    public DonatePdfResponse pdfContent(String  userId, Long donateId) {
+    public DonatePdfResponse pdfContent(String userId, Long donateId) {
         User user = userRepository.findByUserID(userId);
         Donate donate = donatePointRepository.findById(donateId).get();
-        return new DonatePdfResponse(user.getUserName(),donate.getUsePoint(),donate.getLocalDateTime().toLocalDate());
+        return new DonatePdfResponse(user.getUserName(), donate.getUsePoint(), donate.getLocalDateTime().toLocalDate());
     }
 
 
     //관리자 기부 게시물 통계
-    public List<DonateBoardStatisticsResponse> adminDonateStatistics(){
+    public List<DonateBoardStatisticsResponse> adminDonateStatistics() {
         List<DonateBoard> donateBoardList = donateBoardRepository.findAllBy();
         List<DonateBoardInterface> pointHistory = donateBoardRepository.findByPointHistory();
         List<DonateBoardStatisticsResponse> boardStatisticsResponseList = new ArrayList<>();
         for (DonateBoard donateBoard : donateBoardList) {
             boardStatisticsResponseList.add(new DonateBoardStatisticsResponse(
-                donateBoard.getId(), donateBoard.getTitle(), donateBoard.getContent(), donateBoard.getLocalDateTime(), donateBoard.getPointHistory(), getSumByTitle(pointHistory, donateBoard.getTitle()
+                    donateBoard.getId(), donateBoard.getTitle(), donateBoard.getContent(), donateBoard.getLocalDateTime(), donateBoard.getPointHistory(), getSumByTitle(pointHistory, donateBoard.getTitle()
             )));
         }
         return boardStatisticsResponseList;
@@ -247,4 +244,8 @@ public class DonateService {
         return null; // 해당 제목을 찾지 못한 경우 null 반환
     }
 
+    //메인 기부금 api
+    public Long mainSumDonate() {
+        return donateBoardRepository.findAllByPointHistory();
+    }
 }
