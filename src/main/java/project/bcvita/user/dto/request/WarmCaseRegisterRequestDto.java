@@ -13,4 +13,6 @@ public class WarmCaseRegisterRequestDto {
     private String content;
 
     private String imageUrl;
+
+    private String userId;
 }
