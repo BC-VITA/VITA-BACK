@@ -49,9 +49,12 @@ public class ChatService {
     }
 
 
-    public ChatMessageInfoResponse detailRoom(Long roomId) {
+    public ChatMessageInfoResponse detailRoom(Long roomId, String accountId) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId).get();
+        User user = userRepository.findByUserID(accountId);
         List<ChattingMessage> messageList = chatMessageRepository.findAllByChatRoom(chatRoom);
+        messageList.stream().filter(messsage -> messsage.getSender() != user)
+            .forEach(message -> message.updateIsRead(true));
         List<ChatMessageResponse> chatMessageInfoList = messageList.stream().map(x ->
                         new ChatMessageResponse(x.getSender().getUserID(),
                                 x.getSender().getUserName(),x.getReceiver().getUserID(),
@@ -109,10 +112,10 @@ public class ChatService {
         for (ChatRoom chatRoom : boardWriterList) {
            roomIds.add(new ChatResponse(chatRoom.getId(), chatRoom.getDesignatedBloodWriteUser().getId(), chatRoom.getBoardWriter().getUserID(), chatRoom.getBoardSeeUser().getUserID()));
         }
-
         return roomIds;
     }
-
-
-
+    public int alarmCount(String userId) {
+        User user = userRepository.findByUserID(userId);
+        return chatMessageRepository.alramList(user).size();
+    }
 }

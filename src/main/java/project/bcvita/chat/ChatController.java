@@ -32,9 +32,9 @@ public class ChatController {
         return chatService.chatList(userId);
     }
 
-    @GetMapping("{roomId}") // chattingRoom into message detail
-    public ChatMessageInfoResponse detailRoom(@PathVariable Long roomId) {
-        return chatService.detailRoom(roomId);
+    @GetMapping("/{roomId}/{accountId}") // chattingRoom into message detail
+    public ChatMessageInfoResponse detailRoom(@PathVariable Long roomId, @PathVariable("accountId") String userId) {
+        return chatService.detailRoom(roomId,userId);
     }
 
     @DeleteMapping("{roomId}") // chattingRoom delete -> message delete
@@ -53,7 +53,10 @@ public class ChatController {
     public List<ChatResponse> getRoomId(ChatRoomIdRequest chatRoomIdRequest){
         return chatService.getChatRoomId(chatRoomIdRequest);
     }
-
+    @GetMapping("/count")
+    public int alarmCount(@RequestParam String userId) {
+        return chatService.alarmCount(userId);
+    }
 
 
 }

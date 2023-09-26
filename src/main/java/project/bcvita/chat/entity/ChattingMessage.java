@@ -26,6 +26,11 @@ public class ChattingMessage {
     private String message;
 
     private LocalDateTime sendTime = LocalDateTime.now();
+    private boolean isRead = false;
+
+    public void updateIsRead(boolean isRead) {
+        this.isRead = isRead;
+    }
 
     public ChattingMessage(ChatRoom chatRoom, User sender, User receiver, String message) {
         this.chatRoom = chatRoom;
