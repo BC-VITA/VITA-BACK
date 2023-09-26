@@ -39,13 +39,12 @@ public class AdminService {
 
     //따뜻한 사례 글 등록 api구현
     @Transactional
-    public String warmCaseRegister(HttpSession session, WarmCaseRegisterRequestDto warmCaseRegisterRequestDto, MultipartFile file) {
+    public String warmCaseRegister(WarmCaseRegisterRequestDto warmCaseRegisterRequestDto, MultipartFile file) {
         try {
-            String path = "C:\\vita";
+            String path = "/Users/minji/GitHub/vita";
             File destination = new File(path + File.separator + file.getOriginalFilename());
             file.transferTo(destination);
-            String loginId = (String)session.getAttribute("loginId");
-            User user = userRepository.findByUserID(loginId);
+            User user = userRepository.findByUserID(warmCaseRegisterRequestDto.getUserId());
             if (user.isAdmin() == false) {
                 return "관리자가 아니므로 저장 안됨";
             }
