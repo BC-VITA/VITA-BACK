@@ -11,6 +11,7 @@ import project.bcvita.user.dto.request.AdminVolunteerStatisticsRequest;
 import project.bcvita.user.dto.request.WarmCaseRegisterRequestDto;
 import project.bcvita.user.dto.response.AdminVolunteerStatisticsInterface;
 import project.bcvita.user.dto.response.AdminVolunteerStatisticsResponse;
+import project.bcvita.user.dto.response.AdminWarmCaseResponse;
 import project.bcvita.user.entity.*;
 import project.bcvita.user.repository.*;
 
@@ -65,6 +66,19 @@ public class AdminService {
             hospital.updateIsAccept(adminJoinAccpetRequest.getIsAdminJoinAccept());
             return hospital.getIsAdminJoinAccept() == true ? "수락됨" : "취소됨";
         }
+
+
+
+    //관리자 따뜻한 사례 글 list api 구현
+    @Transactional
+    public List<AdminWarmCaseResponse> adminWarmCaseResponses() {
+        List<WarmCaseRegister> warmCaseRegister1 = warmCaseRegisterRepository.findAll();
+        List<AdminWarmCaseResponse> warmCaseResponses = new ArrayList<>();
+        for (WarmCaseRegister warmCaseRegister : warmCaseRegister1) {
+            warmCaseResponses.add(new AdminWarmCaseResponse(warmCaseRegister.getTitle(), warmCaseRegister.getContent(), warmCaseRegister.getImageUrl()));
+        }
+        return warmCaseResponses;
+    }
 
 
     //관리자 봉사 통계 api
