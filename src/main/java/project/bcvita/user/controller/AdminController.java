@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.user.dto.request.AdminJoinAccpetRequest;
+import project.bcvita.user.dto.request.AdminVolunteerStatisticsRequest;
 import project.bcvita.user.dto.request.WarmCaseRegisterRequestDto;
+import project.bcvita.user.dto.response.AdminVolunteerStatisticsResponse;
 import project.bcvita.user.dto.response.AdminWarmCaseResponse;
 import project.bcvita.user.service.AdminService;
 
@@ -37,5 +39,11 @@ public class AdminController {
     @GetMapping("/warm-case-admin-list")
     public List<AdminWarmCaseResponse> adminWarmCaseResponses() {
         return adminService.adminWarmCaseResponses();
+    }
+
+    //봉사 통계 api
+    @GetMapping("/volunteer-statistics")
+    public List<AdminVolunteerStatisticsResponse> adminVolunteerStatisticsResponses(int year) {
+        return adminService.adminVolunteerStatisticsResponses(year);
     }
 }

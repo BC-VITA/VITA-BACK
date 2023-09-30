@@ -82,59 +82,21 @@ public class AdminService {
 
 
     //관리자 봉사 통계 api
-//    @Transactional
-//    public List<AdminVolunteerStatisticsResponse> adminVolunteerStatisticsResponses(AdminVolunteerStatisticsRequest adminVolunteerStatisticsRequest) {
-//
-//        List<VolunteerReservation> volunteerReservations = volunteerReservationRepository.findAll();
-//        List<VolunteerRegister> volunteerRegisters = volunteerRegisterRepository.findAll();
-//        List<AdminVolunteerStatisticsInterface> volunteerStatistics = volunteerReservationRepository.getMonthlyVolunteerStatistics();
-//        List<VolunteerReservation> volunteerStatisticsInterfaces = volunteerReservationRepository.findByBoardStatusOrderByVolunteerDateAsc(adminVolunteerStatisticsRequest.getBoardStatus());
-//        List<AdminVolunteerStatisticsResponse> adminVolunteerStatisticsResponses = new ArrayList<>();
-//
-//        for (VolunteerReservation volunteerReservation : volunteerReservations) {
-//            adminVolunteerStatisticsResponses.add(new AdminVolunteerStatisticsResponse(
-//
-//        }
-//
-//    }
-
-
-    /*
-    //관리자 기부 게시물 통계
-    public List<DonateBoardStatisticsResponse> adminDonateStatistics(){
-        List<DonateBoard> donateBoardList = donateBoardRepository.findAllBy();
-        List<DonateBoardInterface> pointHistory = donateBoardRepository.findByPointHistory();
-        List<DonateBoardStatisticsResponse> boardStatisticsResponseList = new ArrayList<>();
-        for (DonateBoard donateBoard : donateBoardList) {
-            boardStatisticsResponseList.add(new DonateBoardStatisticsResponse(
-                donateBoard.getId(), donateBoard.getTitle(), donateBoard.getContent(), donateBoard.getLocalDateTime(), donateBoard.getPointHistory(), getSumByTitle(pointHistory, donateBoard.getTitle()
-            )));
-        }
-        return boardStatisticsResponseList;
-    }
-
-
-    private DonateBoardInterface getSumByTitle(List<DonateBoardInterface> pointHistoryList, String title) {
-        for (DonateBoardInterface pointHistory : pointHistoryList) {
-            if (pointHistory.getTitle().equals(title)) {
-                return pointHistory;
-            }
-        }
-        return null; // 해당 제목을 찾지 못한 경우 null 반환
-    }
-
-
-    //지정헌혈 수락하기 버튼 누르면 나오는 팝업창 api
     @Transactional
-    public DesignateBloodAcceptWindowResponse designatedBloodAcceptWindow(DesignateBloodAcceptWindowRequest designateBloodAcceptWindowRequest) {
-        DesignatedBloodWriteUser designatedBloodWriteUsers = designatedBloodWriteUserRepository.findById(designateBloodAcceptWindowRequest.getDesignateBloodWriteUserId()).get();
-        User userNumber = designatedBloodWriteUsers.getUserNumber();
-        DesignatedBloodWrite designatedBloodWrite = designatedBloodWriteUsers.getDesignatedBloodWrite();
+    public List<AdminVolunteerStatisticsResponse> adminVolunteerStatisticsResponses(int year) {
+        List<AdminVolunteerStatisticsResponse> statisticsResponses = new ArrayList<>();
 
-        return new DesignateBloodAcceptWindowResponse(designatedBloodWrite.getHospitalName(), designatedBloodWrite.getHospitalPhoneNumber(), designatedBloodWrite.getRequestHospitalAddress(), designatedBloodWrite.getPatientBlood(),
-                designatedBloodWrite.getPatientIsRH(), designatedBloodWrite.getBloodType(), designatedBloodWrite.getNeedBloodSystem(), designatedBloodWriteUsers.getPatientName(), designatedBloodWriteUsers.getBloodPersonNumber(),
-                designatedBloodWriteUsers.getPatientAge(), userNumber.getUserName());
+        List<DateStatistics> statisticsData = volunteerReservationRepository.getMonthlyVolunteerStatistics(year);
+        for (DateStatistics statisticsDatum : statisticsData) {
+            AdminVolunteerStatisticsResponse adminVolunteerStatisticsResponse = new AdminVolunteerStatisticsResponse(statisticsDatum.getYear(), statisticsDatum.getMonth(), statisticsDatum.getCount());
+            statisticsResponses.add(adminVolunteerStatisticsResponse);
+        }
+        return statisticsResponses;
+    }
+
 
     }
-     */
-}
+
+
+
+
