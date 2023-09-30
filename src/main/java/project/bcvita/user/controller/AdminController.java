@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.user.dto.request.AdminJoinAccpetRequest;
 import project.bcvita.user.dto.request.AdminVolunteerStatisticsRequest;
 import project.bcvita.user.dto.request.WarmCaseRegisterRequestDto;
+import project.bcvita.user.dto.response.AdminVolunteerFieldStatisticsResponse;
 import project.bcvita.user.dto.response.AdminVolunteerStatisticsResponse;
 import project.bcvita.user.dto.response.AdminWarmCaseResponse;
 import project.bcvita.user.service.AdminService;
@@ -46,4 +47,11 @@ public class AdminController {
     public List<AdminVolunteerStatisticsResponse> adminVolunteerStatisticsResponses(int year) {
         return adminService.adminVolunteerStatisticsResponses(year);
     }
+
+    //분야별 봉사 통계 api
+    @GetMapping("/volunteer-field-statistics")
+    public List<AdminVolunteerFieldStatisticsResponse> adminVolunteerStatisticsResponsesV2(int year) {
+        return adminService.adminVolunteerFieldStatisticsResponses(year);
+    }
+
 }

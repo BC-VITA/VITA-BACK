@@ -6,6 +6,7 @@ import project.bcvita.user.entity.ReviewRegister;
 import project.bcvita.user.entity.User;
 import project.bcvita.user.entity.Volunteer;
 import project.bcvita.user.entity.VolunteerRegister;
+import project.bcvita.user.service.DateStatistics;
 
 import java.util.List;
 
@@ -16,4 +17,7 @@ public interface VolunteerRegisterRepository extends JpaRepository<VolunteerRegi
     VolunteerRegister findById(String volunteerBoardId);
 
     List<VolunteerRegister> findAllByVolunteerType(String volunteerType);
+
+
 }
+

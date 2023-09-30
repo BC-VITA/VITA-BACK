@@ -8,4 +8,7 @@ public interface DateStatistics {
 
     int getCount();
 
+    String getVolunteerField();
+
+
 }
