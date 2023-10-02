@@ -129,6 +129,7 @@ public class ChatService {
                     AlarmMessageResponse alarmMessageResponse = new AlarmMessageResponse(message);
                     ChatRoom chatRoom = chatRoomRepository.findById(message.getChatRoomId())
                         .orElse(null);
+                    alarmMessage.add(message.getChatRoomId());
                     if(chatRoom != null) {
                         String senderName = chatRoom.getSendUser();
                         String bloodBoardTitle = chatRoom.getBloodBoardTitle();
