@@ -55,4 +55,8 @@ public class DesignatedBloodWriteUser {
         this.bloodMatchType = bloodMatchType;
         this.isReview = isReview;
     }
+
+    public String getBoardTitle() {
+        return designatedBloodWrite != null ? designatedBloodWrite.getTitle() : null;
+    }
 }

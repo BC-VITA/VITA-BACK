@@ -44,4 +44,11 @@ public class ChatRoom {
     public void updateIsAgree(Boolean isAgree) {
         this.isAgree = isAgree;
     }
+
+    public String getSendUser() {
+        return boardSeeUser != null ? boardSeeUser.getUserName() : null;
+    }
+    public String getBloodBoardTitle() {
+        return designatedBloodWriteUser != null ? designatedBloodWriteUser.getBoardTitle() : null;
+    }
 }

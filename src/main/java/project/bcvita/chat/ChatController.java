@@ -57,6 +57,9 @@ public class ChatController {
     public int alarmCount(@RequestParam String userId) {
         return chatService.alarmCount(userId);
     }
-
+    @GetMapping("/alarm/list")
+    public List<AlarmMessageResponse> getAlarmMessage(@RequestParam String userId) {
+        return chatService.getAlarmMessage(userId);
+    }
 
 }

@@ -118,4 +118,25 @@ public class ChatService {
         User user = userRepository.findByUserID(userId);
         return chatMessageRepository.alramList(user).size();
     }
+
+    public List<AlarmMessageResponse> getAlarmMessage(String userId) {
+        User user = userRepository.findByUserID(userId);
+        List<AlarmMessageResponse> response = new ArrayList<>();
+        List<Long> alarmMessage = new ArrayList<>();
+        chatMessageRepository.getAlarmMessage(user)
+            .forEach(message -> {
+                if(!alarmMessage.contains(message.getChatRoomId())) {
+                    AlarmMessageResponse alarmMessageResponse = new AlarmMessageResponse(message);
+                    ChatRoom chatRoom = chatRoomRepository.findById(message.getChatRoomId())
+                        .orElse(null);
+                    if(chatRoom != null) {
+                        String senderName = chatRoom.getSendUser();
+                        String bloodBoardTitle = chatRoom.getBloodBoardTitle();
+                        alarmMessageResponse.updateInfo(bloodBoardTitle, senderName);
+                        response.add(alarmMessageResponse);
+                    }
+                }
+            });
+        return response;
+    }
 }
