@@ -20,4 +20,6 @@ public class MyPageBloodReservationHistoryResponse {
     private String centerName;
 
     private String date;
+
+    private String time;
 }

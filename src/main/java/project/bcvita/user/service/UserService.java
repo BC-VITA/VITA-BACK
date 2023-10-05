@@ -147,7 +147,7 @@ public class UserService {
         List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
         List<MyPageBloodReservationHistoryResponse> myPageBloodReservationHistoryList = new ArrayList<>();
         for (BloodHouseReservation bloodHouseReservation : reservations) {
-            myPageBloodReservationHistoryList.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate()));
+            myPageBloodReservationHistoryList.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate(), bloodHouseReservation.getTime()));
         }
 
         List<ReviewRegister> reviewRegisters = reviewRegisterRepository.findAllByUserAndReviewType(user, reviewType);
@@ -305,7 +305,7 @@ public class UserService {
         List<BloodHouseReservation> reservations = bloodHouseReservationRepository.findAllByUser(user);
         List<MyPageBloodReservationHistoryResponse> list = new ArrayList<>();
         for (BloodHouseReservation bloodHouseReservation : reservations) {
-            list.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate()));
+            list.add(new MyPageBloodReservationHistoryResponse(user.getUserName(), user.getBloodHistory(), bloodHouseReservation.getIsBloodType(), bloodHouseReservation.getBloodHouse().getCenterName(), bloodHouseReservation.getDate(), bloodHouseReservation.getTime()));
         }
         return list;
     }

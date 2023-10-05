@@ -94,7 +94,7 @@ public class ChatService {
     @Transactional
     public String agreeOrCancel(ChatApproveOrCancelRequest chatApproveOrCancelRequest) {
         User user = userRepository.findByUserID(chatApproveOrCancelRequest.getUserId());
-        ChatRoom findRoom = chatRoomRepository.findByIdAndBoardSeeUser(chatApproveOrCancelRequest.getRoomId(), user);
+        ChatRoom findRoom = chatRoomRepository.findByIdAndBoardWriter(chatApproveOrCancelRequest.getRoomId(), user);
         findRoom.updateIsAgree(chatApproveOrCancelRequest.getIsAgree());
         return findRoom.getIsAgree() == true ? "수락됨" : "취소됨";
     }

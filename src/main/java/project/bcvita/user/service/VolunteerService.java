@@ -174,7 +174,7 @@ public class VolunteerService {
     // 봉사 신청할때 신청자 정보 뿌려주는 기능
     public VolunteerReservationUserInfoResponse volunteerReservationUserInfo(String userId) {
         User byUserID = userRepository.findByUserID(userId);
-        return new VolunteerReservationUserInfoResponse(byUserID.getUserName(),byUserID.getUserPhoneNumber(), byUserID.getUserEmail());
+        return new VolunteerReservationUserInfoResponse(byUserID.getUserPhoneNumber(), byUserID.getUserEmail());
     }
 
     //봉사 예약 내역
