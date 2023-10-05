@@ -176,9 +176,10 @@ public class BloodHouseService {
 
     //헌혈의 집 예약 api 구현
     @Transactional
-    public String bloodHouseReservation(HttpSession session, BloodHouseReservationSaveRequestDto bloodHouseReservationSaveRequestDto) {
-        String userLoginId = (String) session.getAttribute("loginId");
-        User byUserID = userRepository.findByUserID(userLoginId);
+    public String bloodHouseReservation(String userId, BloodHouseReservationSaveRequestDto bloodHouseReservationSaveRequestDto) {
+        //String userLoginId = (String) session.getAttribute("loginId");
+        User userId1 = userRepository.findByUserID(userId);
+        //User byUserID = userRepository.findByUserID(userLoginId);
         BloodHouseReservation bloodHouseReservation = new BloodHouseReservation();
         //BloodHouseReservationRequestDto bloodHouseReservation = new BloodHouseReservationRequestDto();
         BloodHouse bloodHouse = bloodHouseRepository.findByCenterName(bloodHouseReservationSaveRequestDto.getBloodHouseName());
@@ -192,7 +193,7 @@ public class BloodHouseService {
         bloodHouseReservation.setLocalDateTime(bloodHouseReservationSaveRequestDto.getLocalDateTime());
         bloodHouseReservation.setLocalDateTime(LocalDateTime.now());
         bloodHouseReservation.setDate(bloodHouseReservationSaveRequestDto.getDate());
-        bloodHouseReservation.setUser(byUserID);
+        bloodHouseReservation.setUser(userId1);
 
         //System.out.println(bloodHouseReservation.getWholeBlood());
         //System.out.println(bloodHouseReservation.getPlasma());

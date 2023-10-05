@@ -30,8 +30,8 @@ public class BloodHouseController {
 
 
     @PostMapping("/reservation")
-    public String reservation(HttpSession session, @RequestBody BloodHouseReservationSaveRequestDto bloodHouseReservationSaveRequestDto) {
-        return bloodHouseService.bloodHouseReservation(session, bloodHouseReservationSaveRequestDto);
+    public String reservation(String userId, @RequestBody BloodHouseReservationSaveRequestDto bloodHouseReservationSaveRequestDto) {
+        return bloodHouseService.bloodHouseReservation(userId, bloodHouseReservationSaveRequestDto);
     }
 //
 //    @GetMapping("/reservation/list")
