@@ -408,6 +408,7 @@ public class UserService {
     //마이페이지 봉사 관심목록 api
     @Transactional
     public List<MypageVolunteerResponse> mypageVolunteerResponseList(MypageVolunteerRequest mypageVolunteerRequest) {
+
         User user = userRepository.findByUserID(mypageVolunteerRequest.getUserId());
         List<WishList> wishLists = wishListRepository.findByUser(user);
 

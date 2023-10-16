@@ -23,6 +23,7 @@ public class ChattingMessage {
     @ManyToOne(fetch = FetchType.LAZY)
     private User receiver; // 받은 사람
 
+
     private String message;
 
     private LocalDateTime sendTime = LocalDateTime.now();

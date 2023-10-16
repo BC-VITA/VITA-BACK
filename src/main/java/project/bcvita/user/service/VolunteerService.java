@@ -217,7 +217,8 @@ public class VolunteerService {
         VolunteerRegister volunteerRegister = volunteerReservation.getVolunteerRegister();
         String title = volunteerRegister.getTitle();
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:\\pdf\\" +title+"_확인서.pdf" ));
+//        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:\\pdf\\" +title+"_확인서.pdf" ));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("\\Users\\minji\\pdf\\" +title+"_확인서.pdf" ));
 
         document.open(); // 웹페이지에 접근하는 객체를 연다
 
@@ -236,8 +237,8 @@ public class VolunteerService {
         document.add(donateUser);
         document.add(Chunk.NEWLINE);
         String year = user.getUserBirth().substring(0,4);
-        String month = user.getUserBirth().substring(4,6);
-        String day = user.getUserBirth().substring(6);
+        String month = user.getUserBirth().substring(5,7);
+        String day = user.getUserBirth().substring(8);
         Paragraph birthInfo = new Paragraph("생년월일 : " + year +"년 " + month +"월 " + day +"일"   , donateUserFont);
         birthInfo.setAlignment(Element.ALIGN_LEFT);
         document.add(birthInfo);
