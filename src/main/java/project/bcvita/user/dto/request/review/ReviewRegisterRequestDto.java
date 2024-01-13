@@ -1,4 +1,4 @@
-package project.bcvita.user.dto.request;
+package project.bcvita.user.dto.request.review;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
+
 public class ReviewRegisterRequestDto {
 
     //작성한 후기 타입
