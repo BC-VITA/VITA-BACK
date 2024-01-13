@@ -1,4 +1,4 @@
-package project.bcvita.user.dto.request;
+package project.bcvita.user.dto.request.volunteer;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,12 +12,6 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @Getter
 public class VolunteerRequestDto {
-
-    //봉사게시글번호
-    //private Long id;
-
-    //작성자 회원번호
-    //private Volunteer volunteer;
 
     private String volunteerId;
 
