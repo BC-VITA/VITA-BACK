@@ -1,4 +1,4 @@
-package project.bcvita.user.dto.request;
+package project.bcvita.user.dto.request.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

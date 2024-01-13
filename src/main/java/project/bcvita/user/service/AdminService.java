@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import project.bcvita.user.dto.request.AdminJoinAccpetRequest;
+import project.bcvita.user.dto.request.admin.AdminJoinAccpetRequest;
 import project.bcvita.user.dto.request.WarmCaseRegisterRequestDto;
 import project.bcvita.user.dto.response.AdminVolunteerFieldStatisticsResponse;
 import project.bcvita.user.dto.response.AdminVolunteerStatisticsResponse;
