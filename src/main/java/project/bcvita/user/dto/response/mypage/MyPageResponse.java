@@ -1,6 +1,5 @@
-package project.bcvita.user.dto.response;
+package project.bcvita.user.dto.response.mypage;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

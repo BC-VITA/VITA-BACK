@@ -1,4 +1,4 @@
-package project.bcvita.user.dto.response;
+package project.bcvita.user.dto.response.mypage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
