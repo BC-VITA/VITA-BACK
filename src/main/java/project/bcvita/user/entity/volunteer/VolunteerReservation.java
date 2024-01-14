@@ -1,7 +1,8 @@
-package project.bcvita.user.entity;
+package project.bcvita.user.entity.volunteer;
 
 
 import lombok.*;
+import project.bcvita.user.entity.User;
 
 import javax.persistence.*;
 
