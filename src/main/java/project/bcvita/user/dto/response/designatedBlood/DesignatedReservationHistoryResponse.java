@@ -1,4 +1,4 @@
-package project.bcvita.user.dto.response;
+package project.bcvita.user.dto.response.designatedBlood;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
