@@ -1,6 +1,4 @@
-package project.bcvita.user.service;
-
-import java.util.Date;
+package project.bcvita.user.service.bloodHouse;
 
 public interface DateStatistics {
     int getYear();
