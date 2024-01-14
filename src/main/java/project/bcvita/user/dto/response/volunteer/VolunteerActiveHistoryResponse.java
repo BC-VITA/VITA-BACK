@@ -1,4 +1,4 @@
-package project.bcvita.user.dto.response;
+package project.bcvita.user.dto.response.volunteer;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
