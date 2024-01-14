@@ -1,9 +1,9 @@
-package project.bcvita.user.repository;
+package project.bcvita.user.repository.review;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import project.bcvita.user.entity.ReviewRegister;
-import project.bcvita.user.entity.User;
+import project.bcvita.user.entity.review.ReviewRegister;
+import project.bcvita.user.entity.user.User;
 
 import java.util.List;
 
