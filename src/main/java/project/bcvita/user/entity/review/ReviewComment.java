@@ -1,7 +1,7 @@
-package project.bcvita.user.entity;
+package project.bcvita.user.entity.review;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
+import project.bcvita.user.entity.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
