@@ -1,4 +1,4 @@
-package project.bcvita.user.entity;
+package project.bcvita.user.entity.admin;
 
 import lombok.*;
 

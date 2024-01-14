@@ -1,4 +1,4 @@
-package project.bcvita.user.entity;
+package project.bcvita.user.entity.admin;
 
 import lombok.*;
 
@@ -13,7 +13,6 @@ import javax.persistence.*;
     @Getter
     @Setter
     @NoArgsConstructor
-//    @AllArgsConstructor
     @Builder
     public class Test {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
