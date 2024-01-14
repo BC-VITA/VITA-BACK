@@ -1,20 +1,16 @@
-package project.bcvita.user.service;
+package project.bcvita.user.service.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.bcvita.user.dto.request.BoardCreateRequestDto;
-import project.bcvita.user.dto.request.testDto;
-import project.bcvita.user.dto.response.BoardTestListResponse;
-import project.bcvita.user.dto.response.UserListResponse;
-import project.bcvita.user.entity.DesignatedBloodWrite;
-import project.bcvita.user.entity.DesignatedBloodWriteUser;
-import project.bcvita.user.entity.Test;
-import project.bcvita.user.entity.User;
-import project.bcvita.user.repository.DesignatedBloodWriteRepository;
-import project.bcvita.user.repository.DesignatedBloodWriteUserRepository;
-import project.bcvita.user.repository.TestRepository;
-import project.bcvita.user.repository.UserRepository;
+import project.bcvita.user.dto.request.info.testDto;
+import project.bcvita.user.dto.response.bloodHouse.BoardTestListResponse;
+import project.bcvita.user.entity.admin.Test;
+import project.bcvita.user.entity.user.User;
+import project.bcvita.user.repository.designatedBlood.DesignatedBloodWriteRepository;
+import project.bcvita.user.repository.designatedBlood.DesignatedBloodWriteUserRepository;
+import project.bcvita.user.repository.admin.TestRepository;
+import project.bcvita.user.repository.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
