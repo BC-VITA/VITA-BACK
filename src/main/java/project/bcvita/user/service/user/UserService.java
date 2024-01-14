@@ -1,4 +1,4 @@
-package project.bcvita.user.service;
+package project.bcvita.user.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,12 +10,33 @@ import project.bcvita.heart.dto.MypageVolunteerResponse;
 import project.bcvita.heart.dto.MypageWishListRequest;
 import project.bcvita.heart.dto.MypageWishListResponse;
 import project.bcvita.heart.entity.WishList;
-import project.bcvita.user.dto.request.*;
-import project.bcvita.user.dto.response.*;
-import project.bcvita.user.entity.*;
-import project.bcvita.user.repository.*;
+import project.bcvita.user.dto.request.bloodHouse.BoardCreateRequestDto;
+import project.bcvita.user.dto.request.designateBlood.DesignateBloodAcceptWindowRequest;
+import project.bcvita.user.dto.request.info.UserLoginRequestDto;
+import project.bcvita.user.dto.request.info.UserPasswordCheck;
+import project.bcvita.user.dto.request.info.UserRequest;
+import project.bcvita.user.dto.request.myPage.MyPageRequest;
+import project.bcvita.user.dto.response.designatedBlood.DesignateBloodAcceptWindowResponse;
+import project.bcvita.user.dto.response.designatedBlood.DesignatedReservationHistoryResponse;
+import project.bcvita.user.dto.response.info.UserListResponse;
+import project.bcvita.user.dto.response.mypage.*;
+import project.bcvita.user.dto.response.volunteer.VolunteerActiveHistoryResponse;
+import project.bcvita.user.entity.bloodHouse.BloodHouseReservation;
+import project.bcvita.user.entity.designatedBlood.DesignatedBloodWrite;
+import project.bcvita.user.entity.designatedBlood.DesignatedBloodWriteUser;
+import project.bcvita.user.entity.review.ReviewRegister;
+import project.bcvita.user.entity.user.User;
+import project.bcvita.user.entity.volunteer.VolunteerReservation;
 
 import org.springframework.transaction.annotation.Transactional;
+import project.bcvita.user.repository.bloodHouse.BloodHouseReservationRepository;
+import project.bcvita.user.repository.designatedBlood.DesignatedBloodWriteRepository;
+import project.bcvita.user.repository.designatedBlood.DesignatedBloodWriteUserRepository;
+import project.bcvita.user.repository.review.ReviewRegisterRepository;
+import project.bcvita.user.repository.user.UserRepository;
+import project.bcvita.user.repository.volunteer.VolunteerRegisterRepository;
+import project.bcvita.user.repository.volunteer.VolunteerRepository;
+import project.bcvita.user.repository.volunteer.VolunteerReservationRepository;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
