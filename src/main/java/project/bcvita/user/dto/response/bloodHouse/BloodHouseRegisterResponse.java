@@ -1,23 +1,18 @@
-package project.bcvita.user.dto.response;
+package project.bcvita.user.dto.response.bloodHouse;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 @Getter
-public class BloodHouseReservationResponse {
-
-    //센터명
-    private String centerName;
-
+public class BloodHouseRegisterResponse {
     //날짜
     private String date;
 
     //시간
     private String time;
 
+    //헌혈종류
     //전혈
     private String wholeBlood;
 
@@ -26,9 +21,5 @@ public class BloodHouseReservationResponse {
 
     //혈소판
     private String platelet;
-
-    //private String isBloodType;
-
-    private LocalDateTime localDateTime;
 
 }
