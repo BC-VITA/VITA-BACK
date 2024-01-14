@@ -1,14 +1,9 @@
-package project.bcvita.user.repository;
+package project.bcvita.user.repository.bloodHouse;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import project.bcvita.user.entity.BloodHouse;
-import project.bcvita.user.entity.BloodHouseReservation;
-import project.bcvita.user.entity.DesignatedBloodWriteUser;
+import project.bcvita.user.entity.bloodHouse.BloodHouse;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BloodHouseRepository extends JpaRepository<BloodHouse, Long> {
