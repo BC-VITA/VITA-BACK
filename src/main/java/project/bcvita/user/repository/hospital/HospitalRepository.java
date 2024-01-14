@@ -1,10 +1,8 @@
-package project.bcvita.user.repository;
+package project.bcvita.user.repository.hospital;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import project.bcvita.user.dto.request.HospitalLoginRequestDto;
-import project.bcvita.user.entity.Hospital;
-import project.bcvita.user.entity.User;
+import project.bcvita.user.entity.hospital.Hospital;
 
 import java.util.Optional;
 
