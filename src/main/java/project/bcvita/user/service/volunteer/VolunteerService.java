@@ -1,4 +1,4 @@
-package project.bcvita.user.service;
+package project.bcvita.user.service.volunteer;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
@@ -8,15 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.bcvita.heart.WishListRepository;
 import project.bcvita.heart.entity.WishList;
-import project.bcvita.user.dto.request.VolunteerJoinRequestDto;
-import project.bcvita.user.dto.request.VolunteerRequestDto;
-import project.bcvita.user.dto.request.VolunteerReservationRequestDto;
-import project.bcvita.user.dto.response.*;
-import project.bcvita.user.entity.*;
-import project.bcvita.user.repository.UserRepository;
-import project.bcvita.user.repository.VolunteerRegisterRepository;
-import project.bcvita.user.repository.VolunteerRepository;
-import project.bcvita.user.repository.VolunteerReservationRepository;
+import project.bcvita.user.dto.request.volunteer.VolunteerJoinRequestDto;
+import project.bcvita.user.dto.request.volunteer.VolunteerRequestDto;
+import project.bcvita.user.dto.request.volunteer.VolunteerReservationRequestDto;
+import project.bcvita.user.dto.response.volunteer.*;
+import project.bcvita.user.entity.user.User;
+import project.bcvita.user.entity.volunteer.Volunteer;
+import project.bcvita.user.entity.volunteer.VolunteerRegister;
+import project.bcvita.user.entity.volunteer.VolunteerReservation;
+import project.bcvita.user.repository.user.UserRepository;
+import project.bcvita.user.repository.volunteer.VolunteerRegisterRepository;
+import project.bcvita.user.repository.volunteer.VolunteerRepository;
+import project.bcvita.user.repository.volunteer.VolunteerReservationRepository;
+import project.bcvita.user.service.user.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.io.FileOutputStream;
@@ -116,7 +120,7 @@ public class VolunteerService {
      */
 
     @Transactional
-    public List<VolunteerRegisterResponse> boardListResponseList(String userId,String volunteerType) {
+    public List<VolunteerRegisterResponse> boardListResponseList(String userId, String volunteerType) {
 
         //String loginId = userService.loginId(session);
         User user = userRepository.findByUserID(userId);
