@@ -1,12 +1,12 @@
-package project.bcvita.user.repository;
+package project.bcvita.user.repository.volunteer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import project.bcvita.user.entity.User;
-import project.bcvita.user.entity.VolunteerRegister;
-import project.bcvita.user.entity.VolunteerReservation;
+import project.bcvita.user.entity.user.User;
+import project.bcvita.user.entity.volunteer.VolunteerRegister;
+import project.bcvita.user.entity.volunteer.VolunteerReservation;
 import project.bcvita.user.service.DateStatistics;
 
 import java.util.List;
