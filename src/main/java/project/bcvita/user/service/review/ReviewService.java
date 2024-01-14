@@ -1,4 +1,4 @@
-package project.bcvita.user.service;
+package project.bcvita.user.service.review;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,17 +6,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.bcvita.point.PointHistoryRepository;
 import project.bcvita.point.entity.PointHistory;
-import project.bcvita.user.dto.request.ReviewCommentDto;
-import project.bcvita.user.dto.request.ReviewRegisterRequestDto;
-import project.bcvita.user.dto.response.ReviewCommentResponse;
-import project.bcvita.user.dto.response.ReviewDetail;
-import project.bcvita.user.dto.response.ReviewRegisterResponse;
-import project.bcvita.user.entity.ReviewComment;
-import project.bcvita.user.entity.ReviewRegister;
-import project.bcvita.user.entity.User;
-import project.bcvita.user.repository.ReviewCommentRepository;
-import project.bcvita.user.repository.ReviewRegisterRepository;
-import project.bcvita.user.repository.UserRepository;
+import project.bcvita.user.dto.request.review.ReviewCommentDto;
+import project.bcvita.user.dto.request.review.ReviewRegisterRequestDto;
+import project.bcvita.user.dto.response.review.ReviewCommentResponse;
+import project.bcvita.user.dto.response.review.ReviewDetail;
+import project.bcvita.user.dto.response.review.ReviewRegisterResponse;
+import project.bcvita.user.entity.review.ReviewComment;
+import project.bcvita.user.entity.review.ReviewRegister;
+import project.bcvita.user.entity.user.User;
+import project.bcvita.user.repository.review.ReviewCommentRepository;
+import project.bcvita.user.repository.review.ReviewRegisterRepository;
+import project.bcvita.user.repository.user.UserRepository;
+import project.bcvita.user.service.user.UserService;
 
 import java.io.File;
 import java.util.ArrayList;
