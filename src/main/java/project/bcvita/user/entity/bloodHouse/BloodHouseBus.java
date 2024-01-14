@@ -1,4 +1,4 @@
-package project.bcvita.user.entity;
+package project.bcvita.user.entity.bloodHouse;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

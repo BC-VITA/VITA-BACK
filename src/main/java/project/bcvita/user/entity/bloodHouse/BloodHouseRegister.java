@@ -1,6 +1,5 @@
-package project.bcvita.user.entity;
+package project.bcvita.user.entity.bloodHouse;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
