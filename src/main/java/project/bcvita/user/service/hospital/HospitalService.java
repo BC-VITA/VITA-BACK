@@ -1,16 +1,14 @@
-package project.bcvita.user.service;
+package project.bcvita.user.service.hospital;
 
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.bcvita.user.dto.request.*;
-import project.bcvita.user.dto.response.HospitalResponse;
-import project.bcvita.user.dto.response.UserListResponse;
-import project.bcvita.user.entity.Hospital;
-import project.bcvita.user.entity.User;
-import project.bcvita.user.repository.HospitalRepository;
+import project.bcvita.user.dto.request.hospital.HospitalLoginRequestDto;
+import project.bcvita.user.dto.request.hospital.HospitalPasswordCheck;
+import project.bcvita.user.dto.request.hospital.HospitalRequestDto;
+import project.bcvita.user.dto.response.hospital.HospitalResponse;
+import project.bcvita.user.entity.hospital.Hospital;
+import project.bcvita.user.repository.hospital.HospitalRepository;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
