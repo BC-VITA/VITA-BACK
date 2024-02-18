@@ -1,9 +1,10 @@
-package project.bcvita.point;
+package project.bcvita.point.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import project.bcvita.point.service.PointHistoryService;
 import project.bcvita.point.dto.response.PointHistoryResponse;
 
 import javax.servlet.http.HttpSession;

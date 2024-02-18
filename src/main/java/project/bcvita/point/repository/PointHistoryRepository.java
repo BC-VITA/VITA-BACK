@@ -1,8 +1,8 @@
-package project.bcvita.point;
+package project.bcvita.point.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.bcvita.point.entity.PointHistory;
-import project.bcvita.user.entity.User;
+import project.bcvita.user.entity.user.User;
 
 import java.util.List;
 

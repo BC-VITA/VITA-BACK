@@ -1,12 +1,13 @@
-package project.bcvita.point;
+package project.bcvita.point.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.bcvita.point.repository.PointHistoryRepository;
 import project.bcvita.point.dto.response.PointHistoryResponse;
 import project.bcvita.point.entity.PointHistory;
-import project.bcvita.user.entity.User;
-import project.bcvita.user.repository.UserRepository;
-import project.bcvita.user.service.UserService;
+import project.bcvita.user.entity.user.User;
+import project.bcvita.user.repository.user.UserRepository;
+import project.bcvita.user.service.user.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
