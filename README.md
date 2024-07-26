@@ -20,6 +20,10 @@
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"/>  
 
 
+## 📃 ERD 설계
+![vita-erd](https://github.com/user-attachments/assets/64a6be78-ef6d-4c9c-97fd-bd468c37c7ca)
+
+
 ## 📑 Page Slide 📑
 <img width="1099" alt="image" src="https://github.com/BC-VITA/VITA-BACK/assets/84373979/34422633-432a-4154-a873-bb2064bee989">
 <img width="1098" alt="image" src="https://github.com/BC-VITA/VITA-BACK/assets/84373979/2240b8ff-1ead-4534-b0ce-6113176869ac">
